@@ -18,12 +18,14 @@ import _debounce from 'lodash/debounce';
 import { useState } from "react";
 import SuccessMsg from "@/Components/Common/SuccessMsg";
 import { useEffect } from "react";
+import SalaryValidation from "./Component/SalaryValidation";
+import Joi from "@/Util/JoiValidator";
 
 
 export default function Create({ auth }) {
     const [alert ,setAlert] = useState(false);
     const [severity,setSeverity] = useState(null);
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing, errors,setError } = useForm({
       basic_salary: 0,
       house_rent: 0,
       leave_allowance: 0,
@@ -70,6 +72,10 @@ export default function Create({ auth }) {
       }, [data.gross_salary, data.tax_deducted]);
 
       const handleChange = (e) => {
+        // setError({
+        //     ...errors,
+        //     [e.target.name]:Joi.validateToPlainErrors(e.target.value,SalaryValidation.Salary_Schema[e.target.name])
+        // });
         setData(e.target.name, e.target.value);
       };
 

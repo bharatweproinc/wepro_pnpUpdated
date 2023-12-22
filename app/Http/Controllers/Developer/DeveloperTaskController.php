@@ -21,7 +21,7 @@ class DeveloperTaskController extends Controller
         $id = $items[1];
         $developers = $items[2];
         $status = $items[3];
-        return Inertia::render('Developer/Task/View',['data'=>$data,'Id'=>$id ,'developer'=>$developers ,$status]);
+        return Inertia::render('Developer/Task/View',['data'=>$data,'Id'=>$id ,'developer'=>$developers ,'updated'=>$status]);
     }
 
     public function status(Request $request, $id){

@@ -3,7 +3,7 @@ import './Style.scss';
 import Edit from "./Edit";
 
 export default function Details({auth,salary ,data}){
-    const tax = (salary[0].gross_salary  * salary[0].tax_deducted_at_source) / 100;
+    const tax = (salary[0]?.gross_salary  * salary[0]?.tax_deducted_at_source) / 100;
 
     return (
              <Box
@@ -31,7 +31,7 @@ export default function Details({auth,salary ,data}){
                     </Grid>
                 </Grid>
                 <br />
-                  <Grid container className="px-3" style={{ justifyContent:'space-evenly'}}>
+                <Grid container className="px-3" style={{ justifyContent:'space-evenly'}}>
                     <Grid item xs={12} sx={{ paddingTop:'10px' ,display:'flex',justifyContent:'space-around'}}>
                         <Typography className="title">
                            Basic Salary

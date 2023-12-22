@@ -68,7 +68,7 @@ class UserRepository implements UserInterface
             ]);
             $user = User::findOrFail($id);
             $user->update($data);
-            if(isset($data['profile']) && array_key_exists('profile',$data) ){
+            if(isset($data['profile']) && array_key_exists('profile',$data) && is_array($data['profile']) ){
                 $profileImage =  $data['profile'];
                 $profileName = uniqid().'_'.time().'_'.$profileImage->getClientOriginalName();
                 $profileImagePath = $profileImage->storeAs('profile', $profileName . $id . '.' . $profileImage->getClientOriginalExtension(),'public');
@@ -101,7 +101,9 @@ class UserRepository implements UserInterface
     public function delete($id)
     {
         try {
-            return User::findOrFail($id)->delete();
+            User::findOrFail($id)->delete();
+
+            return ['success'=>true];
 
         } catch (\Throwable $th) {
             return [

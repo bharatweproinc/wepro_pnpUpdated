@@ -7,6 +7,7 @@ import {
 
 
 export default function View({ data, auth, developer, manager }) {
+    console.log(data,'datat');
     return (
         <AuthenticatedLayout user={auth.user}>
             <div className="py-3">

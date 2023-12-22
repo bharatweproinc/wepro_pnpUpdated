@@ -44,7 +44,6 @@ export default function Edit({ data, developer, devId ,auth }) {
     const result = Object.keys(developer).map((key) => developer[key]);
     const dev = developer.map((dev)=>
     {
-        console.log(dev.id ,devId,'deve');
         if( devId.includes(dev.id)) {
 
             return dev.id;

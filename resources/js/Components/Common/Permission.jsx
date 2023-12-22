@@ -1,62 +1,64 @@
-const permission = {
+const Permission = {
     dashboard: {
-        view: [],
+        view: ["admin" ,"project manager","hr manager","junior developer" ,"senior developer"],
     },
     users: {
-        view: [],
+        view: ["admin","hr manager"],
         list: {
-                view: [''],
-                create:[],
-                salaryCreate:[],
+                view: ['"admin',"hr manager"],
+                create:["admin","hr manager"],
+                salaryCreate:["admin","hr manager"],
                 details: {
-                    view: ["all"],
-                    edit: ["admin", "hr_manager"],
-                    salary: {
-                        view: [ ],
-                        Detail:[ ],
-                        edit:[ ],
-                        }
+                    view: ["admin","hr manager"],
+                    edit: ["admin", "hr manager"],
+
+                },
+                salary: {
+                    view: [ "admin", "hr manager"],
+                    Detail:[ "admin", "hr manager"],
+                    edit:["admin", "hr manager" ],
                 },
                 history :{
-                    view:[],
+                    view:["admin", "hr manager"],
                 },
                 leave:{
-                    view:[],
-                    create:[],
+                    view:["admin", "hr manager"],
+                    create:["admin", "hr manager"],
                     detail:{
-                        view:[],
+                        view:["admin", "hr manager"],
                     },
-                    edit:[],
+                    edit:["admin", "hr manager"],
                 }
-
         },
     },
     project: {
-        view:[],
+        view:["admin", "hr manager","project manager","junior developer" ,"senior developer"],
         list:{
-            view:[],
-            create:[],
+            view:["admin", "hr manager","project manager","junior developer" ,"senior developer"],
+            create:["admin"],
             detail:{
-                view:[],
+                view:["admin", "hr manager","project manager","junior developer" ,"senior developer"],
                 edit:[],
                 task:{
-                    view:[],
-                    create:[],
+                    view:["admin", "hr manager","project manager","junior developer" ,"senior developer"],
+                    create:["admin"],
                     list:{
-                        view:[],
-                        detail:[],
-                        edit:[],
+                        view:["admin", "hr manager","project manager","junior developer" ,"senior developer"],
+                        detail:["admin", "hr manager","project manager","junior developer" ,"senior developer"],
+                        edit:["admin"],
                     }
                 }
             }
         }
     },
     leaves: {
-        view:[],
-        create:[],
+        view:["admin","hr manager"],
+        create:["adimin","hr manager"],
         detail:{
-            view:[],
+            view:["adimin","hr manager"],
         },
-        edit:[],
+        edit:["adimin","hr manager"],
     }
 }
+
+export default Permission;

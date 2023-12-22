@@ -44,7 +44,7 @@ export default function Create({ auth ,Id ,user}) {
     const [alert,setAlert] = useState(false);
     const [severity,setSeverity] = useState(null);
     const [effect,setEffect] = useState(false);
-    const [unique ,setUnique] = useState(Id?.user_id);
+    const [unique ,setUnique] = useState(Id);
     const handleOpen=(e)=>setOpen(true);
 
     const { data, setData, get, post, processing, errors, reset } = useForm({
@@ -69,7 +69,6 @@ export default function Create({ auth ,Id ,user}) {
         setUnique(e.target.value);
     }
 
-    console.log(unique,'valueeee');
 
     const submit = (e) => {
         e.preventDefault();
@@ -390,7 +389,7 @@ export default function Create({ auth ,Id ,user}) {
                                         </div>
                                     )}
                                     {
-                                        user.length != 0 &&
+                                        user?.length != 0 &&
                                         <div className="mt-4">
                                         <InputLabel
                                             htmlFor="File"
@@ -403,7 +402,7 @@ export default function Create({ auth ,Id ,user}) {
                                         <select value={data.user} onChange={handleUser} className="w-full block" required>
                                             <option>Select User</option>
                                             {
-                                                user.map((name,index)=>{
+                                                user?.map((name,index)=>{
                                                     return (
                                                            ( name.user_role !="admin") &&
                                                             <option value={name.id} key={index} label={name.name}>{name.name}</option>

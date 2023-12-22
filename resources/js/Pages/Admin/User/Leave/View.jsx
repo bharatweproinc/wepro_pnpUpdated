@@ -22,7 +22,7 @@ export default function View({auth,leave ,Id }) {
                                               },
                                          }}
                                          action={
-                                            <Create auth={auth} Id={Id}/>
+                                            <Create auth={auth} Id={Id} user={[]}/>
                                           }
                                     >
                                       Don't have Leave record

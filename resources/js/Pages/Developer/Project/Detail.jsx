@@ -15,7 +15,8 @@ export default function Detail({ data, auth, user, task,updated }) {
         setValue(newValue);
     };
 
-    console.log(data,updated,'updatedupdated');
+    console.log(updated,'updated');
+
     const url = window.location.pathname;
     const urlParts = url.split("/");
     const id = urlParts[urlParts.length - 1];
@@ -40,8 +41,7 @@ export default function Detail({ data, auth, user, task,updated }) {
                                     <Tab label="Task" value="2" style={{ fontWeight:"bold"}}/>
                                 </TabList>
                                 <TabPanel value="1">
-                                <Details data={data} user={user} auth={auth} updated={updated}/>
-
+                                     <Details data={data} user={user} auth={auth} updated={updated}/>
                                 </TabPanel>
 
                                 <TabPanel value="2">

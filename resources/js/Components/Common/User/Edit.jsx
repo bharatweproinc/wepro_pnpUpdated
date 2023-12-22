@@ -16,6 +16,7 @@ import { useEffect } from "react";
 import SuccessMsg from "../SuccessMsg";
 import UpdateIcon from '@mui/icons-material/Update';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import PhoneValidate from "@/Util/PhoneValidate";
 const style = {
     position: "absolute",
     top: "50%",
@@ -24,7 +25,7 @@ const style = {
     width: 400,
     bgcolor: "background.paper",
     boxShadow: 24,
-    p: 4,
+    p: 1,
     overflow:'scroll',
     height:'90%',
     display:'block',
@@ -37,7 +38,7 @@ export default function Edit({ auth, user }) {
     const [severity ,setSeverity] = useState(null);
     const handleOpen = () => setOpen(true);
     const [image,setImage] = useState(user.profile);
-    const { data, setData, get, post, processing, errors, reset } = useForm();
+    const { data, setData, get, post, processing, errors, setError, reset } = useForm();
 
     const [value, setValue] = useState({
         name: user.name,
@@ -50,12 +51,12 @@ export default function Edit({ auth, user }) {
         setOpen(false);
     }
 
-    const handleChange = (e) => {
+    const handleChange = (key,val) => {
 
         setValue((prev) => {
             return {
                 ...prev,
-                [e.target.name]: e.target.value,
+                [key]: val,
             };
         });
     };
@@ -148,7 +149,7 @@ export default function Edit({ auth, user }) {
                                             <img id="image" src={image} alt="Profile" style={{ borderRadius:'50%' ,
                                                 border:"2px solid black",cover:'100%', objectFit:'contain',height:'100px'
                                                 ,width:'100px',textAlign:'center',lineHeight:'80px'}} onClick={handleImage}/>
-                                            <CameraAltIcon style={{ position:'absolute',top:'180px',right:'345px',color:'black',borderRadius:'50%',background:'aliceblue' }}/>
+                                            <CameraAltIcon style={{ position:'absolute',top:'150px',right:'345px',color:'black',borderRadius:'50%',background:'aliceblue' }}/>
 
                                         </InputLabel>
                                          <input type="file" id="profile" name="profile" accept="image/png, image/jpeg ,image/jpeg , image/svg"
@@ -159,18 +160,18 @@ export default function Edit({ auth, user }) {
 
                                 <div>
                                     <InputLabel htmlFor="name" value="Name" />
-                                    <TextInput id="name" name="name" value={value.name} className="mt-1 block w-full" autoComplete="name" isFocused={true} onChange={(e) => handleChange(e)} required  />
+                                    <TextInput id="name" name="name" value={value.name} className="mt-1 block w-full" autoComplete="name" isFocused={true} onChange={(e) => handleChange("name",e.target.value)} required  />
                                     <InputError message={errors.name} className="mt-2" />
                                 </div>
 
                                 <div className="mt-4">
                                     <InputLabel htmlFor="email" value="Email" />
-                                    <TextInput id="email" type="email" name="email" value={value.email} className="mt-1 block w-full" autoComplete="username" onChange={(e) => handleChange(e)} required />
+                                    <TextInput id="email" type="email" name="email" value={value.email} className="mt-1 block w-full" autoComplete="email" onChange={(e) => handleChange("email",e.target.value)} required />
                                     <InputError message={errors.email} className="mt-2" />
                                 </div>
                                 <div className="mt-4">
                                     <InputLabel htmlFor="contact_no" value="Phone No" />
-                                    <TextInput id="contact_no" type="number" name="contact_no" value={value.contact_no} className="mt-1 block w-full" autoComplete="contact_no" onChange={(e) => handleChange(e)} required/>
+                                    <TextInput id="contact_no" type="number" name="contact_no" value={value.contact_no} className="mt-1 block w-full" autoComplete="contact_no" onChange={(e) => PhoneValidate(e, 10, handleChange)} required/>
                                     <InputError message={errors.contact_no} className="mt-2" />
                                 </div>
 
@@ -180,7 +181,7 @@ export default function Edit({ auth, user }) {
                                             htmlFor="user_role"
                                             value="Select User Role"
                                         />
-                                        <RadioGroup value={value.user_role} onChange={handleChange} name="user_role"row>
+                                        <RadioGroup value={value.user_role} onChange={(e)=>handleChange("user_role",e.target.value)} name="user_role"row>
                                             {
                                             auth.user.user_role == "admin"  && <FormControlLabel value="admin" control={<Radio />} label="Admin" aria-setsize={"small"}/>
                                             }

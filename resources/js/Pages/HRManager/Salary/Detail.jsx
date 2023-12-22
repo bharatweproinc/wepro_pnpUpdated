@@ -4,7 +4,6 @@ import Edit from "@/Components/Common/Project/Salary/Edit";
 
 export default function DetailSalary({auth,salary ,data}){
     const { setData, get, processing, errors, setError } = useForm();
-    console.log(auth,salary,data,'data');
 
     return (
         <Box sx={{ backgroundColor: "#f7f7f7",borderRadius:'10px'}} className="pb-5">

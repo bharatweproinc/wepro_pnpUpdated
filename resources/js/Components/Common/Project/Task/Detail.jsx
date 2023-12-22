@@ -28,11 +28,11 @@ export default function Detail({ data, developer, auth, devId, updated }) {
     const [state, setState] = useState({
         status: data.status,
     });
-    console.log(updated,'updatedd');
     const [isEdit, setIsEdit] = useState(false);
     const handleUpdate = (id) => {
         get(route("admin.project.task.edit", { id }));
     };
+
     const dev_id = data.developer_id.split(",");
     const dev = dev_id.map((item,j) => Number(item));
 
@@ -55,10 +55,10 @@ export default function Detail({ data, developer, auth, devId, updated }) {
             ) : auth.user.user_role == "senior developer" ? (
                 router.post(route("developer.project.task.status", { id: updated[0].id }),item,
                 { onSuccess: ()=>{ onSubmit()}})
-            ) : auth.user.user_role == "junior developer" ? (
+            ) : auth.user.user_role == "junior developer" && (
                 router.post(route("developer.project.task.status", { id: updated[0].id }),item,
                 { onSuccess: ()=>{ onSubmit()}})
-            ) : (<Alert> Route Not Define</Alert>);
+            )
         }
     }
 
@@ -152,7 +152,8 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                         <Typography sx={{ fontWeight: "bold" }}>
                             Status
                         </Typography>
-                        {isEdit ? (
+                        {isEdit ?
+                            (
                             <Box component={"form"} onSubmit={statusSubmit}>
                                 <Select
                                     value={state.status}
@@ -208,7 +209,7 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                              <StatusPopup auth={auth} Id={data.id} statusSubmit={statusSubmit}  setState = {setState}setIsEdit = {setIsEdit}state={{ status:data.status }}/>
                         ))}
 
-                        { isEdit && state.status === "started" && updated.length === 0 && (
+                        { isEdit && state.status === "started" && updated.length == 0 && (
                             <StartTimerPopUp
                                 auth={auth}
                                 Id={data.id}

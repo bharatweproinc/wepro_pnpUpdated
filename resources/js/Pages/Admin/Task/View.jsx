@@ -8,7 +8,7 @@ import Create from "@/Components/Common/Project/Task/Create";
 import List from "@/Components/Common/Project/Task/List";
 
 export default function View({auth,data, Id, developer, updated}) {
-
+console.log(updated,'updatedupdated');
      return (
        <>
                 {data.length === 0 ? (

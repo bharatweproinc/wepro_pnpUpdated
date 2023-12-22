@@ -98,10 +98,8 @@ class ProjectRepository implements ProjectInterface
             $data = Project::findOrFail($id);
             $dev_id = Developer::where('project_id', $data->id)->pluck('developer_id');
             $dev = $dev_id->toArray();
-
             $developer = array_map('intval', explode(',', $dev[0]));
             $developer = array_unique($developer);
-
             $manager = User::whereIn('user_role', ['project manager'])->get();
             $devUsers = User::select('id', 'name', 'user_role')->whereIn('user_role', ['junior developer', 'senior developer'])->get();
             return [ 'success' => true,$data,  $devUsers,  $manager, $developer];

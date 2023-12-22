@@ -32,7 +32,6 @@ class TaskController extends Controller
         return Inertia::render('Admin/Task/View',['data'=>$data,'Id'=>$id ,'developer'=>$developers]);
     }
 
-
     public function create ($id){
 
             $items = $this->taskRepository->create($id);

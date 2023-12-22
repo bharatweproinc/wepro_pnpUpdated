@@ -87,7 +87,7 @@ class UserController extends Controller
 
     public function delete($id)
     {
-        $this->userRepository->delete($id);
+       $response= $this->userRepository->delete($id);
         if($response['success']) {
             return back();
         } else {

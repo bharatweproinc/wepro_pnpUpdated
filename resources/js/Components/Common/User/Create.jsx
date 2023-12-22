@@ -25,6 +25,9 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import SuccessMsg from "../SuccessMsg";
+import PhoneValidate from "@/Util/PhoneValidate";
+import Joi from "@/Util/JoiValidator";
+import ValdidationSchema from "./Components/ValidationSchema";
 
 const style = {
     position: "absolute",
@@ -46,7 +49,7 @@ export default function Create({ auth }) {
     const [image,setImage] = useState(null);
     const [alert ,setAlert] = useState(false);
     const [severity ,setSeverity] = useState(null);
-    const { data, setData, get, post, processing, errors, reset } = useForm({
+    const { data, setData, get, post, processing, errors, reset ,setError } = useForm({
         name: "",
         email: "",
         password: "",
@@ -55,7 +58,6 @@ export default function Create({ auth }) {
         salary: "",
         profile:null,
     });
-
 
     const handleClose = () => {
         setOpen(false);
@@ -103,6 +105,17 @@ export default function Create({ auth }) {
 
     };
 
+    function handleChange(key,val) {
+        setError({
+            ...errors,
+            [key]: Joi.validateToPlainErrors(val,ValdidationSchema.USER_SCHEMA[key])
+        });
+        setData({
+            ...data,
+            [key]: val,
+        });
+    }
+
     return (
         <div>
             {alert && <SuccessMsg severity={severity} error={alert} setError={setAlert} title={alert}/>}
@@ -138,9 +151,7 @@ export default function Create({ auth }) {
                                 className="mt-1 block w-full"
                                 autoComplete="name"
                                 isFocused={true}
-                                onChange={(e) =>
-                                    setData("name", e.target.value)
-                                }
+                                onChange={(e) => handleChange("name", e.target.value)}
                                 required
                             />
 
@@ -160,9 +171,7 @@ export default function Create({ auth }) {
                                 value={data.email}
                                 className="mt-1 block w-full"
                                 autoComplete="username"
-                                onChange={(e) =>
-                                    setData("email", e.target.value)
-                                }
+                                onChange={(e) => handleChange("email", e.target.value)}
                                 required
                             />
 
@@ -182,9 +191,7 @@ export default function Create({ auth }) {
                                 value={data.password}
                                 className="mt-1 block w-full"
                                 autoComplete="new-password"
-                                onChange={(e) =>
-                                    setData("password", e.target.value)
-                                }
+                                onChange={(e) => handleChange("password", e.target.value)}
                                 required
                             />
 
@@ -207,12 +214,7 @@ export default function Create({ auth }) {
                                 value={data.password_confirmation}
                                 className="mt-1 block w-full"
                                 autoComplete="new-password"
-                                onChange={(e) =>
-                                    setData(
-                                        "password_confirmation",
-                                        e.target.value
-                                    )
-                                }
+                                onChange={(e) => handleChange("password_confirmation",e.target.value)}
                                 required
                             />
 
@@ -231,9 +233,7 @@ export default function Create({ auth }) {
                                 value={data.contact_no}
                                 className="mt-1 block w-full"
                                 autoComplete="contact_no"
-                                onChange={(e) =>
-                                    setData("contact_no", e.target.value)
-                                }
+                                onChange={(e) => PhoneValidate(e, 10, handleChange)}
                                 required
                             />
 
@@ -251,9 +251,7 @@ export default function Create({ auth }) {
                                 />
                                 <RadioGroup
                                     value={data.user_role}
-                                    onChange={(e) =>
-                                        setData("user_role", e.target.value)
-                                    }
+                                    onChange={(e) => handleChange("user_role", e.target.value)}
                                     row
                                 >
                                     {
@@ -308,7 +306,7 @@ export default function Create({ auth }) {
 
                              <input type="file" className="mt-1 block w-full filetype"
                              id="profile" name="profile" accept="image/png, image/jpeg ,image/jpeg , image/svg"
-                              onChange={(event)=>{setData('profile',event.target.files[0]);handleProfile(event)}}
+                              onChange={(event)=>{handleChange('profile',event.target.files[0]);handleProfile(event)}}
                              />
                              {
                                 data.profile &&

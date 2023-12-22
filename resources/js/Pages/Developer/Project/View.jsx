@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 
 
-export default function View({ data, auth, developer, manager ,updated }) {
+export default function View({ data, auth, developer, manager  }) {
 
     return (
         <AuthenticatedLayout user={auth.user}>

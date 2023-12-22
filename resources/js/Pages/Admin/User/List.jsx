@@ -31,7 +31,6 @@ export default function List({data, auth }) {
         get(route("admin.user.detail", {id}));
     }
 
-    console.log(data,'data');
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
         if (data.next_page_url) {
@@ -68,7 +67,7 @@ export default function List({data, auth }) {
                                         <TableCell style={{fontWeight:"bold"}}>Name</TableCell>
                                         <TableCell style={{fontWeight:"bold"}}>Email</TableCell>
                                         <TableCell style={{fontWeight:"bold"}}>Role</TableCell>
-                                        <TableCell style={{fontWeight:"bold"}}>Action </TableCell>
+                                        <TableCell style={{fontWeight:"bold", paddingLeft:"24px"}}>Action </TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -91,8 +90,8 @@ export default function List({data, auth }) {
                                                 <IconButton aria-label="detail">
                                                    <VisibilityIcon sx={{color:"rgba(0, 0, 0, 0.54)"}} onClick={()=>handleView(item.id)}/>
                                                 </IconButton>
-                                                    &emsp;<Edit auth={auth} user={item}/>
-                                                    &emsp;<DeletePopup id={item.id} user={item} auth={auth}/>
+                                                    <Edit auth={auth} user={item}/>
+                                                    <DeletePopup id={item.id} user={item} auth={auth}/>
                                                 </TableCell>
                                             </TableRow>
                                         );

@@ -29,7 +29,6 @@ export default function StartTimerPopUp({auth,Id,statusSubmit , setIsEdit ,setSt
         setOpen(false);
         statusSubmit();
     }
-    console.log(start_time,"currentTime")
     return (
         <React.Fragment>
             <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" maxWidth={"md"} aria-describedby="alert-dialog-slide-description">

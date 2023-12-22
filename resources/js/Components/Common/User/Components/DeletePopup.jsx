@@ -26,7 +26,7 @@ export default function DeletePopup({auth, id ,user }) {
 
     return (
         <React.Fragment>
-            <IconButton aria-label="delete" onClick={handleClick} disabled={user.user_role=="admin" ? true :false}>
+            <IconButton aria-label="delete" onClick={handleClick} disabled={auth.user.user_role=="hr manager" ? true :false}>
                 <DeleteIcon color="error" />
             </IconButton>
             <Dialog

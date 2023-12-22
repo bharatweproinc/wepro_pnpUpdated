@@ -25,6 +25,8 @@ export default function List({ auth, developer, Id, data ,updated}) {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const { item, setItem, get, post, processing, errors, reset } = useForm();
 
+    console.log(updated,'updated');
+
     const toggleRow = (id) => {
         if (expandedRows.includes(id)) {
             setExpandedRows(expandedRows.filter((rowId) => rowId !== id));
@@ -111,19 +113,12 @@ export default function List({ auth, developer, Id, data ,updated}) {
                                                 colSpan={6}
                                                 sx={{
                                                     py: 0,
-                                                    backgroundColor:
-                                                        "#80808024",
-                                                    px: {
-                                                        xs: "5px",
-                                                        md: "16px",
-                                                    },
+                                                    backgroundColor:"#80808024",
+                                                    px: {xs: "5px", md: "16px",},
                                                 }}
                                             >
                                                 <Collapse
-                                                    in={expandedRows.includes(
-                                                        item.id
-                                                    )}
-                                                    unmountOnExit
+                                                    in={expandedRows.includes(item.id)}  unmountOnExit
                                                 >
                                                     <Detail
                                                         data={item}

@@ -4,7 +4,6 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Alert,} from "@mui/material";
 
 export default function View({ leave ,auth ,user}) {
-      console.log(leave ,'leaves');
     return (
         <AuthenticatedLayout user={auth.user}>
             <div  className="py-12">
@@ -20,7 +19,7 @@ export default function View({ leave ,auth ,user}) {
                                             MarginTop: "9px",
                                         },
                                     }}
-                                    action={<Create auth={auth} Id={''}/>}
+                                    action={(auth.user.user_role == "admin" || auth.user.user_role == "hr manager") && ( <Create Id={leave} auth={auth} user={user}/> )}
                                 >
                                     Leaves Not Found ! You can create a Leave ...
                                 </Alert>

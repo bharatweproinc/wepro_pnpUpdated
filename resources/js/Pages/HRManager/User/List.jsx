@@ -23,7 +23,6 @@ import GlobalStyle from "@/Components/Common/User/Components/GlobalStyle";
 export default function View({data, auth }) {
 
     const {url} = usePage();
-    console.log(data,'data');
     const {  setData, get, processing, errors, setError } = useForm();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -55,7 +54,6 @@ export default function View({data, auth }) {
 
       const handleChangeRowsPerPage = (event) => {
         const newRowsPerPage = parseInt(event.target.value, 10);
-        console.log('New Rows Per Page:', newRowsPerPage);
         setRowsPerPage(newRowsPerPage);
         setPage(0);
         get(`${data.path}?page=1&per_page=${newRowsPerPage}`);

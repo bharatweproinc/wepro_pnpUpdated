@@ -27,12 +27,11 @@ const style = {
     boxShadow: 24,
     p: 1,
     overflow: 'scroll',
-    height: '90%',
+    height: '80%',
     display: 'block',
 };
 
 export default function Edit({ auth, salary, userId }) {
-    console.log(userId, 'userId');
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
