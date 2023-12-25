@@ -34,7 +34,6 @@ const style = {
     bgcolor: "background.paper",
     boxShadow: 24,
     overflow:'scroll',
-    height:'90%',
     display:'block',
 };
 
@@ -68,7 +67,6 @@ export default function Create({ auth ,Id ,user}) {
         setData('user',e.target.value);
         setUnique(e.target.value);
     }
-
 
     const submit = (e) => {
         e.preventDefault();

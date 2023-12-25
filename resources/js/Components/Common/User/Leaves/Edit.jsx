@@ -73,7 +73,7 @@ export default function Edit({item,auth}){
                 status: item.status,
                 reason: item.reason,
             }))
-        },[data]);
+        },[item]);
 
         useEffect(()=>{
             const day = differenceInDays(parseISO(data.to_date),parseISO(data.requested_date))+" day";
@@ -179,7 +179,6 @@ export default function Edit({item,auth}){
                                             className="mt-2"
                                         />
                                     </div>
-
 
                                         <div className="mt-4">
                                             <InputLabel
@@ -413,7 +412,7 @@ export default function Edit({item,auth}){
                                                 className="mt-2"
                                             />
                                         </div>
-                                        {data.status === "denied" && (
+                                        {data.status == "denied" &&
                                             <div className="mt-4">
                                                 <InputLabel
                                                     htmlFor="Reason"
@@ -433,7 +432,7 @@ export default function Edit({item,auth}){
                                                     className="mt-2"
                                                 />
                                             </div>
-                                        )}
+                                        }
 
                                         <div className="flex items-center justify-center m-8">
                                         <Button

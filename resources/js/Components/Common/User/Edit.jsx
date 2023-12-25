@@ -51,7 +51,6 @@ export default function Edit({ auth, user }) {
         setOpen(false);
     }
 
-    console.log(image ,user.profile ,'progfilelll');
     const handleChange = (key,val) => {
 
         setValue((prev) => {

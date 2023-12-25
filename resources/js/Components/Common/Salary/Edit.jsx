@@ -17,7 +17,7 @@ import { useEffect } from "react";
 import UpdateIcon from '@mui/icons-material/Update';
 import SuccessMsg from "../SuccessMsg";
 import SalaryValidation from "./Component/SalaryValidation";
-import { Joi } from "joi-browser";
+import Joi from "@/Util/JoiValidator";
 const style = {
     position: "absolute",
     top: "50%",
@@ -77,7 +77,10 @@ export default function Edit({ auth, salary, userId }) {
     }, [data.gross_salary, data.tax_deducted]);
 
     const handleChange = (e) => {
-
+        setError({
+            ...errors,
+            [e.target.name]:Joi.validateToPlainErrors(e.target.value,SalaryValidation.Salary_Schema[e.target.name])
+        });
         setData(e.target.name, e.target.value);
     };
 

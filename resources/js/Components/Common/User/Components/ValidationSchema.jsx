@@ -6,7 +6,8 @@ const USER_SCHEMA = {
     contact_no:Joi.string().required(),
     user_role:Joi.string().valid('admin').valid('hr manager').valid('project manager').valid('junior developer').valid('senior developer'),
     password:Joi.string().required(),
-    // password_confirmation:Joi.string().required().oneOf([ref('password')], 'Passwords must match'),
+    password_confirmation:Joi.string().required(),
+    // password_confirmation:Joi.any().valid(Joi.ref('password')).required().options({ language: { any: { allowOnly: 'must match password' } } }),
 };
 
 const ValdidationSchema = {
