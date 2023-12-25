@@ -70,8 +70,8 @@ export default function Edit({ data, auth, developer, manager, devId }) {
             onSuccess:()=>{
                 setAlert("Project Updated .");
                 setSeverity("success");
-            },onError:()=>{
-                setAlert("something is wrong !");
+            },onError:(error)=>{
+                setAlert(error.error);
                 setSeverity("error");
             }
         });

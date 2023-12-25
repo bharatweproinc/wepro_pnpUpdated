@@ -15,8 +15,9 @@ import '@/Pages/Admin/Salary/Style.scss';
 import { useState } from "react";
 import { useEffect } from "react";
 import UpdateIcon from '@mui/icons-material/Update';
-import { Close } from "@mui/icons-material";
 import SuccessMsg from "../SuccessMsg";
+import SalaryValidation from "./Component/SalaryValidation";
+import { Joi } from "joi-browser";
 const style = {
     position: "absolute",
     top: "50%",
@@ -38,7 +39,7 @@ export default function Edit({ auth, salary, userId }) {
     const [alert, setAlert] = useState(false);
     const [severity, setSeverity] = useState(null);
 
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing, errors ,setError } = useForm({
         basic_salary: salary[0]?.basic_salary,
         house_rent: salary[0]?.house_rent,
         leave_allowance: salary[0]?.leave_travel_allowance,
@@ -76,6 +77,7 @@ export default function Edit({ auth, salary, userId }) {
     }, [data.gross_salary, data.tax_deducted]);
 
     const handleChange = (e) => {
+
         setData(e.target.name, e.target.value);
     };
 

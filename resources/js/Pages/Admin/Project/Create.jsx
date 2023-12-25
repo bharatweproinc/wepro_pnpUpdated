@@ -85,7 +85,7 @@ export default function Create({developer, manager }) {
                 setData({});
                 setOpen(false);
             },onError:(error) => {
-                setAlert('something is wrong');
+                setAlert(error.error);
                 setSeverity('error');
             },
         });

@@ -80,8 +80,14 @@ class ProjectController extends Controller
     public function update(EditProjectRequest $request, $id)
     {
 
-        $this->projectRepository->update($id, $request->all());
-        return Redirect::route('admin.project.list');
+        $response =$this->projectRepository->update($id, $request->all());
+        if($response['success']){
+            return Redirect::route('admin.project.list');
+        }
+        else{
+            return Redirect::back()->withErrors($response);
+        }
+
     }
 
     public function delete($id)

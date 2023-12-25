@@ -15,6 +15,7 @@ import {
     FormControlLabel,
     Radio,
     RadioGroup,
+    TextField,
     Typography,
 } from "@mui/material";
 import InputLabel from "@/Components/InputLabel";
@@ -30,10 +31,8 @@ const style = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
     bgcolor: "background.paper",
     boxShadow: 24,
-    p:1,
     overflow:'scroll',
     height:'90%',
     display:'block',
@@ -44,6 +43,7 @@ export default function Create({ auth ,Id ,user}) {
     const [alert,setAlert] = useState(false);
     const [severity,setSeverity] = useState(null);
     const [effect,setEffect] = useState(false);
+    const [expand ,setExpand] = useState(user?.length > 0 ? true :false);
     const [unique ,setUnique] = useState(Id);
     const handleOpen=(e)=>setOpen(true);
 
@@ -126,14 +126,13 @@ export default function Create({ auth ,Id ,user}) {
                 slotProps={{ backdrop: { timeout: 500 } }}
             >
                 <Fade in={open}>
-                    <Box sx={style} style={{ width: "800px" }}>
+                    <Box sx={style}>
                         <div className="rounded-t-xl bg-slate-50 border-gray-100 border border-t-0 shadow-sm p-5">
                             <div
                                 style={{
                                     alignItems: "center",
                                     display: "flex",
                                     justifyContent: "center",
-                                    paddingBottom: "10px",
                                 }}
                             >
                                 <form onSubmit={submit}>
@@ -161,11 +160,10 @@ export default function Create({ auth ,Id ,user}) {
                                                 fontWeight: "bold",
                                             }}
                                         />
-                                        <textarea
+                                        <TextInput
                                             id="subject"
                                             type="text"
                                             name="subject"
-                                            rows={2}
                                             value={data.subject}
                                             className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
                                             autoComplete="subject"
@@ -248,7 +246,7 @@ export default function Create({ auth ,Id ,user}) {
                                                 required
                                                 style={{
                                                     height: "42px",
-                                                    width: "352px",
+                                                    width: "252px",
                                                 }}
                                             />
                                             <InputError
@@ -264,7 +262,7 @@ export default function Create({ auth ,Id ,user}) {
                                                 style={{
                                                     fontSize: "15px",
                                                     fontWeight: "bold",
-                                                    marginLeft: "20px",
+                                                    marginLeft: "10px",
                                                 }}
                                             />
 
@@ -285,8 +283,8 @@ export default function Create({ auth ,Id ,user}) {
                                                 required
                                                 style={{
                                                     height: "42px",
-                                                    width: "352px",
-                                                    marginLeft: "20px",
+                                                    width: "252px",
+                                                    marginLeft: "10px",
                                                 }}
                                             />
                                             <InputError
@@ -294,14 +292,14 @@ export default function Create({ auth ,Id ,user}) {
                                                 className="mt-2"
                                             />
                                         </div>
-                                    </div>
-                                    <div className="mt-4">
+                                        <div className="mt-4">
                                         <InputLabel
                                             htmlFor="Days"
                                             value="Days"
                                             style={{
                                                 fontSize: "15px",
                                                 fontWeight: "bold",
+                                                marginLeft: "10px",
                                             }}
                                         />
                                         <TextInput
@@ -313,6 +311,11 @@ export default function Create({ auth ,Id ,user}) {
                                             autoComplete="days"
                                             required
                                             disabled
+                                            style={{
+                                                height: "42px",
+                                                width: "252px",
+                                                marginLeft: "10px",
+                                            }}
                                         />
 
                                         <InputError
@@ -320,6 +323,8 @@ export default function Create({ auth ,Id ,user}) {
                                             className="mt-2"
                                         />
                                     </div>
+                                    </div>
+
                                     {(data.days == '0 day' ||  data.days == 'half day' ||  data.days == 'full day'
                                        ||data.days == 'first half' || data.days =='second half') &&(
                                         <div className="mt-4" style={{ display:'flex' }}>
@@ -353,7 +358,7 @@ export default function Create({ auth ,Id ,user}) {
 
                                         { (data.days == 'half day'|| data.days == 'first half' || data.days =='second half') &&(
                                         <>
-                                        <FormControl component="fieldset" style={{ paddingTop:"30px" }}>
+                                        <FormControl component="fieldset">
                                         <RadioGroup
                                             value={data.days}
                                             onChange={(e) =>
@@ -389,7 +394,7 @@ export default function Create({ auth ,Id ,user}) {
                                         </div>
                                     )}
                                     {
-                                        user?.length != 0 &&
+                                       expand &&
                                         <div className="mt-4">
                                         <InputLabel
                                             htmlFor="File"

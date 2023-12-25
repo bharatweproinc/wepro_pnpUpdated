@@ -15,10 +15,13 @@ import {
     Typography,
 } from "@mui/material";
 import { data } from "autoprefixer";
+import { useEffect } from "react";
+import SalaryValidation from "@/Components/Common/Salary/Component/SalaryValidation";
+import { Joi } from "joi-browser";
 
 
 export default function Create({ auth }) {
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing, errors ,setError} = useForm({
       basic_salary: 0,
       house_rent: 0,
       leave_allowance: 0,
@@ -37,7 +40,7 @@ export default function Create({ auth }) {
         const [key, value] = param.split("=");
         params[key] = decodeURIComponent(value);
     });
-    React.useEffect(() => {
+    useEffect(() => {
         const grossSalary =
           Number(data.basic_salary) +
           Number(data.house_rent) +
@@ -55,7 +58,7 @@ export default function Create({ auth }) {
         data.provided_fund,
       ]);
 
-      React.useEffect(() => {
+     useEffect(() => {
         const taxDeducted =
           (Number(data.gross_salary) * Number(data.tax_deducted)) / 100;
         const netSalary = Number(data.gross_salary) - taxDeducted;
@@ -63,6 +66,7 @@ export default function Create({ auth }) {
       }, [data.gross_salary, data.tax_deducted]);
 
       const handleChange = (e) => {
+
         setData(e.target.name, e.target.value);
       };
 

@@ -96,18 +96,18 @@ export default function Details({ data, auth }) {
                             {data.description}
                         </Typography>
                     </Grid>
-                    {data.file && (
+
                     <Grid item xs={12} className="pt-3">
                         <Typography sx={{ fontWeight: "bold",paddingBottom:'5px' }}>
                             Uploaded File
                         </Typography>
                         <Typography className="capitalize">
-                            <a href={data.file} target="_blank">
+                            {/* <a href={data.file} target="_blank"> */}
                                 <img src={data.file} alt="leave file" style={{ maxHeight:'200px' ,maxWidth:'200px' }}/>
-                            </a>
+                            {/* </a> */}
                         </Typography>
                     </Grid>
-                    )}
+
                 </Grid>
 
             </Box>

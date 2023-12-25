@@ -17,6 +17,7 @@ import {
     Radio,
     RadioGroup,
     Typography,
+    TextField,
 } from "@mui/material";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
@@ -32,10 +33,8 @@ const style = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
     bgcolor: "background.paper",
     boxShadow: 24,
-    p: 1,
     overflow:'scroll',
     height:'90%',
     display:'block',
@@ -48,6 +47,7 @@ export default function Edit({item,auth}){
         const [severity,setSeverity] = useState(null);
         const [effect ,setEffect] = useState(false);
         const handleOpen = () => setOpen(true);
+
 
         const { data, setData, get, post, processing, errors, reset } = useForm({
             subject:item.subject,
@@ -64,16 +64,16 @@ export default function Edit({item,auth}){
         }
 
         useEffect(()=>{
-            setData((prev)=>({
-                subject:prev.subject,
-                description: prev.description,
-                requested_date: prev.requested_date,
-                days: prev.days,
-                to_date: prev.to_date,
-                status: prev.status,
-                reason: prev.reason,
+            setData(()=>({
+                subject:item.subject,
+                description: item.description,
+                requested_date: item.requested_date,
+                days: item.days,
+                to_date: item.to_date,
+                status: item.status,
+                reason: item.reason,
             }))
-        },[]);
+        },[data]);
 
         useEffect(()=>{
             const day = differenceInDays(parseISO(data.to_date),parseISO(data.requested_date))+" day";
@@ -82,7 +82,7 @@ export default function Edit({item,auth}){
         },[effect]);
 
         const submit = (e) => {
-            e.preventDefault();
+            e.itementDefault();
 
             {
                 auth.user.user_role === "admin"
@@ -127,7 +127,7 @@ export default function Edit({item,auth}){
                     slotProps={{ backdrop: { timeout: 500 } }}
                 >
                     <Fade in={open}>
-                        <Box sx={style} style={{ width: "800px" }}>
+                        <Box sx={style} >
                             <div className="rounded-t-xl bg-slate-50 border-gray-100 border border-t-0 shadow-sm p-5">
                                 <div
                                     style={{
@@ -162,7 +162,7 @@ export default function Edit({item,auth}){
                                                 fontWeight: "bold",
                                             }}
                                         />
-                                        <textarea
+                                        <TextInput
                                             id="subject"
                                             type="text"
                                             name="subject"
@@ -245,7 +245,7 @@ export default function Edit({item,auth}){
                                                 required
                                                 style={{
                                                     height: "42px",
-                                                    width: "352px",
+                                                    width: "252px",
                                                 }}
                                             />
                                             <InputError
@@ -261,7 +261,7 @@ export default function Edit({item,auth}){
                                                     style={{
                                                         fontSize: "15px",
                                                         fontWeight: "bold",
-                                                        marginLeft: "20px",
+                                                        marginLeft: "10px",
                                                     }}
                                                 />
 
@@ -281,8 +281,8 @@ export default function Edit({item,auth}){
                                                     required
                                                     style={{
                                                         height: "42px",
-                                                        width: "352px",
-                                                        marginLeft: "20px",
+                                                        width: "252px",
+                                                        marginLeft: "10px",
                                                     }}
                                                 />
                                                 <InputError
@@ -290,15 +290,14 @@ export default function Edit({item,auth}){
                                                     className="mt-2"
                                                 />
                                             </div>
-                                        </div>
-
-                                        <div className="mt-4">
+                                            <div className="mt-4">
                                         <InputLabel
                                             htmlFor="Days"
                                             value="Days"
                                             style={{
                                                 fontSize: "15px",
                                                 fontWeight: "bold",
+                                                marginLeft: "10px",
                                             }}
                                         />
                                         <TextInput
@@ -310,13 +309,21 @@ export default function Edit({item,auth}){
                                             autoComplete="days"
                                             required
                                             disabled
+                                            style={{
+                                                height: "42px",
+                                                width: "252px",
+                                                marginLeft: "10px",
+                                            }}
                                         />
 
                                         <InputError
                                             message={errors.days}
                                             className="mt-2"
                                         />
-                                    </div>
+                                         </div>
+                                        </div>
+
+
                                     {(data.days == '0 day' ||  data.days == 'half day' ||  data.days == 'full day'
                                        ||data.days == 'first half' || data.days =='second half') &&(
                                         <div className="mt-4" style={{ display:'flex' }}>
@@ -349,8 +356,8 @@ export default function Edit({item,auth}){
                                         </FormControl>
 
                                         { (data.days == '0 day'|| data.days == 'half day'|| data.days == 'first half' || data.days =='second half') &&
-                                        <>
-                                        <FormControl component="fieldset" style={{ paddingTop:"30px" }}>
+
+                                        <FormControl component="fieldset">
                                         <RadioGroup
                                             value={data.days}
                                             onChange={(e) => setData("days", e.target.value)}
@@ -361,7 +368,6 @@ export default function Edit({item,auth}){
                                             control={<Radio />}
                                             label="First Half"
                                             aria-setsize={"small"}
-                                            style={{ paddingRight:'10px' }}
                                         />
 
                                         <FormControlLabel
@@ -369,11 +375,10 @@ export default function Edit({item,auth}){
                                             control={<Radio />}
                                             label="Second Half"
                                             aria-setsize={"small"}
-                                            style={{ paddingRight:'10px' }}
                                         />
                                         </RadioGroup>
                                         </FormControl>
-                                        </>
+
                                     }
                                             <InputError
                                                 message={errors.days}

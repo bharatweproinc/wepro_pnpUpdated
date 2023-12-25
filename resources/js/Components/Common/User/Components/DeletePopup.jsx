@@ -8,12 +8,24 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import WarningOutlinedIcon from "@mui/icons-material/WarningOutlined";
 import { useForm } from "@inertiajs/react";
 import { Box, IconButton, Typography } from "@mui/material";
+import { useState } from "react";
+import SuccessMsg from "../../SuccessMsg";
 
 export default function DeletePopup({auth, id ,user }) {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [msg,setMsg] = useState(false);
+    const [severity ,setSeverity] = useState(null);
     const { data, setData, post, processing, errors, setError } = useForm();
     const handleDelete = (id) => {
-        post(route("admin.user.delete", { id }));
+        post(route("admin.user.delete", { id }),{
+            onSuccess:()=>{
+                setMsg("Delete Successfull .")
+                setSeverity('success')
+            },onError:(error)=>{
+                setMsg(error.error)
+                setSeverity('error')
+            }
+        });
         handleClose();
     };
     const handleClick = () => {
@@ -25,7 +37,8 @@ export default function DeletePopup({auth, id ,user }) {
     };
 
     return (
-        <React.Fragment>
+        <>
+        {alert && <SuccessMsg severity={severity} error={msg} setError={setMsg} title={msg}/>}
             <IconButton aria-label="delete" onClick={handleClick} disabled={auth.user.user_role=="hr manager" ? true :false}>
                 <DeleteIcon color="error" />
             </IconButton>
@@ -54,6 +67,6 @@ export default function DeletePopup({auth, id ,user }) {
                     <Button  variant="contained"  color="error"  onClick={() => handleDelete(id)} startIcon={<DeleteIcon/>}> Delete</Button>
                 </DialogActions>
             </Dialog>
-        </React.Fragment>
+        </>
     );
 }

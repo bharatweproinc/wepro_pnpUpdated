@@ -34,10 +34,10 @@ const style = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
+    width: 800,
     bgcolor: "background.paper",
     boxShadow: 24,
-    p:3,
+    p:2,
     overflow:'scroll',
     height:'90%',
     display:'block',
@@ -122,7 +122,7 @@ export default function Create({ auth }) {
         <Button variant="contained" onClick={handleOpen} startIcon={<AddIcon />} >  Create</Button>
         <Modal aria-labelledby="transition-modal-title" aria-describedby="transition-modal-description" open={open} onClose={handleClose} closeAfterTransition slots={{ backdrop: Backdrop }} slotProps={{  backdrop: {  timeout: 500,}, }}>
             <Fade in={open}>
-                <Box sx={style} style={{ width: "800px" }}>
+                <Box sx={style}>
                 <div className="rounded-t-xl bg-slate-50 border-gray-100 border border-t-0 shadow-sm p-5" >
                     <div style={{alignItems: "center",display: "flex",justifyContent: "center",paddingBottom:"10px"}}>
                     <form onSubmit={submit}>

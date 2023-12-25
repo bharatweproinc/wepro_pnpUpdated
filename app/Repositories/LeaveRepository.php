@@ -12,6 +12,9 @@ class LeaveRepository implements LeaveInterface
     public function getlist()
     {
         $leave = Leave::orderBy('created_at','desc')->paginate(10);
+        foreach($leave as $key => $val){
+            $leave[$key]['file'] = asset('storage/'.$val->file);
+         }
         $user = User::get();
         return [  $leave ,$user];
     }
