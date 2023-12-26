@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\SalaryController;
 use App\Http\Controllers\Admin\LeaveController;
 use App\Http\Controllers\HRManager\HrLeaveController;
 use App\Models\User;
+use App\Models\Project;
+use App\Models\Leave;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Developer\DeveloperDashboardController;
@@ -25,7 +27,7 @@ use App\Http\Controllers\HRManager\HrDashboardController;
 use App\Http\Controllers\HRManager\HrUserController;
 use App\Http\Controllers\HRManager\HrSalaryController;
 use App\Http\Controllers\HRManager\HrProjectController;
-
+use Carbon\Carbon;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -46,18 +48,17 @@ Route::get('/', function () {
     ]);
 });
 
-
-
-
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
+
     Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
+        $user = User::all();
+        $project = Project::all();
+        $leave = Leave::whereDate('created_at',  Carbon::today()->toDateString())->get();
+        return Inertia::render('Dashboard',['user'=>$user ,'project'=>$project ,'leave'=>$leave]);
     })->name('dashboard');
 
     Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
     Route::post('register', [RegisteredUserController::class, 'store']);
-
-
 
     Route::prefix('profile')->group( function() {
             Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

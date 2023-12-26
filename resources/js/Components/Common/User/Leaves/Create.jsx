@@ -408,7 +408,7 @@ export default function Create({ auth ,Id ,user}) {
                                                 user?.map((name,index)=>{
                                                     return (
                                                            ( name.user_role !="admin") &&
-                                                            <option value={name.id} key={index} label={name.name}>{name.name}</option>
+                                                            <option value={name.id} key={index} >{name.name}({name.email})</option>
                                                     );
                                                 })
                                             }

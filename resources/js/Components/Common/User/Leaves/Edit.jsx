@@ -46,7 +46,7 @@ export default function Edit({item,auth,user}){
         const [severity,setSeverity] = useState(null);
         const [effect ,setEffect] = useState(false);
         const handleOpen = () => setOpen(true);
-        const [unique ,setUnique] = useState(item.id);
+        const [unique ,setUnique] = useState(item.user_id);
         const [expand ,setExpand] = useState(user?.length > 0 ? true :false);
 
         const { data, setData, get, post, processing, errors, reset } = useForm({
@@ -58,9 +58,9 @@ export default function Edit({item,auth,user}){
             reason: item.reason,
             days:item.days,
             file:item?.file,
-            user:item?.user_id,
+            // user_id:item.user_id,
         });
-        console.log(item,item.user_id,'userrr');
+        console.log(data.file,data.user ,item,item.user_id,'userrr');
 
         const handleClose = () => {
             setOpen(false);
@@ -76,7 +76,7 @@ export default function Edit({item,auth,user}){
                 status: item.status,
                 reason: item.reason,
                 file:item?.file,
-                user:item?.user,
+                // user_id:item?.user,
             }))
         },[item]);
 
@@ -87,7 +87,7 @@ export default function Edit({item,auth,user}){
         },[effect]);
 
         const handleUser = (e) => {
-            setData('user',e.target.value);
+            setData('user_id',e.target.value);
             setUnique(e.target.value);
         }
         const submit = (e) => {
@@ -95,7 +95,7 @@ export default function Edit({item,auth,user}){
 
             {
                 auth.user.user_role === "admin"
-                    ? post(route("admin.user.leave.update",{id:unique}), {
+                    ? post(route("admin.user.leave.update",{id:item.id}), {
                           onSuccess: () => {
                               setAlert("Leave Updated.")
                               setOpen(false);
@@ -106,7 +106,7 @@ export default function Edit({item,auth,user}){
                         }
                       })
                     :  auth.user.user_role === "hr manager" &&
-                       post(route("hrManager.user.leave.update",{id:unique}), {
+                       post(route("hrManager.user.leave.update",{id:item.id}), {
                           onSuccess: () => {
                               setAlert("Leave Updated.");
                               setOpen(false);
@@ -444,7 +444,7 @@ export default function Edit({item,auth,user}){
                                             </div>
                                         }
 
-                                    {
+                                    {/* {
                                        expand &&
                                     <div className="mt-4">
                                         <InputLabel
@@ -455,20 +455,20 @@ export default function Edit({item,auth,user}){
                                                 fontWeight: "bold",
                                             }}
                                         />
-                                        <select value={data.user} onChange={handleUser} className="w-full block" required>
+                                        <select value={data.user_id} onChange={handleUser} className="w-full block" required>
                                             <option>Select User</option>
                                             {
                                                 user?.map((name,index)=>{
                                                     return (
                                                            ( name.user_role !="admin") &&
-                                                            <option value={name.id} key={index} label={name.name}>{name.name}</option>
+                                                            <option value={name.id} key={index} label={name.name}>{name.name}({name.email})</option>
                                                     );
                                                 })
                                             }
                                         </select>
 
                                     </div>
-                                    }
+                                    } */}
 
                                     <div className="mt-4">
                                             <InputLabel
