@@ -74,15 +74,17 @@ class UserObserver
             ]);
         }
 
-        // $auth = Auth::user();
-        // $this->historyEntry($user, $auth, 'name', 'user name has been changed from');
-        // $this->historyEntry($user, $auth, 'email', 'user email has been changed from');
-        // $this->historyEntry($user, $auth, 'user_role', 'user user_role has been changed from');
-        // $this->historyEntry($user, $auth, 'contact_no', 'user contact_no has been changed from');
-        // $this->historyEntry($user, $auth, 'profile', 'user profile has been changed from');
 
     }
 
+    public function deleted(User $user){
+        History::create([
+            'historable_id' => $user->id,
+            'historable_type' => User::class,
+            'change_type' => 'DELETE',
+            'description' =>$user->name .' user has been deleetd '
+        ]);
+    }
 
     private function historyEntry($user, $auth, $field, $label){
         if ($user->isDirty($field)){
