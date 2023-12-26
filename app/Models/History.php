@@ -13,8 +13,8 @@ class History extends Model
         'historable_id',
         'historable_type',
         'change_type',
-        'old_value',
-        'new_value',
+        'description',
+
     ];
 
     public function historable()

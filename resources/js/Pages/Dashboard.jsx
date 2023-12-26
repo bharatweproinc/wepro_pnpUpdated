@@ -60,7 +60,7 @@ export default function Dashboard({ auth ,user ,project , leave}) {
                             <Typography variant="body2" className='rounded-t-md bg-[#1565c0] text-white p-1 text-center'>Total Projects</Typography>
                             <Paper elevation={3}>
                                 <Box p={"10px 15px"} display={"flex"} justifyContent={"space-between"}>
-                                    <Typography variant="subtitle1">Number of projects</Typography>
+                                    <Typography variant="subtitle1">Number of Projects</Typography>
                                     <Typography variant="subtitle1">{project.length}</Typography>
                                 </Box>
                             </Paper>

@@ -7,17 +7,16 @@ use Illuminate\Support\Facades\Auth;
 
 class UserObserver
 {
-    // public function created(User $user)
-    // {
-    //     $user = Auth::user();
-    //     History::create([
-    //         'historable_id'=>$user->id,
-    //         'historable_type'=>User::class,
-    //         'change_type'=>'CREATE',
-    //         'old_value'=>null,
-    //         'new_value'=>$user,
-    //     ]);
-    // }
+
+    public function created(User $user)
+    {
+        History::create([
+            'historable_id'=>$user->id,
+            'historable_type'=>User::class,
+            'change_type'=>'CREATE',
+            'description'=> $user->id." user created successfully.",
+        ]);
+    }
 
     public function updating(User $user)
     {
@@ -28,8 +27,7 @@ class UserObserver
                 'historable_id' => $user->id,
                 'historable_type' => User::class,
                 'change_type' => 'UPDATE',
-                'old_value' => $oldEmail,
-                'new_value' => $user->email,
+                'description' =>'user email has been changed from' .$oldEmail .'to'.$user->email,
             ]);
         }
         else if ($user->isDirty('name')) {
@@ -39,8 +37,7 @@ class UserObserver
                 'historable_id' => $user->id,
                 'historable_type' => User::class,
                 'change_type' => 'UPDATE',
-                'old_value' => $oldName,
-                'new_value' => $user->name,
+                'description' =>'user email has been changed from' .$oldName .'to'.$user->name,
             ]);
         }
         else if ($user->isDirty('contact_no')) {
@@ -50,8 +47,8 @@ class UserObserver
                 'historable_id' => $user->id,
                 'historable_type' => User::class,
                 'change_type' => 'UPDATE',
-                'old_value' => $oldPhone,
-                'new_value' => $user->contact_no,
+                'description' =>'user email has been changed from' .$oldPhone .'to'.$user->contact_no,
+
             ]);
         }
         else if ($user->isDirty('user_role')) {
@@ -61,19 +58,39 @@ class UserObserver
                 'historable_id' => $user->id,
                 'historable_type' => User::class,
                 'change_type' => 'UPDATE',
-                'old_value' => $oldRole,
-                'new_value' => $user->user_role,
+                'description' =>'user email has been changed from' .$oldRole .'to'.$user->user_role,
+
             ]);
         }
         else if ($user->isDirty('profile')) {
-            $odProfile = $user->getOriginal('profile');
+            $oldProfile = $user->getOriginal('profile');
 
             History::create([
                 'historable_id' => $user->id,
                 'historable_type' => User::class,
                 'change_type' => 'UPDATE',
-                'old_value' => $odProfile,
-                'new_value' => $user->profile,
+                'description' =>'user email has been changed from' .$oldProfile .'to'.$user->profile,
+
+            ]);
+        }
+
+        // $auth = Auth::user();
+        // $this->historyEntry($user, $auth, 'name', 'user name has been changed from');
+        // $this->historyEntry($user, $auth, 'email', 'user email has been changed from');
+        // $this->historyEntry($user, $auth, 'user_role', 'user user_role has been changed from');
+        // $this->historyEntry($user, $auth, 'contact_no', 'user contact_no has been changed from');
+        // $this->historyEntry($user, $auth, 'profile', 'user profile has been changed from');
+
+    }
+
+
+    private function historyEntry($user, $auth, $field, $label){
+        if ($user->isDirty($field)){
+            History::create([
+                'historable_type' => User::class,
+                'historable_id' => $user->id,
+                'change_type'=>"UPDATE",
+                'description' => "{$user->getOriginal($field)} $label {$user->getOriginal($field)} to {$user->$field}.",
             ]);
         }
     }

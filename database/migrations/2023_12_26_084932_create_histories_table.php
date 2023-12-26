@@ -16,8 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('historable_id');
             $table->string('historable_type');
             $table->string('change_type');
-            $table->string('old_value');
-            $table->string('new_value');
+            $table->string('description');
             $table->timestamps();
 
         });

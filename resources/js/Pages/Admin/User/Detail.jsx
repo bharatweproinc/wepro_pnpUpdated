@@ -16,7 +16,6 @@ export default function Detail({ data, auth, salary ,leave ,history }) {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-    console.log(history ,'historyyy');
 
     return (
         <AuthenticatedLayout user={auth.user}>
