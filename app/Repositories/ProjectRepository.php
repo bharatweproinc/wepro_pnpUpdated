@@ -5,6 +5,7 @@ use App\Models\Project;
 use App\Models\Developer;
 use App\Models\User;
 use App\Models\Task;
+use App\Models\History;
 use App\Models\Image;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -157,8 +158,9 @@ class ProjectRepository implements ProjectInterface
                 ->pluck('assignable_id');
 
             $status = Task::whereIn('id', $task_id)->where('status', 'started')->get();
+            $history = History::where('historable_id',$id)->where('historable_type','App\Models\Project')->get();
             return [
-                $data , $user , $task ,$status
+                $data , $user , $task ,$status ,$history
                ];
         }
         else if($role == "project manager")

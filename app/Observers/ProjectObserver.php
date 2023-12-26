@@ -1,65 +1,67 @@
 <?php
 
 namespace App\Observers;
+use App\Models\Project;
+use App\Models\History;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectObserver
 {
-
-    public function updating(User $user)
+    public function created(Project $project)
     {
-        if ($user->isDirty('email')) {
-            $oldEmail = $user->getOriginal('email');
+        History::create([
+            'historable_id'=>$project->id,
+            'historable_type'=>Project::class,
+            'change_type'=>'CREATE',
+            'description'=> $project->id." Project created successfully.",
+        ]);
+    }
+
+    public function updating(Project $project)
+    {
+        if ($project->isDirty('title')) {
+            $oldTitle = $project->getOriginal('title');
 
             History::create([
-                'historable_id' => $user->id,
+                'historable_id' => $project->id,
                 'historable_type' => Project::class,
                 'change_type' => 'UPDATE',
-                'old_value' => $oldEmail,
-                'new_value' => $user->email,
+                'description' =>'Project title has been changed from ' .$oldTitle .' to '.$project->title,
             ]);
         }
-        else if ($user->isDirty('name')) {
-            $oldName = $user->getOriginal('name');
+        else if ($project->isDirty('description')) {
+            $oldDescription = $project->getOriginal('description');
 
             History::create([
-                'historable_id' => $user->id,
+                'historable_id' => $project->id,
                 'historable_type' => Project::class,
                 'change_type' => 'UPDATE',
-                'old_value' => $oldName,
-                'new_value' => $user->name,
+                'description' =>'Project title has been changed from' .$oldDescription .'to'.$project->description,
             ]);
         }
-        else if ($user->isDirty('contact_no')) {
-            $oldPhone = $user->getOriginal('contact_no');
+        else if ($project->isDirty('manager')) {
+            $oldManager = $project->getOriginal('manager');
 
             History::create([
-                'historable_id' => $user->id,
+                'historable_id' => $project->id,
                 'historable_type' => Project::class,
                 'change_type' => 'UPDATE',
-                'old_value' => $oldPhone,
-                'new_value' => $user->contact_no,
+                'description' =>'Project title has been changed from' .$oldManager .'to'.$project->manager,
+
             ]);
         }
-        else if ($user->isDirty('user_role')) {
-            $oldRole = $user->getOriginal('user_role');
+        else if ($project->isDirty('developer')) {
+            $oldDeveloper = $project->getOriginal('developer');
 
             History::create([
-                'historable_id' => $user->id,
+                'historable_id' => $project->id,
                 'historable_type' => Project::class,
                 'change_type' => 'UPDATE',
-                'old_value' => $oldRole,
-                'new_value' => $user->user_role,
+                'description' =>'Project title has been changed from ' .$oldDeveloper .' to '.$project->developer,
+
             ]);
         }
-        else if ($user->isDirty('profile')) {
-            $oldProfile = $user->getOriginal('profile');
-            History::create([
-                'historable_id' => $user->id,
-                'historable_type' => Project::class,
-                'change_type' => 'UPDATE',
-                'old_value' => $oldProfile,
-                'new_value' => $user->profile,
-            ]);
-        }
+
+
     }
 }

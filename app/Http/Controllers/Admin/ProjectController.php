@@ -57,8 +57,9 @@ class ProjectController extends Controller
        $user = $allData[1];
        $task = $allData[2];
        $status = $allData[3];
+       $history = $allData[4];
        return Inertia::render('Admin/Project/Detail',
-        ['data' => $data, 'user' => $user,'task'=>$task ,'updated'=>$status]);
+        ['data' => $data, 'user' => $user,'task'=>$task ,'updated'=>$status ,'history'=>$history]);
     }
 
 

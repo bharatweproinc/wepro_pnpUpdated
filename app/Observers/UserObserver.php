@@ -14,7 +14,7 @@ class UserObserver
             'historable_id'=>$user->id,
             'historable_type'=>User::class,
             'change_type'=>'CREATE',
-            'description'=> $user->id." user created successfully.",
+            'description'=> $user->name." user created successfully.",
         ]);
     }
 
@@ -27,7 +27,7 @@ class UserObserver
                 'historable_id' => $user->id,
                 'historable_type' => User::class,
                 'change_type' => 'UPDATE',
-                'description' =>'user email has been changed from' .$oldEmail .'to'.$user->email,
+                'description' =>'user email has been changed from ' .$oldEmail .' to '.$user->email,
             ]);
         }
         else if ($user->isDirty('name')) {
@@ -37,7 +37,7 @@ class UserObserver
                 'historable_id' => $user->id,
                 'historable_type' => User::class,
                 'change_type' => 'UPDATE',
-                'description' =>'user email has been changed from' .$oldName .'to'.$user->name,
+                'description' =>'user email has been changed from ' .$oldName .' to '.$user->name,
             ]);
         }
         else if ($user->isDirty('contact_no')) {
@@ -47,7 +47,7 @@ class UserObserver
                 'historable_id' => $user->id,
                 'historable_type' => User::class,
                 'change_type' => 'UPDATE',
-                'description' =>'user email has been changed from' .$oldPhone .'to'.$user->contact_no,
+                'description' =>'user email has been changed from ' .$oldPhone .' to '.$user->contact_no,
 
             ]);
         }
@@ -58,7 +58,7 @@ class UserObserver
                 'historable_id' => $user->id,
                 'historable_type' => User::class,
                 'change_type' => 'UPDATE',
-                'description' =>'user email has been changed from' .$oldRole .'to'.$user->user_role,
+                'description' =>'user email has been changed from ' .$oldRole .' to '.$user->user_role,
 
             ]);
         }
@@ -69,7 +69,7 @@ class UserObserver
                 'historable_id' => $user->id,
                 'historable_type' => User::class,
                 'change_type' => 'UPDATE',
-                'description' =>'user email has been changed from' .$oldProfile .'to'.$user->profile,
+                'description' =>'user email has been changed from ' .$oldProfile .' to '.$user->profile,
 
             ]);
         }

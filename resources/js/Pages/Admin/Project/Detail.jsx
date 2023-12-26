@@ -7,10 +7,10 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import View from "../Task/View";
-import History from "../../../Components/Common/Project/History";
 import Details from "@/Components/Common/Project/Details";
+import History from "@/Components/Common/History";
 
-export default function Detail({ data, auth, user, task ,updated }) {
+export default function Detail({ data, auth, user, task ,updated ,history}) {
     const [value, setValue] = React.useState("1");
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -25,14 +25,7 @@ export default function Detail({ data, auth, user, task ,updated }) {
          <div className="py-12">
             <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                            <Box
-                                sx={{
-                                    flexGrow: 10,
-                                    margin: "3%",
-                                    background: "white",
-                                    boxShadow: "2px 2px 2px 2px #e3e1da",
-                                }}
-                            >
+                            <Box>
                                 <TabContext value={value}>
                                     <TabList onChange={handleChange} className="px-3">
                                         <Tab label="Details" value="1" style={{ fontWeight:"bold"}}/>
@@ -49,7 +42,7 @@ export default function Detail({ data, auth, user, task ,updated }) {
                                     </TabPanel>
 
                                     <TabPanel value="3">
-                                        <History data={data} auth={auth}/>
+                                        <History data={data} auth={auth} history={history}/>
                                     </TabPanel>
                                 </TabContext>
                             </Box>
