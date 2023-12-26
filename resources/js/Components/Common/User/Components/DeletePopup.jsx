@@ -51,7 +51,7 @@ export default function DeletePopup({auth, id ,user }) {
     return (
         <>
         {alert && <SuccessMsg severity={severity} error={msg} setError={setMsg} title={msg}/>}
-            <IconButton aria-label="delete" onClick={handleClick} disabled={user.user_role=="admin" ? true :false}>
+            <IconButton aria-label="delete" onClick={handleClick} disabled={(user.user_role=="admin" && auth.user.user_role == "hr manager") ? true :false}>
                 <DeleteIcon color="error" />
             </IconButton>
             <Dialog

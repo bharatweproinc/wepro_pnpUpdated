@@ -38,12 +38,13 @@ const style = {
 };
 
 export default function Create({ auth ,Id ,user}) {
+    console.log(Id,'iddd');
     const [open, setOpen] = useState(false);
     const [alert,setAlert] = useState(false);
     const [severity,setSeverity] = useState(null);
     const [effect,setEffect] = useState(false);
     const [expand ,setExpand] = useState(user?.length > 0 ? true :false);
-    const [unique ,setUnique] = useState(Id);
+    const [unique ,setUnique] = useState(Id.user_id);
     const handleOpen=(e)=>setOpen(true);
 
     const { data, setData, get, post, processing, errors, reset } = useForm({

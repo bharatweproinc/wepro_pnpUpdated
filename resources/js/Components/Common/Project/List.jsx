@@ -63,24 +63,19 @@ export default function List({ data, auth, developer, manager ,status}) {
 
     return (
         <>
-        <Box mb={2}>
+
             <div
-                style={{
-                    margin: "10px",
-                    display: "flex",
-                    justifyContent: "end",
-                }}
+                style={{paddingBottom: "10px", display: "flex", justifyContent: "end",}}
             >
                 {
                     auth.user.user_role=="admin" &&
                     <Create
                     developer={developer}
                     manager={manager}
-                />
+                    />
                 }
-
             </div>
-        </Box>
+
 
         <TableContainer
             sx={{

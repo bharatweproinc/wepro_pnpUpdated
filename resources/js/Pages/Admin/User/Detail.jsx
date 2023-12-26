@@ -11,12 +11,12 @@ import History from "@/Components/Common/User/History";
 import View from "./Leave/View";
 import Details from "@/Components/Common/Salary/Detail";
 
-export default function Detail({ data, auth, salary ,leave }) {
+export default function Detail({ data, auth, salary ,leave ,history }) {
     const [value, setValue] = React.useState("1");
-
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+    console.log(history ,'historyyy');
 
     return (
         <AuthenticatedLayout user={auth.user}>

@@ -49,7 +49,7 @@ export default function List({ data, auth}) {
                 {(auth.user.user_role == "admin" || auth.user.user_role == "hr manager") && ( <Create Id={data[0]} auth={auth} user={""}/> )}
             </div>
 
-            <TableContainer sx={{ padding: "10px", border: "2px solid whitesmoke", background: "rgba(0,0,0,0.02)", }}>
+            <TableContainer sx={{ padding: "10px", border: "1px solid whitesmoke", background: "rgba(0,0,0,0.02)", }}>
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>

@@ -53,4 +53,9 @@ class User extends Authenticatable
     public function project(){
         return $this->belongsToMany(Project::class,'projects' ,'id' ,'id');
     }
+
+    public function histories()
+    {
+        return $this->morphMany(History::class, 'historable');
+    }
 }

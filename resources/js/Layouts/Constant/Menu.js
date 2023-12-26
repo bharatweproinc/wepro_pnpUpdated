@@ -83,7 +83,7 @@ const Menu =  {
     ],
     "project manager":[
         {
-            title: 'Dashboard',
+            title: 'My Account',
             route: "projectManager.dashboard",
             active: [
                 "projectManager.dashboard",
@@ -113,7 +113,7 @@ const Menu =  {
     ],
     "junior developer": [
         {
-            title: 'Dashboard',
+            title: 'My Account',
             route: "developer.dashboard",
             active: ["developer.dashboard"],
         },
@@ -137,7 +137,7 @@ const Menu =  {
     "senior developer": [
 
         {
-            title: 'Dashboard',
+            title: 'My Account',
             route: "developer.dashboard",
             active: ["developer.dashboard"],
         },

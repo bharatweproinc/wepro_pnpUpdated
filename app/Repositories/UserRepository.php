@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
 use App\Models\Leave;
+use App\Models\History;
+
 
 
 class UserRepository implements UserInterface
@@ -68,7 +70,7 @@ class UserRepository implements UserInterface
             ]);
             $user = User::findOrFail($id);
             $user->update($data);
-            if(isset($data['profile']) && array_key_exists('profile',$data) ){
+            if(isset($data['profile']) && array_key_exists('profile',$data) && is_array($data['profile'])){
                 $profileImage =  $data['profile'];
                 $profileName = uniqid().'_'.time().'_'.$profileImage->getClientOriginalName();
                 $profileImagePath = $profileImage->storeAs('profile', $profileName . $id . '.' . $profileImage->getClientOriginalExtension(),'public');
@@ -96,7 +98,8 @@ class UserRepository implements UserInterface
         foreach($leave as $key => $val){
             $leave[$key]['file'] = asset('storage/'.$val->file);
          }
-        return [ $data ,$salary ,$leave];
+        $history = History::where('historable_id',$id)->where('historable_type','App\Models\User')->get();
+        return [ $data ,$salary ,$leave ,$history];
     }
 
     public function delete($id)

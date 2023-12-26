@@ -45,8 +45,9 @@ class UserController extends Controller
     public function save(UserRequest $request)
     {
         $response = $this->userRepository->save($request);
-        $id = $response['data']['id'];
+
         if($response['success']) {
+            $id = $response['data']['id'];
             if($response['data']['user_role'] === 'admin'){
                 return Redirect::back();
             }
@@ -81,7 +82,8 @@ class UserController extends Controller
         $data = $items[0];
         $salary = $items[1];
         $leave = $items[2];
-        return Inertia::render('Admin/User/Detail',['data'=>$data ,'salary'=>$salary ,'leave'=>$leave]);
+        $history = $items[3];
+        return Inertia::render('Admin/User/Detail',['data'=>$data ,'salary'=>$salary ,'leave'=>$leave ,'history'=>$history]);
     }
 
 
