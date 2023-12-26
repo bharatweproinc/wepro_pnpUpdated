@@ -72,7 +72,13 @@ const Menu =  {
                 "hrManager.project.task.list",
 
             ]
-        },
+        },{
+            title: "Leave",
+            route:"hrManager.leave.list",
+            active : [
+                "hrManager.leave.list",
+            ]
+        }
 
     ],
     "project manager":[
@@ -97,6 +103,13 @@ const Menu =  {
 
             ],
         },
+        {
+            title: "Leave",
+            route:"projectManager.leave.list",
+            active : [
+                "projectManager.leave.list",
+            ]
+        }
     ],
     "junior developer": [
         {
@@ -113,6 +126,13 @@ const Menu =  {
                 "developer.project.task.detail"
             ],
         },
+        {
+            title: "Leave",
+            route:"developer.leave.list",
+            active : [
+                "developer.leave.list",
+            ]
+        }
     ],
     "senior developer": [
 
@@ -130,6 +150,13 @@ const Menu =  {
                 "developer.project.task.detail"
             ],
         },
+        {
+            title: "Leave",
+            route:"developer.leave.list",
+            active : [
+                "developer.leave.list",
+            ]
+        }
     ],
 
 };

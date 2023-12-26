@@ -8,7 +8,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import Details from "@/Components/Common/Project/Details";
 import View from "../Task/View";
 
-export default function ProjectDetail({ data, auth, user, task }) {
+export default function ProjectDetail({ data, auth, user, task ,status}) {
     const [value, setValue] = React.useState("1");
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -40,8 +40,7 @@ export default function ProjectDetail({ data, auth, user, task }) {
                     </TabPanel>
 
                     <TabPanel value="2">
-                        {/* <List data={task} Id={id} developer={user} /> */}
-                        <View data={task} Id={id} developer={user} auth={auth}/>
+                        <View data={task} Id={id} developer={user} auth={auth} status={status}/>
                     </TabPanel>
 
                 </TabContext>

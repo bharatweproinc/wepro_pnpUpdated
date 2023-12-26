@@ -138,8 +138,8 @@ class ProjectRepository implements ProjectInterface
 
     public function detail($id)
     {
-        $user = Auth::user();
-        $role = $user->user_role;
+        $auth = Auth::user();
+        $role = $auth->user_role;
 
         if($role === "admin" || $role === "hr manager"){
             $data = Project::findOrFail($id);
@@ -170,8 +170,15 @@ class ProjectRepository implements ProjectInterface
             $dev = array_map('intval', $developer);
             $user = User::whereIn('id', $dev)->get();
             $task = Task::where(['project_id'=>$id])->get();
+
+            $user_id = $auth->id;
+            $task_id = Developer::where('assignable_type', 'App\Models\Task')
+                ->where('developer_id', 'like', '%' . $user_id . '%')
+                ->pluck('assignable_id');
+            $status = Task::whereIn('id', $task_id)->where('status', 'started')->get();
+
            return [
-            $data , $user , $task
+            $data , $user , $task ,$status
            ];
         }
         else if($role === "junior developer" || $role === "senior developer" ){
@@ -181,7 +188,6 @@ class ProjectRepository implements ProjectInterface
             $developer = str_replace(array('[', ']', '"'),'',$developer);
             $dev = array_map('intval', $developer);
             $user = User::whereIn('id', $dev)->get();
-
             $auth = Auth::user();
             $user_id = $auth->id;
             $task_id = Developer::where('assignable_type', 'App\Models\Task')->where('developer_id', 'like', '%' . $user_id . '%')->pluck('assignable_id');

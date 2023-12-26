@@ -79,7 +79,7 @@ export default function Create({ developer, Id ,auth }) {
                 setSeverity('error');
             },
         })
-           :
+           :auth.user.user_role == "project manager" &&
            post(route("projectManager.project.task.save", { id: Id }),{
             onSuccess: ( )=> {
                 setSeverity('success');

@@ -1,18 +1,15 @@
-import List from "@/Components/Common/Project/List";
+import List from "@/Components/Common/AllLeaves/List";
+import Create from "@/Components/Common/User/Leaves/Create";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import {
-    Alert,
+import { Alert,} from "@mui/material";
 
-} from "@mui/material";
-
-
-export default function View({ data, auth, developer, manager ,status }) {
+export default function View({ leave ,auth ,user}) {
     return (
         <AuthenticatedLayout user={auth.user}>
-            <div className="py-3">
+            <div  className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg px-2 py-3">
-                        { data.data.length == 0 ? (
+                        { leave.data.length === 0 ? (
                             <>
                                 <Alert
                                     severity="info"
@@ -22,18 +19,14 @@ export default function View({ data, auth, developer, manager ,status }) {
                                             MarginTop: "9px",
                                         },
                                     }}
-                                    // action={<Create
-                                    //     developer={developer}
-                                    //     manager={manager}
-                                    // />}
+                                    action={(auth.user.user_role == "admin" || auth.user.user_role == "hr manager") && ( <Create Id={leave} auth={auth} user={user}/> )}
                                 >
-                                    Project Not Found !
+                                    Leaves Not Found ! You can create a Leave ...
                                 </Alert>
                             </>
                         ) : (
                             <>
-
-                                <List data={data} developer={developer} manager={manager} auth={auth} status={status}/>
+                            <List leave={leave.data} auth={auth} user={user}/>
                             </>
                         )}
                     </div>
@@ -42,5 +35,3 @@ export default function View({ data, auth, developer, manager ,status }) {
         </AuthenticatedLayout>
     );
 }
-
-

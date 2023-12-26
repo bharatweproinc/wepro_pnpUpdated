@@ -83,7 +83,7 @@ export default function Create({ auth ,Id ,user}) {
                         setSeverity('error');
                     }
                   })
-                : post(route("hrManager.user.leave.save",{id:Id}), {
+                : post(route("hrManager.user.leave.save",{id:unique}), {
                       onSuccess: () => {
                           setAlert('Leave Created successfully.');
                           setOpen(false);
@@ -393,7 +393,7 @@ export default function Create({ auth ,Id ,user}) {
                                     )}
                                     {
                                        expand &&
-                                        <div className="mt-4">
+                                    <div className="mt-4">
                                         <InputLabel
                                             htmlFor="File"
                                             value="Select User"
@@ -414,7 +414,7 @@ export default function Create({ auth ,Id ,user}) {
                                             }
                                         </select>
 
-                                </div>
+                                    </div>
                                     }
 
                                     <div className="mt-4">

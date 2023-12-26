@@ -14,12 +14,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Developer\DeveloperDashboardController;
 use App\Http\Controllers\Developer\DeveloperProjectController;
 use App\Http\Controllers\Developer\DeveloperTaskController;
+use App\Http\Controllers\Developer\DeveloperLeaveController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use Inertia\Inertia;
 use App\Http\Controllers\ProjectManager\DashboardController;
 use App\Http\Controllers\ProjectManager\ManagerProjectController;
 use App\Http\Controllers\ProjectManager\ManagerTaskController;
-
+use App\Http\Controllers\ProjectManager\ManagerLeaveController;
 use App\Http\Controllers\HRManager\HrDashboardController;
 use App\Http\Controllers\HRManager\HrUserController;
 use App\Http\Controllers\HRManager\HrSalaryController;
@@ -135,6 +136,9 @@ Route::prefix('project-manager')->name('projectManager.')->middleware(['auth', '
             Route::post('/status/{id}','status')->name('status');
         });
     });
+    Route::prefix('leave')->name('leave.')->controller(ManagerLeaveController::class)->group(function (){
+        Route::get('/list','list')->name('list');
+    });
 
 
 });
@@ -163,6 +167,11 @@ Route::prefix('hr-manager')->name('hrManager.')->middleware(['auth', 'role:hr ma
             Route::get('/detail/{id}','details')->name('detail');
         });
     });
+
+    Route::prefix('leave')->name('leave.')->controller(HrLeaveController::class)->group(function (){
+        Route::get('/list','list')->name('list');
+    });
+
     Route::prefix('project')->name('project.')->controller(HrProjectController::class)->group( function () {
         Route::get('list','list')->name('list');
         Route::get('/detail/{id}','detail')->name('detail');
@@ -187,6 +196,9 @@ Route::prefix('developer')->name('developer.')->middleware(['auth', 'role:develo
                 Route::get('list','list')->name('list');
                 Route::post('/status/{id}','status')->name('status');
             });
+        });
+        Route::prefix('leave')->name('leave.')->controller(DeveloperLeaveController::class)->group(function (){
+            Route::get('/list','list')->name('list');
         });
 });
 

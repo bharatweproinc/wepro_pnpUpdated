@@ -20,7 +20,7 @@ import AddIcon from "@mui/icons-material/Add";
 import Create from "@/Pages/Admin/Project/Create";
 import Edit from "@/Pages/Admin/Project/Edit";
 
-export default function List({ data, auth, developer, manager}) {
+export default function List({ data, auth, developer, manager ,status}) {
     const { setData, get, processing, errors, setError } = useForm();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);

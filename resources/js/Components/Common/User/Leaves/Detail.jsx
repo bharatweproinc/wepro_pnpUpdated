@@ -70,8 +70,14 @@ export default function Details({ data, auth }) {
                            Status
                         </Typography>
                         <Typography className="capitalize">
-                            <Chip sx={{backgroundColor:LeaveStyle.LeaveReason[data.status].color}} label={data.status} />
-                        </Typography>
+                        <Chip
+                            color={LeaveStyle.LeaveReason[data.status]?.color}
+                            label={data.status}
+                            size="small"
+                            onDelete={()=>{}}
+                            deleteIcon={LeaveStyle.LeaveReason[data.status]?.icon}
+                        />
+                       </Typography>
                     </Grid>
 
                 {data.status=='denied' &&
@@ -103,7 +109,7 @@ export default function Details({ data, auth }) {
                         </Typography>
                         <Typography className="capitalize">
                             {/* <a href={data.file} target="_blank"> */}
-                                <img src={data.file} alt="leave file" style={{ maxHeight:'200px' ,maxWidth:'200px' }}/>
+                                <img src={data.file} alt="leave file" style={{ width: '200px', height: '150px' }}/>
                             {/* </a> */}
                         </Typography>
                     </Grid>

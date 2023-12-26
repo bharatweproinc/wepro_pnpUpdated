@@ -21,7 +21,9 @@ class HrLeaveController extends Controller
     public function list()
     {
         $leaves = $this->leaveRepository->getlist();
-        return Inertia::render('Admin/Leave/View',['leave'=>$leaves]);
+        $leave = $leaves[0];
+        $user = $leaves[1];
+        return Inertia::render('HRManager/AllLeaves/View',['leave'=>$leave ,'user'=>$user]);
     }
 
     public function save(Request $request ,$id)

@@ -61,7 +61,7 @@ export default function UserDetail({ data ,auth }) {
             <Grid container className="px-3">
                 <Grid item xs={4}>
                     <Typography sx={{ fontWeight: "bold",paddingBottom:'10px' }}>Profile Image </Typography>
-                    <img src= {data.profile} alt="Profile Image" height={'200px'} width={'200px'}/>
+                    <img src= {data.profile} alt="Profile Image" style={{ width: '200px', height: '150px' }}/>
                 </Grid>
             </Grid>
         </Box>

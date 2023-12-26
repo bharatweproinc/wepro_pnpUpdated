@@ -66,10 +66,10 @@ export default function Create({ auth }) {
       }, [data.gross_salary, data.tax_deducted]);
 
       const handleChange = (e) => {
-        // setError({
-        //     ...errors,
-        //     [e.target.name]:Joi.validateToPlainErrors(e.target.value,SalaryValidation.Salary_Schema[e.target.name])
-        // });
+        setError({
+            ...errors,
+            [e.target.name]:Joi.validateToPlainErrors(e.target.value,SalaryValidation.Salary_Schema[e.target.name])
+        });
         setData(e.target.name, e.target.value);
       };
 

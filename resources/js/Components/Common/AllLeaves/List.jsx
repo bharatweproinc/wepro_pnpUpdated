@@ -52,7 +52,8 @@ export default function List({ leave, auth, user}) {
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell sx={{ fontWeight: "bold" }}>User ID </TableCell>
+                            <TableCell sx={{ fontWeight: "bold" }}>Id</TableCell>
+                            <TableCell sx={{ fontWeight: "bold" }}>Name</TableCell>
                             <TableCell sx={{ fontWeight: "bold" }}> Subject </TableCell>
                             <TableCell sx={{ fontWeight: "bold" }}>Requested Date </TableCell>
                             <TableCell sx={{ fontWeight: "bold" }}> Status </TableCell>
@@ -65,7 +66,13 @@ export default function List({ leave, auth, user}) {
                                 return (
                                     <>
                                         <TableRow key={j + 1}>
-                                            <TableCell>{item.user_id}</TableCell>
+                                            <TableCell>{item.id}</TableCell>
+                                            <TableCell>{
+                                                user.map((info)=>{
+                                                    return (  info.id === item.user_id  && info.name)
+                                                })
+                                            }
+                                            </TableCell>
                                             <TableCell className="capitalize">
                                                 {item.subject}
                                             </TableCell>
@@ -93,7 +100,7 @@ export default function List({ leave, auth, user}) {
                                                 &emsp;
                                                 {
                                                     (auth.user.user_role == "admin" || auth.user.user_role == "hr manager") && (item.status !== 'approved') &&
-                                                    <Edit item={item} auth={auth}/>
+                                                    <Edit item={item} auth={auth} user={user}/>
                                                 }
                                             </TableCell>
                                         </TableRow>

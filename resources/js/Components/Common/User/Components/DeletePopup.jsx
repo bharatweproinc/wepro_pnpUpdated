@@ -17,15 +17,27 @@ export default function DeletePopup({auth, id ,user }) {
     const [severity ,setSeverity] = useState(null);
     const { data, setData, post, processing, errors, setError } = useForm();
     const handleDelete = (id) => {
-        post(route("admin.user.delete", { id }),{
-            onSuccess:()=>{
-                setMsg("Delete Successfull .")
-                setSeverity('success')
-            },onError:(error)=>{
-                setMsg(error.error)
-                setSeverity('error')
-            }
-        });
+        {
+            auth.user.user_role =="admin" ?
+            post(route("admin.user.delete", { id }),{
+                onSuccess:()=>{
+                    setMsg("Delete Successfull .")
+                    setSeverity('success')
+                },onError:(error)=>{
+                    setMsg(error.error)
+                    setSeverity('error')
+                }
+            }):auth.user.user_role =="hr manager" &&
+            post(route("hrManager.user.delete", { id }),{
+                onSuccess:()=>{
+                    setMsg("Delete Successfull .")
+                    setSeverity('success')
+                },onError:(error)=>{
+                    setMsg(error.error)
+                    setSeverity('error')
+                }
+            })
+    }
         handleClose();
     };
     const handleClick = () => {
@@ -39,7 +51,7 @@ export default function DeletePopup({auth, id ,user }) {
     return (
         <>
         {alert && <SuccessMsg severity={severity} error={msg} setError={setMsg} title={msg}/>}
-            <IconButton aria-label="delete" onClick={handleClick} disabled={auth.user.user_role=="hr manager" ? true :false}>
+            <IconButton aria-label="delete" onClick={handleClick} disabled={user.user_role=="admin" ? true :false}>
                 <DeleteIcon color="error" />
             </IconButton>
             <Dialog

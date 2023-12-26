@@ -89,13 +89,14 @@ class UserRepository implements UserInterface
 
     public function detail($id)
     {
-
         $salary = Salary::where('user_id' ,$id)->get();
         $data = User::where('id',$id)->first();
+        $data['profile'] = asset('storage/'.$data['profile']);
         $leave = Leave::where('user_id',$id)->orderBy('created_at','desc')->get();
+        foreach($leave as $key => $val){
+            $leave[$key]['file'] = asset('storage/'.$val->file);
+         }
         return [ $data ,$salary ,$leave];
-
-
     }
 
     public function delete($id)

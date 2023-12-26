@@ -62,7 +62,11 @@ class HrUserController extends Controller
 
     public function delete($id)
     {
-        $this->userRepository->delete($id);
-        return back();
+        $response= $this->userRepository->delete($id);
+        if($response['success']) {
+            return back();
+        } else {
+            return Redirect::back()->withErrors($response);
+        }
     }
 }

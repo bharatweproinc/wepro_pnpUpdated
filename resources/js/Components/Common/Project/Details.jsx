@@ -72,7 +72,7 @@ export default function Details({ user, data, auth ,updated}) {
                     </Grid>
                     <Grid item xs={4}>
                         <Typography sx={{ fontWeight: "bold" }}>
-                            Prject Manager
+                            Project Manager
                         </Typography>
                         <Typography className="capitalize">
                             <Chip color="success" label={data.project_manager} />

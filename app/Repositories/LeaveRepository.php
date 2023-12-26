@@ -4,7 +4,7 @@ namespace App\Repositories;
 use App\Interfaces\LeaveInterface;
 use App\Models\Leave;
 use App\Models\User;
-
+use Illuminate\Support\Facades\Auth;
 
 
 class LeaveRepository implements LeaveInterface
@@ -51,5 +51,16 @@ class LeaveRepository implements LeaveInterface
             Leave::where('user_id',$id)->update(['file'=>asset('storage/'.$filePath)]);
         }
         return true;
+    }
+
+    public function userList()
+    {
+        $auth = Auth::user();
+        $id = $auth->id;
+        $leave = Leave::where('user_id',$id)->orderBy('created_at','desc')->paginate(10);
+        foreach($leave as $key => $val){
+            $leave[$key]['file'] = asset('storage/'.$val->file);
+         }
+        return [$leave];
     }
 }

@@ -25,7 +25,8 @@ class ManagerTaskController extends Controller
         $data = $items[0];
         $id = $items[1];
         $developers = $items[2];
-        return Inertia::render('ProjectManager/Task/List',['data'=>$data,'Id'=>$id ,'developer'=>$developers]);
+        $status = $status[3];
+        return Inertia::render('ProjectManager/Task/List',['data'=>$data,'Id'=>$id ,'developer'=>$developers ,'status'=>$status]);
  }
 
     public function save (Request $request,$id ){

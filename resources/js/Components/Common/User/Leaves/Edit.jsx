@@ -17,7 +17,6 @@ import {
     Radio,
     RadioGroup,
     Typography,
-    TextField,
 } from "@mui/material";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
@@ -40,14 +39,15 @@ const style = {
     display:'block',
 };
 
-export default function Edit({item,auth}){
+export default function Edit({item,auth,user}){
 
         const [open, setOpen] = useState(false);
         const [alert,setAlert] = useState(false);
         const [severity,setSeverity] = useState(null);
         const [effect ,setEffect] = useState(false);
         const handleOpen = () => setOpen(true);
-
+        const [unique ,setUnique] = useState(item.id);
+        const [expand ,setExpand] = useState(user?.length > 0 ? true :false);
 
         const { data, setData, get, post, processing, errors, reset } = useForm({
             subject:item.subject,
@@ -57,7 +57,10 @@ export default function Edit({item,auth}){
             status: item.status,
             reason: item.reason,
             days:item.days,
+            file:item?.file,
+            user:item?.user_id,
         });
+        console.log(item,item.user_id,'userrr');
 
         const handleClose = () => {
             setOpen(false);
@@ -72,6 +75,8 @@ export default function Edit({item,auth}){
                 to_date: item.to_date,
                 status: item.status,
                 reason: item.reason,
+                file:item?.file,
+                user:item?.user,
             }))
         },[item]);
 
@@ -81,12 +86,16 @@ export default function Edit({item,auth}){
             setEffect(false);
         },[effect]);
 
+        const handleUser = (e) => {
+            setData('user',e.target.value);
+            setUnique(e.target.value);
+        }
         const submit = (e) => {
-            e.itementDefault();
+            e.preventDefault();
 
             {
                 auth.user.user_role === "admin"
-                    ? post(route("admin.user.leave.update",{id:item.id}), {
+                    ? post(route("admin.user.leave.update",{id:unique}), {
                           onSuccess: () => {
                               setAlert("Leave Updated.")
                               setOpen(false);
@@ -96,7 +105,8 @@ export default function Edit({item,auth}){
                             setSeverity('error');
                         }
                       })
-                    : post(route("hrManager.user.leave.update",{id:item.id}), {
+                    :  auth.user.user_role === "hr manager" &&
+                       post(route("hrManager.user.leave.update",{id:unique}), {
                           onSuccess: () => {
                               setAlert("Leave Updated.");
                               setOpen(false);
@@ -433,6 +443,49 @@ export default function Edit({item,auth}){
                                                 />
                                             </div>
                                         }
+
+                                    {
+                                       expand &&
+                                    <div className="mt-4">
+                                        <InputLabel
+                                            htmlFor="File"
+                                            value="Select User"
+                                            style={{
+                                                fontSize: "15px",
+                                                fontWeight: "bold",
+                                            }}
+                                        />
+                                        <select value={data.user} onChange={handleUser} className="w-full block" required>
+                                            <option>Select User</option>
+                                            {
+                                                user?.map((name,index)=>{
+                                                    return (
+                                                           ( name.user_role !="admin") &&
+                                                            <option value={name.id} key={index} label={name.name}>{name.name}</option>
+                                                    );
+                                                })
+                                            }
+                                        </select>
+
+                                    </div>
+                                    }
+
+                                    <div className="mt-4">
+                                            <InputLabel
+                                                htmlFor="File"
+                                                value="Upload File"
+                                                style={{
+                                                    fontSize: "15px",
+                                                    fontWeight: "bold",
+                                                }}
+                                            />
+                                           <input type="file" onChange={e => setData('file', e.target.files[0])}/>
+                                            <InputError
+                                                message={errors.file}
+                                                className="mt-2"
+                                            />
+                                    </div>
+
 
                                         <div className="flex items-center justify-center m-8">
                                         <Button

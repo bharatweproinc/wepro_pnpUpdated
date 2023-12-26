@@ -24,12 +24,8 @@ export default function View({  auth,data, Id, developer}) {
                                                 MarginTop: '9px',
                                               },
                                          }}
-                                         action={
-                                            <Create developer={developer} Id={Id} auth={auth}/>
-                                          }
                                     >
-                                        No task found for this project ,you can
-                                        Create a new task!
+                                        No task found for this project !
                                     </Alert>
                                 </div>
                             </div>

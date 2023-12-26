@@ -25,7 +25,6 @@ export default function List({ auth, developer, Id, data ,updated}) {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const { item, setItem, get, post, processing, errors, reset } = useForm();
 
-    console.log(updated,'updated');
 
     const toggleRow = (id) => {
         if (expandedRows.includes(id)) {
@@ -47,7 +46,7 @@ export default function List({ auth, developer, Id, data ,updated}) {
     return (
         <>
             <div style={{ display: "flex", justifyContent: "end",paddingBottom:'10px'}} >
-                {auth.user.user_role == "admin" && ( <Create developer={developer} Id={Id} auth={auth} /> )}
+                {(auth.user.user_role === "admin" || auth.user.user_role == "project manager")  && ( <Create developer={developer} Id={Id} auth={auth} /> )}
             </div>
 
             <TableContainer sx={{ padding: "10px", border: "2px solid whitesmoke", background: "rgba(0,0,0,0.02)", }}>
@@ -98,7 +97,7 @@ export default function List({ auth, developer, Id, data ,updated}) {
 
                                                 </IconButton>
                                                 &emsp;
-                                                { auth.user.user_role == "admin" && (
+                                                { (auth.user.user_role == "admin" || auth.user.user_role == "project manager") && (
                                                     <Edit
                                                             devId={item.developer_id}
                                                             developer={developer }
