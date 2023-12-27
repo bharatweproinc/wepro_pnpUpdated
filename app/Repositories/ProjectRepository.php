@@ -152,11 +152,13 @@ class ProjectRepository implements ProjectInterface
             $task = Task::where(['project_id'=>$id])->get();
             $auth = Auth::user();
 
-            $user_id = $auth->id;
-            $task_id = Developer::where('assignable_type', 'App\Models\Task')
-                ->where('developer_id', 'like', '%' . $user_id . '%')
+            // $user_id = $auth->id;
+            // $task_id = Developer::where('assignable_type', 'App\Models\Project')
+            //     ->where('developer_id', 'like', '%' . $user_id . '%')
+            //     ->pluck('assignable_id');
+            $task_id = Developer::where('assignable_type', 'App\Models\TAsk')
+                ->where('project_id',$id)
                 ->pluck('assignable_id');
-
             $status = Task::whereIn('id', $task_id)->where('status', 'started')->get();
             $history = History::where('historable_id',$id)->where('historable_type','App\Models\Project')->get();
             return [
@@ -173,9 +175,8 @@ class ProjectRepository implements ProjectInterface
             $user = User::whereIn('id', $dev)->get();
             $task = Task::where(['project_id'=>$id])->get();
 
-            $user_id = $auth->id;
-            $task_id = Developer::where('assignable_type', 'App\Models\Task')
-                ->where('developer_id', 'like', '%' . $user_id . '%')
+            $task_id = Developer::where('assignable_type', 'App\Models\TAsk')
+                ->where('project_id',$id)
                 ->pluck('assignable_id');
             $status = Task::whereIn('id', $task_id)->where('status', 'started')->get();
 

@@ -14,9 +14,6 @@ export default function Detail({ data, auth, user, task,updated }) {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
-    console.log(updated,'updated');
-
     const url = window.location.pathname;
     const urlParts = url.split("/");
     const id = urlParts[urlParts.length - 1];

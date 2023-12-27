@@ -47,17 +47,13 @@ export default function Detail({ data, developer, auth, devId, updated }) {
     const pauseStatus = (item) => {
         {
             auth.user.user_role == "admin" ? (
-                router.post(route("admin.project.task.status", { id: updated[0].id }),item ,
-                { onSuccess: ()=>{ onSubmit()}})
+                router.post(route("admin.project.task.status", { id: updated[0].id }),item)
             ) : auth.user.user_role == "project manager" ? (
-                router.post(route("projectManager.project.task.status", { id: updated[0].id }),item,
-                { onSuccess: ()=>{ onSubmit()}})
+                router.post(route("projectManager.project.task.status", { id: updated[0].id }),item)
             ) : auth.user.user_role == "senior developer" ? (
-                router.post(route("developer.project.task.status", { id: updated[0].id }),item,
-                { onSuccess: ()=>{ onSubmit()}})
+                router.post(route("developer.project.task.status", { id: updated[0].id }),item)
             ) : auth.user.user_role == "junior developer" && (
-                router.post(route("developer.project.task.status", { id: updated[0].id }),item,
-                { onSuccess: ()=>{ onSubmit()}})
+                router.post(route("developer.project.task.status", { id: updated[0].id }),item)
             )
         }
     }
@@ -173,7 +169,7 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                                         aria-label="edit"
                                         onClick={handleStatus}
                                     >
-                                        <EditIcon color="primary"/>
+                                        <EditIcon/>
                                     </IconButton>
                                 )}
                             </div>

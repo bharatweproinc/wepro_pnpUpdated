@@ -48,7 +48,6 @@ export default function List({ auth, developer, Id, data ,updated}) {
             <div style={{ display: "flex", justifyContent: "end",paddingBottom:'10px'}} >
                 {(auth.user.user_role === "admin" || auth.user.user_role == "project manager")  && ( <Create developer={developer} Id={Id} auth={auth} /> )}
             </div>
-
             <TableContainer  sx={{ padding: "10px", border: "2px solid whitesmoke", background: "rgba(0,0,0,0.02)", }}>
                 <Table aria-label="simple table" size="small">
                     <TableHead>
@@ -68,57 +67,30 @@ export default function List({ auth, developer, Id, data ,updated}) {
                                     <>
                                         <TableRow key={j + 1}>
                                             <TableCell>{item.id}</TableCell>
+                                            <TableCell sx={{ textTransform: "capitalize" }}>{item.task_name}</TableCell>
+                                            <TableCell> <DateTimeFormat date={item.start_date}/> </TableCell>
+                                            <TableCell>{item.priority}</TableCell>
                                             <TableCell sx={{ textTransform: "capitalize" }}>
-                                                {item.task_name}
-                                            </TableCell>
-                                            <TableCell>
-                                                <DateTimeFormat
-                                                    date={item.start_date}
-                                                />
-                                            </TableCell>
-                                            <TableCell>
-                                                {item.priority}
-                                            </TableCell>
-                                            <TableCell sx={{ textTransform: "capitalize" }}>
-                                                <Chip
-                                                    label={item.status}
-                                                    sx={{
-                                                        backgroundColor:StatusStyle.ChipColor[item.status].color,
-                                                        color: "white",
-                                                    }}
-                                                />
+                                                <Chip label={item.status} sx={{backgroundColor:StatusStyle.ChipColor[item.status].color,color: "white",}}/>
                                             </TableCell>
                                             <TableCell>
                                                 <IconButton aria-label="detail">
-                                                    <VisibilityIcon
-                                                        onClick={() => toggleRow(item.id)}
-                                                        sx={{ color: "rgba(0, 0, 0, 0.54)",}}
-                                                    />
-
+                                                    <VisibilityIcon onClick={() => toggleRow(item.id)} sx={{ color: "rgba(0, 0, 0, 0.54)",}}/>
                                                 </IconButton>
                                                 &emsp;
-                                                { (auth.user.user_role == "admin" || auth.user.user_role == "project manager") && (
+                                                { (auth.user.user_role == "admin" || auth.user.user_role == "project manager") &&
                                                     <Edit
                                                             devId={item.developer_id}
                                                             developer={developer }
                                                             data={item}
                                                             auth={auth}
                                                     />
-                                                )}
+                                                }
                                             </TableCell>
                                         </TableRow>
                                         <TableRow>
-                                            <TableCell
-                                                colSpan={6}
-                                                sx={{
-                                                    py: 0,
-                                                    backgroundColor:"#80808024",
-                                                    px: {xs: "5px", md: "16px",},
-                                                }}
-                                            >
-                                                <Collapse
-                                                    in={expandedRows.includes(item.id)}  unmountOnExit
-                                                >
+                                            <TableCell colSpan={6} sx={{ py: 0, backgroundColor:"#80808024",px: {xs: "5px", md: "16px",}}}>
+                                                <Collapse in={expandedRows.includes(item.id)}  unmountOnExit>
                                                     <Detail
                                                         data={item}
                                                         developer={developer}
@@ -135,7 +107,6 @@ export default function List({ auth, developer, Id, data ,updated}) {
                     </TableBody>
                 </Table>
             </TableContainer>
-
             <TablePagination
                 rowsPerPageOptions={[5, 15, 25, 35, 50]}
                 component="div"

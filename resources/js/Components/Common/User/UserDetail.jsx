@@ -5,7 +5,6 @@ import { useForm } from "@inertiajs/react";
 import Edit from "./Edit";
 
 export default function UserDetail({ data ,auth }) {
-    console.log(data.profile,'data');
     return (
         <Box sx={{ backgroundColor: "#f7f7f7",borderRadius:'10px'}} className="pb-5">
             <Grid container >

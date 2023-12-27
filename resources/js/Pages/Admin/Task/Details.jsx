@@ -72,7 +72,7 @@ export default function Details({data ,developer}){
             </Grid>
             <Grid item xs={4}>
                 <Typography sx={{fontWeight:"bold"}}>Status</Typography>
-               {
+            {
                 isEdit ?
                 <Box component={'form'} onSubmit = {statusSubmit}>
                    <Select
@@ -107,13 +107,13 @@ export default function Details({data ,developer}){
                      />
                  </Typography>
                  <IconButton color="primary" aria-label="edit">
-                     <EditIcon color="primary" onClick={handleStatus}/>
+                     <EditIcon onClick={handleStatus}/>
                  </IconButton>
              </div>
-               }
-               {
+            }
+            {
                 state.status == 'Complete' && <StatusPopup/>
-               }
+            }
             </Grid>
        </Grid>
        <br/>

@@ -117,8 +117,8 @@ export default function Edit({ auth, user }) {
     return (
        <>
             {alert && <SuccessMsg severity={severity} error={alert} setError={setAlert} title={alert}/>}
-           <IconButton aria-label="edit" color="primary" onClick={handleOpen} disabled={(auth.user.user_role=="hr manager" && user.user_role =='admin') ? true :false} >
-                <EditIcon color={(auth.user.user_role =="hr manager" && user.user_role=='admin') ? 'error' : 'info'}/>
+           <IconButton aria-label="edit" color={(auth.user.user_role =="hr manager" && user.user_role=='admin') ? 'error' : 'info'} onClick={handleOpen} disabled={(auth.user.user_role=="hr manager" && user.user_role =='admin') ? true :false} >
+                <EditIcon/>
             </IconButton>
             <Modal
                 aria-labelledby="transition-modal-title"

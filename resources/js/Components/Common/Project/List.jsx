@@ -39,9 +39,7 @@ export default function List({ data, auth, developer, manager, status }) {
             get(route('developer.project.detail', { id }));
         }
     };
-    const handleUpdate = (id) => {
-        get(route("admin.project.edit", { id }));
-    };
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
         if (data.next_page_url) {
@@ -71,21 +69,11 @@ export default function List({ data, auth, developer, manager, status }) {
                 <Table aria-label="simple table" size="small">
                     <TableHead>
                         <TableRow>
-                            <TableCell sx={{ fontWeight: "bold" }}>
-                                ID
-                            </TableCell>
-                            <TableCell sx={{ fontWeight: "bold" }}>
-                                Title
-                            </TableCell>
-                            <TableCell sx={{ fontWeight: "bold" }}>
-                                Assign Date
-                            </TableCell>
-                            <TableCell sx={{ fontWeight: "bold" }}>
-                                Created Date
-                            </TableCell>
-                            <TableCell sx={{ fontWeight: "bold", textAlign: 'center' }}>
-                                Action
-                            </TableCell>
+                            <TableCell sx={{ fontWeight: "bold" }}>ID</TableCell>
+                            <TableCell sx={{ fontWeight: "bold" }}>Title</TableCell>
+                            <TableCell sx={{ fontWeight: "bold" }}> Assign Date</TableCell>
+                            <TableCell sx={{ fontWeight: "bold" }}> Created Date</TableCell>
+                            <TableCell sx={{ fontWeight: "bold", textAlign: 'center' }}> Action </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -93,32 +81,14 @@ export default function List({ data, auth, developer, manager, status }) {
                             data.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, j) => {
                                 return (
                                     <TableRow key={j + 1}>
-                                        <TableCell>
-                                            {item.id}
-                                        </TableCell>
-                                        <TableCell className="capitalize">
-                                            {item.title}
-                                        </TableCell>
-                                        <TableCell>
-                                            <FormatDate date={item.start_date} />
-                                        </TableCell>
-
-                                        <TableCell>
-                                            <DateTimeFormat date={item.created_at} />
-                                        </TableCell>
+                                        <TableCell>{item.id}</TableCell>
+                                        <TableCell className="capitalize">{item.title}</TableCell>
+                                        <TableCell><FormatDate date={item.start_date} /></TableCell>
+                                        <TableCell><DateTimeFormat date={item.created_at} /> </TableCell>
                                         <TableCell sx={{ display: "flex", justifyContent: 'center', alignItems: 'center' }}>
-                                            <IconButton aria-label="detail">
-                                                <VisibilityIcon
-                                                    sx={{ color: "rgba(0, 0, 0, 0.54)", }}
-                                                    onClick={() => handleView(item.id)}
-                                                />
+                                            <IconButton aria-label="detail" sx={{ color: "rgba(0, 0, 0, 0.54)", }} onClick={() => handleView(item.id)}>
+                                                <VisibilityIcon/>
                                             </IconButton>
-                                            &emsp;
-                                            {/* {
-                                                auth.user.user_role=="admin" &&
-                                                <EditIcon color="info" onClick={() =>handleUpdate(item.id) }/>
-
-                                            } */}
                                         </TableCell>
                                     </TableRow>
                                 );

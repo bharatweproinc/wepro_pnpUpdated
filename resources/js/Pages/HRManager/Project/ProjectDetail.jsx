@@ -8,17 +8,13 @@ import TabPanel from "@mui/lab/TabPanel";
 import Details from "@/Components/Common/Project/Details";
 import View from "../Task/View";
 import History from "@/Components/Common/History";
+import { useState } from "react";
 
 export default function ProjectDetail({ data, auth, user, task ,history}) {
-    const [value, setValue] = React.useState("1");
+    const [value, setValue] = useState("1");
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
-    console.log(history,'history');
-    const url = window.location.pathname;
-    const urlParts = url.split("/");
-    const id = urlParts[urlParts.length - 1];
 
     return (
         <AuthenticatedLayout user={auth.user}>

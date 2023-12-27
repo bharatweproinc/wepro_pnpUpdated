@@ -51,7 +51,6 @@ export default function Edit({ auth, salary, userId }) {
         net_salary: salary?.net_salary,
     });
 
-    console.log( data.basic_salary ,salary?.basic_salary ,'salary');
     useEffect(() => {
         const grossSalary =
             Number(data.basic_salary) +
@@ -132,7 +131,7 @@ export default function Edit({ auth, salary, userId }) {
                 alert && <SuccessMsg severity={severity} error={alert} setError={setAlert} title={alert} />
             }
             <IconButton aria-label="edit" color="primary">
-                <EditIcon color="info" onClick={handleOpen} />
+                <EditIcon onClick={handleOpen} />
             </IconButton>
             <Modal
                 aria-labelledby="transition-modal-title"

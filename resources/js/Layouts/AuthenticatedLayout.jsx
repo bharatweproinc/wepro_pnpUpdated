@@ -12,7 +12,6 @@ export default function AuthenticatedLayout({ user, header, children }) {
     const urlParts = url.split('/');
     const id = urlParts[urlParts.length - 1];
     const [activeNow, setActiveNow] = useState(route().current());
-    console.log(user.user_role ,'user');
     return (
         <div className="min-h-screen bg-gray-100">
             <nav className="bg-white border-b border-gray-100">

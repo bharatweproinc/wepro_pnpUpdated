@@ -11,7 +11,6 @@ export default function History({ history}){
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
- console.log(history,'history');
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(event.target.value, 10);
         setPage(0);
@@ -51,7 +50,6 @@ export default function History({ history}){
                             </TableHead>
                             <TableBody>
                                 {history.slice( page*rowsPerPage,page*rowsPerPage + rowsPerPage).map((item, j) => {
-                                    console.log(history,item,'itemm');
                                     return (
                                         <>
                                             <TableRow key={j + 1}>

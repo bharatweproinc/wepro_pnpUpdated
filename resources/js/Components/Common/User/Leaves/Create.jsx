@@ -8,14 +8,12 @@ import { useForm } from "@inertiajs/react";
 import CloseIcon from '@mui/icons-material/Close';
 import SaveIcon from '@mui/icons-material/Save';
 import { differenceInDays, parseISO } from "date-fns";
-
 import {
     Button,
     FormControl,
     FormControlLabel,
     Radio,
     RadioGroup,
-    TextField,
     Typography,
 } from "@mui/material";
 import InputLabel from "@/Components/InputLabel";
@@ -346,8 +344,7 @@ export default function Create({ auth ,Id ,user}) {
                                             className="mt-2"
                                         />
                                     </div>
-                                    </div>
-
+                                </div>
                                     {(data.days == '0 day' ||  data.days == 'half day' ||  data.days == 'full day'
                                        ||data.days == 'first half' || data.days =='second half') &&(
                                         <div className="mt-4" style={{ display:'flex' }}>

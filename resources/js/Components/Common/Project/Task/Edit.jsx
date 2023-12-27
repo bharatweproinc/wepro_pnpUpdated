@@ -118,7 +118,7 @@ export default function Edit({ data, developer, devId ,auth }) {
                 alert && <SuccessMsg severity={severity} error={alert} setError={setAlert} title={alert}/>
             }
             <IconButton aria-label="edit" color="primary">
-                <EditIcon color="info" onClick={handleOpen} />
+                <EditIcon onClick={handleOpen} />
             </IconButton>
             <Modal
                 aria-labelledby="transition-modal-title"
