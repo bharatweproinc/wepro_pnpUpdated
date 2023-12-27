@@ -139,6 +139,7 @@ Route::prefix('project-manager')->name('projectManager.')->middleware(['auth', '
     });
     Route::prefix('leave')->name('leave.')->controller(ManagerLeaveController::class)->group(function (){
         Route::get('/list','list')->name('list');
+        Route::post('/save','save')->name('save');
     });
 
 
@@ -200,6 +201,7 @@ Route::prefix('developer')->name('developer.')->middleware(['auth', 'role:develo
         });
         Route::prefix('leave')->name('leave.')->controller(DeveloperLeaveController::class)->group(function (){
             Route::get('/list','list')->name('list');
+            Route::post('/save','save')->name('save');
         });
 });
 

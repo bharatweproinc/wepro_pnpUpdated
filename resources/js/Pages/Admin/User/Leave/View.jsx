@@ -6,7 +6,6 @@ import {Alert} from "@mui/material";
 
 export default function View({auth,leave ,Id }) {
 
-    console.log(Id ,leave ,'lllll');
      return (
        <>
                {leave.length === 0 ? (

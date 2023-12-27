@@ -83,7 +83,7 @@ class ProjectController extends Controller
 
         $response =$this->projectRepository->update($id, $request->all());
         if($response['success']){
-            return Redirect::route('admin.project.list');
+            return Redirect::route('admin.project.detail' ,$id);
         }
         else{
             return Redirect::back()->withErrors($response);

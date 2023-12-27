@@ -31,14 +31,26 @@ class LeaveController extends Controller
 
     public function save(LeaveRequest $request ,$id)
     {
-        $this->leaveRepository->save($request->all(),$id);
-        return redirect()->back();
+
+        $response = $this->leaveRepository->save($request->all(),$id);
+        if($response['success']){
+            return redirect()->back();
+        }
+        else{
+            return Redirect::back()->withErrors($response);
+        }
     }
 
     public function update(LeaveEditRequest $request,$id)
     {
-        $this->leaveRepository->update($request->all(),$id);
-        return redirect()->back();
+        $response = $this->leaveRepository->update($request->all(),$id);
+        if($response['success']){
+            return redirect()->back();
+        }
+        else{
+            return Redirect::back()->withErrors($response);
+        }
+
     }
 
 

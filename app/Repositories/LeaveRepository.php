@@ -20,28 +20,36 @@ class LeaveRepository implements LeaveInterface
     }
     public function save($data,$id)
     {
+       try {
         $leaves= Leave::create([
-        'user_id' => $id,
-        'description'=>$data['description'],
-        'requested_date'=>$data['requested_date'],
-        'subject'=>$data['subject'],
-        'days'=>$data['days'],
-        'to_date'=>$data['to_date'],
-       ]);
-       if(array_key_exists('file',$data) && isset($data['file']))
-       {
-        $file = $data['file'];
-        $fileName = uniqid().'_'.time().'_'.$file->getClientOriginalName();
-        $filePath = $file->storeAs('LeaveFile', $fileName . $id . '.' . $file->getClientOriginalExtension(), 'public');
-        Leave::where('user_id',$id)->update(['file'=>$filePath]);
-       }
+            'user_id' => $id,
+            'description'=>$data['description'],
+            'requested_date'=>$data['requested_date'],
+            'subject'=>$data['subject'],
+            'days'=>$data['days'],
+            'to_date'=>$data['to_date'],
+           ]);
+           if(array_key_exists('file',$data) && isset($data['file']))
+           {
+            $file = $data['file'];
+            $fileName = uniqid().'_'.time().'_'.$file->getClientOriginalName();
+            $filePath = $file->storeAs('LeaveFile', $fileName . $id . '.' . $file->getClientOriginalExtension(), 'public');
+            Leave::where('user_id',$id)->update(['file'=>$filePath]);
+           }
+           return ['success'=>true];
 
-        return true;
+       } catch (\Throwable $th) {
+        return [
+            'success'=>false,
+            'error'=>$th->getMessage(),
+            ];
+       }
     }
 
     public function update($data,$id)
     {
-        $leave = Leave::where('id',$id)->first();
+        try {
+            $leave = Leave::where('id',$id)->first();
         $leave->update($data);
         if(isset($data['file']) && array_key_exists('file',$data) && is_array($data['file']))
         {
@@ -51,6 +59,11 @@ class LeaveRepository implements LeaveInterface
             Leave::where('user_id',$id)->update(['file'=>asset('storage/'.$filePath)]);
         }
         return true;
+        } catch (\Throwable $th) {
+            return [
+                'success'=>false,
+                'error'=>$th->getMessage(),
+                ];        }
     }
 
     public function userList()

@@ -75,14 +75,16 @@ export default function Dashboard({ auth ,user ,project , leave}) {
                                         <Typography sx={{color:"#000000",paddingBottom:"15px"}} variant="subtitle2">Opps! you don't have any leave.</Typography>
                                     </Box>
                                     : <Box p={"10px 15px"}>
-                                    <TableContainer sx={{ padding: "10px", border: "2px solid whitesmoke", background: "rgba(0,0,0,0.02)", }}>
-                                        <Table aria-label="simple table">
+                                    <TableContainer  sx={{ padding: "10px", border: "2px solid whitesmoke", background: "rgba(0,0,0,0.02)", }}>
+                                        <Table size="small" aria-label="simple table">
                                             <TableHead>
                                                 <TableRow>
                                                     <TableCell sx={{ fontWeight: "bold" }}>ID </TableCell>
                                                     <TableCell sx={{ fontWeight: "bold" }}>User Name</TableCell>
                                                     <TableCell sx={{ fontWeight: "bold" }}> Subject </TableCell>
-                                                    <TableCell sx={{ fontWeight: "bold" }}>Requested Date </TableCell>
+                                                    <TableCell sx={{ fontWeight: "bold" }}>From Date </TableCell>
+                                                    <TableCell sx={{ fontWeight: "bold" }}>Requested To Date </TableCell>
+                                                    <TableCell sx={{ fontWeight: "bold" }}>Created At </TableCell>
                                                     <TableCell sx={{ fontWeight: "bold" }}> Status </TableCell>
                                                     <TableCell sx={{ fontWeight: "bold", textAlign: 'right' }}>Action </TableCell>
                                                 </TableRow>
@@ -97,6 +99,12 @@ export default function Dashboard({ auth ,user ,project , leave}) {
                                                                 <TableCell className="capitalize">{item.subject}</TableCell>
                                                                 <TableCell>
                                                                     <DateTimeFormat date={item.requested_date}/>
+                                                                </TableCell>
+                                                                <TableCell>
+                                                                    <DateTimeFormat date={item.to_date}/>
+                                                                </TableCell>
+                                                                <TableCell>
+                                                                    <DateTimeFormat date={item.created_at}/>
                                                                 </TableCell>
 
                                                                 <TableCell className="capitalize">
@@ -115,7 +123,7 @@ export default function Dashboard({ auth ,user ,project , leave}) {
                                                                 </TableCell>
                                                             </TableRow>
                                                             <TableRow>
-                                                                <TableCell colSpan={6} sx={{py: 0, backgroundColor:"#80808024", px: { xs: "5px",md: "16px",}}}>
+                                                                <TableCell colSpan={8} sx={{py: 0, backgroundColor:"#80808024", px: { xs: "5px",md: "16px",}}}>
                                                                     <Collapse in={expandedRows.includes(item.id)} unmountOnExit>
                                                                         <Grid container spacing={2} py={3}>
                                                                             <Grid item xs={4}>

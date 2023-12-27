@@ -3,7 +3,7 @@ import { Box, Typography ,Grid, TablePagination, TableContainer, Table, TableHea
 import DateTimeFormat from "@/Util/DateTimeFormat";
 import { useState } from "react";
 
-export default function History({data, history}){
+export default function History({ history}){
     const [page, setPage] = useState(0);
     const [expandedRows, setExpandedRows] = useState([]);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -11,7 +11,7 @@ export default function History({data, history}){
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
-
+ console.log(history,'history');
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(event.target.value, 10);
         setPage(0);
@@ -40,7 +40,7 @@ export default function History({data, history}){
                 <Grid item xs={12} p={"10px 15px"}>
 
                     <TableContainer sx={{ padding: "10px", border: "2px solid whitesmoke", }}>
-                        <Table aria-label="simple table">
+                        <Table aria-label="simple table" size="small">
                             <TableHead>
                                 <TableRow>
                                     <TableCell sx={{ fontWeight: "bold" }}>Description</TableCell>
@@ -51,6 +51,7 @@ export default function History({data, history}){
                             </TableHead>
                             <TableBody>
                                 {history.slice( page*rowsPerPage,page*rowsPerPage + rowsPerPage).map((item, j) => {
+                                    console.log(history,item,'itemm');
                                     return (
                                         <>
                                             <TableRow key={j + 1}>

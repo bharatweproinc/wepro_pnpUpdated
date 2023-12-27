@@ -7,11 +7,11 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import UserDetail from "@/Components/Common/User/UserDetail";
-import History from "@/Components/Common/User/History";
 import Details from "@/Components/Common/Salary/Detail";
 import View from "../Leave/View";
+import History from "@/Components/Common/History";
 
-export default function Detail({ data, auth, salary ,leave}) {
+export default function Detail({ data, auth, salary ,leave ,history}) {
     const [value, setValue] = React.useState("1");
 
     const handleChange = (event, newValue) => {
@@ -53,7 +53,7 @@ export default function Detail({ data, auth, salary ,leave}) {
                     </TabPanel>
 
                     <TabPanel value="3">
-                        <History data={data} />
+                        <History data={data} auth={auth} history={history}/>
                     </TabPanel>
                     <TabPanel value="4">
                         <View auth={auth} leave={leave} Id={data.id}/>

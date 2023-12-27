@@ -115,11 +115,8 @@ export default function AuthenticatedLayout({ user, header, children }) {
                         </div>
 
                         <div className="mt-3 space-y-1">
-                            {
-                               ( user.user_role == "admin" || user.user_role =="hr manager" )&&
-                                <ResponsiveNavLink href={route('admin.profile.edit')}>Profile</ResponsiveNavLink>
-                            }
 
+                            <ResponsiveNavLink href={route('admin.profile.edit')}>Profile</ResponsiveNavLink>
                             <ResponsiveNavLink method="post" href={route('logout')} as="button">
                                 Log Out
                             </ResponsiveNavLink>

@@ -69,7 +69,7 @@ class UserObserver
                 'historable_id' => $user->id,
                 'historable_type' => User::class,
                 'change_type' => 'UPDATE',
-                'description' =>'user email has been changed from ' .$oldProfile .' to '.$user->profile,
+                'description' =>'user profile has been changed from ' .$oldProfile .' to '.$user->profile,
 
             ]);
         }

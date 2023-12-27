@@ -46,11 +46,11 @@ export default function List({ data, auth}) {
     return (
         <>
             <div style={{ display: "flex", justifyContent: "end", paddingBottom:"10px"}} >
-                {(auth.user.user_role == "admin" || auth.user.user_role == "hr manager") && ( <Create Id={data[0]} auth={auth} user={""}/> )}
+                <Create Id={data[0]} auth={auth} user={""}/>
             </div>
 
-            <TableContainer sx={{ padding: "10px", border: "2px solid whitesmoke", background: "rgba(0,0,0,0.02)", }}>
-                <Table aria-label="simple table">
+            <TableContainer  sx={{ padding: "10px", border: "2px solid whitesmoke", background: "rgba(0,0,0,0.02)", }}>
+                <Table aria-label="simple table" size="small">
                     <TableHead>
                         <TableRow>
                             <TableCell sx={{ fontWeight: "bold" }}>ID </TableCell>

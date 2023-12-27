@@ -60,7 +60,7 @@ export default function List({data, auth }) {
                         </Box>
                         <TableContainer
                          sx={{ padding:"10px",border:"1px solid whitesmoke" }}>
-                            <Table aria-label="simple table" >
+                            <Table aria-label="simple table" size="small" >
                                 <TableHead>
                                     <TableRow>
                                         <TableCell style={{fontWeight:"bold"}}>ID</TableCell>
@@ -90,7 +90,7 @@ export default function List({data, auth }) {
                                                 <IconButton aria-label="detail">
                                                    <VisibilityIcon sx={{color:"rgba(0, 0, 0, 0.54)"}} onClick={()=>handleView(item.id)}/>
                                                 </IconButton>
-                                                    <Edit auth={auth} user={item}/>
+                                                    {/* <Edit auth={auth} user={item}/> */}
                                                     <DeletePopup id={item.id} user={item} auth={auth}/>
                                                 </TableCell>
                                             </TableRow>

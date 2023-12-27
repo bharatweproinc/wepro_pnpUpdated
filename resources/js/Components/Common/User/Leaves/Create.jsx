@@ -43,7 +43,7 @@ export default function Create({ auth ,Id ,user}) {
     const [severity,setSeverity] = useState(null);
     const [effect,setEffect] = useState(false);
     const [expand ,setExpand] = useState(user?.length > 0 ? true :false);
-    const [unique ,setUnique] = useState(Id.user_id || Id);
+    const [unique ,setUnique] = useState(Id?.user_id || Id);
     const handleOpen=(e)=>setOpen(true);
 
     const { data, setData, get, post, processing, errors, reset } = useForm({
@@ -68,7 +68,6 @@ export default function Create({ auth ,Id ,user}) {
         setUnique(e.target.value);
     }
 
-    console.log(unique,Id ,'uniii');
     const submit = (e) => {
         e.preventDefault();
         {
@@ -79,22 +78,47 @@ export default function Create({ auth ,Id ,user}) {
                           setOpen(false);
                           setSeverity('success');
                           setData({});
-                      },onError:()=>{
-                        setAlert('Something is wrong !')
+                      },onError:(error)=>{
+                        setAlert(error.error)
                         setSeverity('error');
                     }
                   })
-                : post(route("hrManager.user.leave.save",{id:unique}), {
+                : auth.user.user_role === "hr manager" ?
+                    post(route("hrManager.user.leave.save",{id:unique}), {
                       onSuccess: () => {
                           setAlert('Leave Created successfully.');
                           setOpen(false);
                           setData({});
                           setSeverity('success');
-                      },onError:()=>{
-                        setAlert('Something is wrong !')
+                      },onError:(error)=>{
+                        setAlert(error.error)
                         setSeverity('error');
                     }
-                  });
+                  }):
+                  auth.user.user_role === "project manager" ?
+                post(route("projectManager.leave.save",{id:unique}), {
+                    onSuccess: () => {
+                        setAlert('Leave Created successfully.');
+                        setOpen(false);
+                        setData({});
+                        setSeverity('success');
+                    },onError:(error)=>{
+                        setAlert(error.error)
+                        setSeverity('error');
+                    }
+                })
+                : (auth.user.user_role === "junior developer"|| auth.user.user_role === "senior developer")  &&
+                post(route("developer.leave.save",{id:unique}), {
+                    onSuccess: () => {
+                        setAlert('Leave Created successfully.');
+                        setOpen(false);
+                        setData({});
+                        setSeverity('success');
+                    },onError:(error)=>{
+                        setAlert(error.error)
+                        setSeverity('error');
+                    }
+                });
         }
     };
 

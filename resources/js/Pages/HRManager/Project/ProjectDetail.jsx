@@ -7,14 +7,15 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import Details from "@/Components/Common/Project/Details";
 import View from "../Task/View";
-// import View from "../Task/View";
+import History from "@/Components/Common/History";
 
-export default function ProjectDetail({ data, auth, user, task }) {
+export default function ProjectDetail({ data, auth, user, task ,history}) {
     const [value, setValue] = React.useState("1");
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
+    console.log(history,'history');
     const url = window.location.pathname;
     const urlParts = url.split("/");
     const id = urlParts[urlParts.length - 1];
@@ -34,15 +35,17 @@ export default function ProjectDetail({ data, auth, user, task }) {
                     <TabList onChange={handleChange} className="px-3">
                         <Tab label="Details" value="1" style={{ fontWeight:"bold"}}/>
                         <Tab label="Task" value="2" style={{ fontWeight:"bold"}}/>
+                        <Tab label="History" value="3" style={{ fontWeight:"bold"}}/>
                     </TabList>
                     <TabPanel value="1">
                        <Details data={data} user={user} auth={auth}/>
-
                     </TabPanel>
 
                     <TabPanel value="2">
                         <View data={task} Id={id} developer={user} auth={auth}/>
-
+                    </TabPanel>
+                    <TabPanel value="3">
+                         <History auth={auth} history={history}/>
                     </TabPanel>
 
                 </TabContext>

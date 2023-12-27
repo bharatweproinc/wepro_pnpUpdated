@@ -63,10 +63,7 @@ export default function List({ data, auth, developer, manager ,status}) {
 
     return (
         <>
-
-            <div
-                style={{paddingBottom: "10px", display: "flex", justifyContent: "end",}}
-            >
+            <div style={{paddingBottom: "10px", display: "flex", justifyContent: "end",}}>
                 {
                     auth.user.user_role=="admin" &&
                     <Create
@@ -77,13 +74,8 @@ export default function List({ data, auth, developer, manager ,status}) {
             </div>
 
 
-        <TableContainer
-            sx={{
-                padding: "10px",
-                border: "1px solid whitesmoke",
-            }}
-        >
-            <Table aria-label="simple table">
+        <TableContainer sx={{padding: "10px",border: "1px solid whitesmoke",}}>
+            <Table aria-label="simple table" size="small">
                 <TableHead>
                     <TableRow>
                         <TableCell sx={{ fontWeight: "bold" }}>
@@ -129,11 +121,11 @@ export default function List({ data, auth, developer, manager ,status}) {
                                             />
                                         </IconButton>
                                         &emsp;
-                                            {
+                                            {/* {
                                                 auth.user.user_role=="admin" &&
                                                 <EditIcon color="info" onClick={() =>handleUpdate(item.id) }/>
 
-                                            }
+                                            } */}
                                     </TableCell>
                                 </TableRow>
                             );

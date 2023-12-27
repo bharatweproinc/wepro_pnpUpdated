@@ -49,8 +49,8 @@ export default function List({ auth, developer, Id, data ,updated}) {
                 {(auth.user.user_role === "admin" || auth.user.user_role == "project manager")  && ( <Create developer={developer} Id={Id} auth={auth} /> )}
             </div>
 
-            <TableContainer sx={{ padding: "10px", border: "2px solid whitesmoke", background: "rgba(0,0,0,0.02)", }}>
-                <Table aria-label="simple table">
+            <TableContainer  sx={{ padding: "10px", border: "2px solid whitesmoke", background: "rgba(0,0,0,0.02)", }}>
+                <Table aria-label="simple table" size="small">
                     <TableHead>
                         <TableRow>
                             <TableCell sx={{ fontWeight: "bold" }}>ID</TableCell>

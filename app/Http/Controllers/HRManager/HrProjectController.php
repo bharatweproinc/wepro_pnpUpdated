@@ -29,6 +29,8 @@ class HrProjectController extends Controller
         $data = $allData[0];
         $user = $allData[1];
         $task = $allData[2];
-        return Inertia::render('HRManager/Project/ProjectDetail', ['data' => $data, 'user' => $user,'task'=>$task ]);
+        $status= $allData[3];
+        $history = $allData[4];
+        return Inertia::render('HRManager/Project/ProjectDetail', ['data' => $data, 'user' => $user,'task'=>$task ,'history'=>$history ]);
     }
 }

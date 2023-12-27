@@ -56,7 +56,8 @@ class HrUserController extends Controller
         $data = $items[0];
         $salary = $items[1];
         $leave = $items[2];
-        return Inertia::render('HRManager/User/Detail',['data'=>$data ,'salary'=>$salary ,'leave'=>$leave]);
+        $history = $items[3];
+        return Inertia::render('HRManager/User/Detail',['data'=>$data ,'salary'=>$salary ,'leave'=>$leave ,'history'=>$history]);
     }
 
 

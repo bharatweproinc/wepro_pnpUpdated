@@ -49,7 +49,7 @@ export default function List({ leave, auth, user}) {
             </div>
 
             <TableContainer sx={{ padding: "10px", border: "2px solid whitesmoke", background: "rgba(0,0,0,0.02)", }}>
-                <Table aria-label="simple table">
+                <Table aria-label="simple table" size="small" >
                     <TableHead>
                         <TableRow>
                             <TableCell sx={{ fontWeight: "bold" }}>Id</TableCell>

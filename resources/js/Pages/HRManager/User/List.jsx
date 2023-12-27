@@ -42,7 +42,6 @@ export default function View({data, auth }) {
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
-        // get(data.next_page_url) ;
         if (data.next_page_url) {
             get(`${data.next_page_url}&page=${newPage + 1}`);
         }
@@ -81,7 +80,7 @@ export default function View({data, auth }) {
                         </Box>
                         <TableContainer
                          sx={{ padding:"10px",border:"1px solid whitesmoke" }}>
-                            <Table
+                            <Table size="small"
                                 aria-label="simple table"
                             >
                                 <TableHead>
@@ -109,8 +108,8 @@ export default function View({data, auth }) {
                                                 <IconButton aria-label="detail" onClick={()=>handleView(item.id)}>
                                                    <VisibilityIcon sx={{color:"rgba(0, 0, 0, 0.54)"}} />
                                                 </IconButton>
-                                                      <Edit auth={auth} user={item}/>
-                                                        &emsp;
+                                                      {/* <Edit auth={auth} user={item}/>
+                                                        &emsp; */}
                                                         <DeletePopup auth={auth} id={item.id} user={item}/>
                                                 </TableCell>
                                             </TableRow>
