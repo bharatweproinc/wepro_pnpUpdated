@@ -16,7 +16,7 @@ class LeaveRepository implements LeaveInterface
             $leave[$key]['file'] = asset('storage/'.$val->file);
          }
         $user = User::get();
-        return [  $leave ,$user];
+        return [$leave ,$user];
     }
     public function save($data,$id)
     {

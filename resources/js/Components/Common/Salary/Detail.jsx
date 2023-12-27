@@ -1,9 +1,10 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
 import './Style.scss';
 import Edit from "./Edit";
+import Currency from "@/Util/Currency";
 
 export default function Details({auth,salary ,data}){
-    const tax = (salary[0]?.gross_salary  * salary[0]?.tax_deducted_at_source) / 100;
+    const tax = ( salary?.gross_salary  *  salary?.tax_deducted_at_source) / 100;
 
     return (
              <Box
@@ -22,9 +23,12 @@ export default function Details({auth,salary ,data}){
                         >
                             Salary Information
                         </Typography>
-                     <Button sx={{ display: "flex", justifyContent: "center",borderRadius:'10px',height:"40px",marginRight:"10px", }}>
-                        <Edit salary={salary} auth={auth} userId={data.id}/>
-                     </Button>
+                        { (auth.user.user_role =="admin" || auth.user.user_role =="hr manager") &&
+                        <Button sx={{ display: "flex", justifyContent: "center",borderRadius:'10px',height:"40px",marginRight:"10px", }}>
+                            <Edit salary={salary} auth={auth} userId={data.id}/>
+                        </Button>
+                        }
+
                     </Grid>
                 </Grid>
                 <br />
@@ -33,7 +37,7 @@ export default function Details({auth,salary ,data}){
                         <Typography className="title">
                            Basic Salary
                         </Typography>
-                        <Typography  className = "text" style={{ maxWidth:'50%' }}>Rs {salary[0]?.basic_salary}</Typography>
+                        <Typography  className = "text" style={{ maxWidth:'50%' }}>{Currency.INRFormate( salary?.basic_salary)}</Typography>
                     </Grid>
 
                     <Grid item xs={12} sx={{display:'flex',justifyContent:'space-around'}}>
@@ -42,7 +46,7 @@ export default function Details({auth,salary ,data}){
                         </Typography>
 
                         <Typography  className = "text">
-                        Rs {salary[0]?.medical_and_Conveyance}
+                        {Currency.INRFormate( salary?.medical_and_Conveyance)}
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sx={{display:'flex',justifyContent:'space-around'}}>
@@ -51,7 +55,7 @@ export default function Details({auth,salary ,data}){
                         </Typography>
 
                         <Typography  className = "text">
-                        Rs {salary[0]?.leave_travel_allowance}
+                        {Currency.INRFormate( salary?.leave_travel_allowance)}
                         </Typography>
                     </Grid>
 
@@ -61,7 +65,7 @@ export default function Details({auth,salary ,data}){
                         </Typography>
 
                         <Typography  className = "text">
-                        Rs {salary[0]?.statutory_bonus}
+                        {Currency.INRFormate( salary?.statutory_bonus)}
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sx={{display:'flex',justifyContent:'space-around'}}>
@@ -70,7 +74,7 @@ export default function Details({auth,salary ,data}){
                         </Typography>
 
                         <Typography  className = "text">
-                        Rs {salary[0]?.provided_fund}
+                        {Currency.INRFormate( salary?.provided_fund)}
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sx={{display:'flex',justifyContent:'space-around'}}>
@@ -79,7 +83,7 @@ export default function Details({auth,salary ,data}){
                         </Typography>
 
                         <Typography  className = "text">
-                        Rs {salary[0]?.house_rent}
+                        {Currency.INRFormate( salary?.house_rent)}
                         </Typography>
                     </Grid>
 
@@ -89,7 +93,7 @@ export default function Details({auth,salary ,data}){
                         </Typography>
 
                         <Typography  className = "text">
-                        Rs {salary[0]?.gross_salary}
+                        {Currency.INRFormate( salary?.gross_salary)}
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sx={{display:'flex',justifyContent:'space-around'}}>
@@ -98,7 +102,7 @@ export default function Details({auth,salary ,data}){
                         </Typography>
 
                         <Typography className="text">
-                         {salary[0]?.tax_deducted_at_source}% of Rs {salary[0]?.gross_salary} = {tax}
+                         { salary?.tax_deducted_at_source}% of {Currency.INRFormate( salary?.gross_salary)} = {tax}
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sx={{display:'flex',justifyContent:'space-around',borderTop:"1px solid gray"}}>
@@ -107,7 +111,7 @@ export default function Details({auth,salary ,data}){
                         </Typography>
 
                         <Typography  className = "text">
-                          Gross Salary - Tax Deduction =  Rs {salary[0]?.net_salary}
+                          Gross Salary - Tax Deduction =  {Currency.INRFormate( salary?.net_salary)}
                         </Typography>
                     </Grid>
                   </Grid>

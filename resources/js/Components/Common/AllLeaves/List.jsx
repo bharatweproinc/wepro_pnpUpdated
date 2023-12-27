@@ -68,9 +68,11 @@ export default function List({ leave, auth, user}) {
                                         <TableRow key={j + 1}>
                                             <TableCell>{item.id}</TableCell>
                                             <TableCell>{
-                                                user.map((info)=>{
-                                                    return (  info.id === item.user_id  && info.name)
+                                                user.map((info,index)=>{
+                                                    // console.log( index,info.id  ,'infooo');
+                                                    return (info.id == item.user_id  && info.name)
                                                 })
+                                                // user.filter(value => value.id === item.user_id)= user.name
                                             }
                                             </TableCell>
                                             <TableCell className="capitalize">

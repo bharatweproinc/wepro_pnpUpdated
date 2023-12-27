@@ -18,7 +18,7 @@ class DashboardController extends Controller
             $user = User::where('id',$id)->first();
             $user['profile'] = asset('storage/'.$user['profile']);
             $salary = Salary::where('user_id',$id)->first();
-           return Inertia::render('ProjectManager/Account/View',['data'=>$user ,'salary'=>$salary]);
+           return Inertia::render('Account/View',['data'=>$user ,'salary'=>$salary]);
 
     }
 }

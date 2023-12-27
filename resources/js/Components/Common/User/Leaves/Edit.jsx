@@ -34,7 +34,7 @@ export default function Edit({item,auth,user}){
         const [open, setOpen] = useState(false);
         const [alert,setAlert] = useState(false);
         const [severity,setSeverity] = useState(null);
-        const [effect ,setEffect] = useState(null);
+        const [effect ,setEffect] = useState(false);
         const handleOpen = () => setOpen(true);
         const [unique ,setUnique] = useState(item.user_id);
 
@@ -68,19 +68,19 @@ export default function Edit({item,auth,user}){
         },[item]);
 
         useEffect(()=>{
-            const day = differenceInDays(parseISO(data.to_date),parseISO(data.requested_date))+" day";
-            setData('days',day);
-            setEffect(false);
+            if(effect){
+                const day = differenceInDays(parseISO(data.to_date),parseISO(data.requested_date))+" day";
+                setData('days',day);
+                setEffect(false);
+            }
         },[effect]);
 
-        console.log(data.days,item.days ,effect,'datata');
         const handleUser = (e) => {
             setData('user_id',e.target.value);
             setUnique(e.target.value);
         }
         const submit = (e) => {
             e.preventDefault();
-
             {
                 auth.user.user_role === "admin"
                     ? post(route("admin.user.leave.update",{id:item.id}), {

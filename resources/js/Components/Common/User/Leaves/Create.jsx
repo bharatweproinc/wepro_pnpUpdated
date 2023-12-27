@@ -194,7 +194,7 @@ export default function Create({ auth ,Id ,user}) {
                                                 setData(
                                                     "subject",
                                                     e.target.value
-                                                )
+                                               )
                                             }
                                             required
                                         />

@@ -19,6 +19,6 @@ class DeveloperDashboardController extends Controller
          $user = User::where('id',$id)->first();
          $user['profile'] = asset('storage/'.$user['profile']);
          $salary = Salary::where('user_id',$id)->first();
-        return Inertia::render('Developer/Account/View',['data'=>$user ,'salary'=>$salary]);
+        return Inertia::render('Account/View',['data'=>$user ,'salary'=>$salary]);
     }
 }

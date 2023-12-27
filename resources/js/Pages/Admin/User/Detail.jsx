@@ -47,7 +47,7 @@ export default function Detail({ data, auth, salary ,leave ,history }) {
                                     <History data={data} auth={auth} history={history}/>
                                 </TabPanel>
                                 <TabPanel value="3">
-                                    <Details salary={salary} data={data} auth={auth}/>
+                                    <Details salary={salary[0]} data={data} auth={auth}/>
                                 </TabPanel>
                                 <TabPanel value="4">
                                     <View auth={auth} leave={leave} Id={data.id}/>

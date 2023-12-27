@@ -24,7 +24,6 @@ export default function DetailSalary({auth,salary ,data}){
                         >
                             Salary Information
                         </Typography>
-
                         <Button sx={{ display: "flex", justifyContent: "end" }}>
                             <Edit auth={auth} salary={salary} item={data} />
                         </Button>
