@@ -1,6 +1,4 @@
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import * as React from "react";
-import GuestLayout from "@/Layouts/GuestLayout";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";

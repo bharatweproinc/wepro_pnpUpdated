@@ -1,0 +1,16 @@
+.salary{
+    .MuiInputBase-input:focus{
+        box-shadow: none;
+    }
+
+}
+.title{
+    width: 50%;
+    text-align: start;
+    padding-left: 50px;
+}
+.text{
+    width: 50%;
+    text-align: end;
+    padding-right: 50px;
+}

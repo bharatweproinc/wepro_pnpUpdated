@@ -85,15 +85,9 @@ export default function Edit({ data, auth, developer, manager, devId }) {
             <div className="mt-5 flex flex-col sm:justify-center items-center sm:pt-0 bg-gray-100">
                 <Head title="Update Project" />
 
-                <div
-                    className=" mt-0 px-2 py-2 shadow-md bg-white overflow-hidden"
-                    style={{
-                        width: "50%",
-                        alignContent: "center",
-                        justifyContent: "space-between",
-                    }} >
+                <div className=" mt-0 px-2 py-2 shadow-md bg-white overflow-hidden"
+                    style={{ width: "50%",alignContent: "center",justifyContent: "space-between", }} >
                 <div className="rounded-t-lg bg-slate-50 border-gray-100 border border-t-0 shadow-sm p-5" >
-
                     <form onSubmit={handleSubmit}>
                         <div
                             style={{
@@ -103,16 +97,10 @@ export default function Edit({ data, auth, developer, manager, devId }) {
                                 paddingBottom: "10px",
                             }}
                         >
-                            <Typography
-                                variant="h5"
-                                style={{ fontWeight: "bold"}}
-                            >
-                                Edit Project
-                            </Typography>
+                            <Typography variant="h5"style={{ fontWeight: "bold"}} >Edit Project</Typography>
                         </div>
                         <div>
                             <InputLabel htmlFor="title" value="Title" />
-
                             <TextInput
                                 id="title"
                                 name="title"
@@ -122,18 +110,11 @@ export default function Edit({ data, auth, developer, manager, devId }) {
                                 onChange={(e) => handleChange(e)}
                                 required
                             />
-                            <InputError
-                                message={errors.title}
-                                className="mt-2"
-                            />
+                            <InputError message={errors.title} className="mt-2"/>
                         </div>
 
                         <div className="mt-4">
-                            <InputLabel
-                                htmlFor="description"
-                                value="Description"
-                            />
-
+                            <InputLabel htmlFor="description" value="Description" />
                             <textarea
                                 id="description"
                                 type="text"
@@ -145,17 +126,11 @@ export default function Edit({ data, auth, developer, manager, devId }) {
                                 onChange={(e) => handleChange(e)}
                                 required
                             />
-                            <InputError
-                                message={errors.description}
-                                className="mt-2"
-                            />
+                            <InputError message={errors.description} className="mt-2" />
                         </div>
 
                         <div className="mt-4">
-                            <InputLabel
-                                htmlFor="Manager"
-                                value="Select Manager"
-                            />
+                            <InputLabel htmlFor="Manager"value="Select Manager" />
                             <select
                                 value={item.project_manager}
                                 name="project_manager"
@@ -171,18 +146,11 @@ export default function Edit({ data, auth, developer, manager, devId }) {
                                     );
                                 })}
                             </select>
-                            <InputError
-                                message={errors.project_manager}
-                                className="mt-2"
-                            />
+                            <InputError message={errors.project_manager} className="mt-2" />
                         </div>
-
                         <div className="mt-4">
-                        <InputLabel htmlFor="Assign to">
-                             Assign To - Project Manager <Chip label="PM" color="success" size="small" style={{ fontSize:'10px' }}/> &emsp; Developer <Chip label="D" size="small" style={{ fontSize:'10px',background:'gray',color:'white' }}/>
+                        <InputLabel htmlFor="Assign to">Assign To - Project Manager <Chip label="PM" color="success" size="small" style={{ fontSize:'10px' }}/> &emsp; Developer <Chip label="D" size="small" style={{ fontSize:'10px',background:'gray',color:'white' }}/>
                         </InputLabel>
-
-
                             <Grid item xs={12}>
                                 {allDeveloper.map((user, index) => (
                                      <Button
@@ -197,12 +165,8 @@ export default function Edit({ data, auth, developer, manager, devId }) {
                                  </Button>
                                 ))}
                             </Grid>
-                            <InputError
-                                message={errors.developer}
-                                className="mt-2"
-                            />
+                            <InputError message={errors.developer} className="mt-2"/>
                         </div>
-
                         <div className="flex items-center justify-center m-8">
                             <Button variant="contained"  color="error" onClick={() => window.history.back()}
                                 sx={{ height:'35px',width:'120px',borderRadius:'0.375rem',fontSize:"0.80rem" }}>
@@ -211,17 +175,14 @@ export default function Edit({ data, auth, developer, manager, devId }) {
                                 className="ms-4"
                                 variant="contained"
                                 disabled={processing}
-                                style={{
-                                    backgroundColor: "#1976d2",
-                                }}
+                                style={{  backgroundColor: "#1976d2",}}
                             >
                                <UpdateIcon sx={{ height:'15px' }}/> Update
                             </PrimaryButton>
                         </div>
-
                     </form>
                 </div>
-                </div>
+             </div>
             </div>
         </AuthenticatedLayout>
     );

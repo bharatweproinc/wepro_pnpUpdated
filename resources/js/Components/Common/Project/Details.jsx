@@ -21,16 +21,12 @@ export default function Details({ user, data, auth ,updated}) {
         <>
             <Box sx={{ backgroundColor: "#f7f7f7",borderRadius:"10px" }} className="pb-5">
                 <Grid container>
-                    <Grid
-                        item
-                        xs={12}
-                        style={{
+                    <Grid item xs={12} style={{
                             background: "rgb(236 236 236)",
                             alignItems: "center",
                             display: "flex",
                             justifyContent: "space-between",
                             height:"50px",
-
                         }}
                     >
                         <Typography
@@ -38,7 +34,6 @@ export default function Details({ user, data, auth ,updated}) {
                         >
                             Basic Project Information
                         </Typography>
-
                             {
                                 auth.user.user_role =="admin" &&
                                 <IconButton aria-label="edit" color="primary"
@@ -47,12 +42,11 @@ export default function Details({ user, data, auth ,updated}) {
                                 <EditIcon />
                                </IconButton>
                             }
-
                     </Grid>
                 </Grid>
                 <br />
 
-                <Grid container className="px-3">
+                <Grid container spacing={3} className="px-3">
                     <Grid item xs={4}>
                         <Typography sx={{ fontWeight: "bold" }}>
                             Title
@@ -78,10 +72,6 @@ export default function Details({ user, data, auth ,updated}) {
                             <Chip color="success" label={data.project_manager} />
                         </Typography>
                     </Grid>
-                </Grid>
-                <br />
-
-                <Grid container className="px-3">
                     <Grid item xs={12}>
                         <Typography sx={{ fontWeight: "bold" }}>
                             Description
@@ -91,6 +81,7 @@ export default function Details({ user, data, auth ,updated}) {
                         </Typography>
                     </Grid>
                 </Grid>
+
             </Box>
             <br/>
 

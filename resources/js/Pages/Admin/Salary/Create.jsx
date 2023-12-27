@@ -126,10 +126,7 @@ export default function Create({ auth }) {
                         InputProps={{ startAdornment:<InputAdornment position="start"> Rs </InputAdornment> }}
                     />
                     </Grid>
-                     <InputError
-                                message={errors.basic_salary}
-                                className="mt-2"
-                            />
+                     <InputError message={errors.basic_salary} className="mt-2"/>
                 </Grid>
                 <Grid container className="pb-5" style={{ display:'flex',alignItems:'baseline' }}>
                     <Grid item xs={4}>
@@ -149,10 +146,7 @@ export default function Create({ auth }) {
                         InputProps={{ startAdornment:<InputAdornment position="start"> Rs </InputAdornment> }}
                     />
                     </Grid>
-                     <InputError
-                                message={errors.house_rent}
-                                className="mt-2"
-                            />
+                     <InputError message={errors.house_rent} className="mt-2"/>
                 </Grid>
                 <Grid container className="pb-5" style={{ display:'flex',alignItems:'baseline' }}>
                     <Grid item xs={4}>
@@ -172,10 +166,7 @@ export default function Create({ auth }) {
                         InputProps={{ startAdornment:<InputAdornment position="start"> Rs </InputAdornment> }}
                     />
                     </Grid>
-                    <InputError
-                                message={errors.leave_allowance}
-                                className="mt-2"
-                            />
+                    <InputError message={errors.leave_allowance}  className="mt-2"/>
                 </Grid>
                 <Grid container className="pb-5" style={{ display:'flex',alignItems:'baseline' }}>
                    <Grid item xs={4}>
@@ -195,10 +186,7 @@ export default function Create({ auth }) {
                         InputProps={{ startAdornment:<InputAdornment position="start"> Rs </InputAdornment> }}
                     />
                     </Grid>
-                    <InputError
-                                message={errors.medical_conveyance}
-                                className="mt-2"
-                            />
+                    <InputError message={errors.medical_conveyance}className="mt-2" />
                 </Grid>
                 <Grid container className="pb-5" style={{ display:'flex',alignItems:'baseline' }}>
                     <Grid item xs={4}>
@@ -218,10 +206,7 @@ export default function Create({ auth }) {
                         InputProps={{ startAdornment:<InputAdornment position="start"> Rs </InputAdornment> }}
                     />
                     </Grid>
-                    <InputError
-                                message={errors.statutory_bonus}
-                                className="mt-2"
-                            />
+                    <InputError  message={errors.statutory_bonus} className="mt-2" />
                 </Grid>
 
                 <Grid container className="pb-5" style={{ display:'flex',alignItems:'baseline' }}>
@@ -242,10 +227,7 @@ export default function Create({ auth }) {
                             InputProps={{ startAdornment:<InputAdornment position="start"> Rs </InputAdornment> }}
                         />
                         </Grid>
-                        <InputError
-                                message={errors.provided_fund}
-                                className="mt-2"
-                            />
+                        <InputError  message={errors.provided_fund} className="mt-2" />
                 </Grid>
 
                 <Grid container className="pb-5" style={{ display:'flex',alignItems:'baseline' }}>

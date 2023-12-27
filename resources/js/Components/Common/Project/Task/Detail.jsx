@@ -110,12 +110,7 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                             height: "50px",
                         }}
                     >
-                        <Typography
-                            sx={{ fontWeight: "bold", marginLeft: "10px" }}
-                        >
-                            Task Information
-                        </Typography>
-
+                        <Typography sx={{ fontWeight: "bold", marginLeft: "10px" }}>Task Information </Typography>
                         {auth.user.user_role !== "hr manager" ||
                             auth.user.user_role !== "junior developer" ||
                             (auth.user.user_role !== "senior developer" && (
@@ -124,36 +119,24 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                                     developer={developer}
                                     data={data}
                                     auth={auth}
-                                    sx={{
-                                        display: "flex",
-                                        justifyContent: "end",
-                                    }}
+                                    sx={{ display: "flex",justifyContent: "end", }}
                                 />
                             ))}
                     </Grid>
                 </Grid>
                 <br />
-                <Grid container>
+                <Grid container spacing={2}>
                     <Grid item xs={4}>
-                        <Typography sx={{ fontWeight: "bold" }}>
-                            Task Name
-                        </Typography>
-                        <Typography className="capitalize">
-                            {data.task_name}
-                        </Typography>
+                        <Typography sx={{ fontWeight: "bold" }}> Task Name </Typography>
+                        <Typography className="capitalize"> {data.task_name}</Typography>
                     </Grid>
                     <Grid item xs={4}>
-                        <Typography sx={{ fontWeight: "bold" }}>
-                            Level
-                        </Typography>
+                        <Typography sx={{ fontWeight: "bold" }}> Level</Typography>
                         <Typography>{data.level}</Typography>
                     </Grid>
                     <Grid item xs={4}>
-                        <Typography sx={{ fontWeight: "bold" }}>
-                            Status
-                        </Typography>
+                        <Typography sx={{ fontWeight: "bold" }}>Status</Typography>
                         {isEdit ?
-                            (
                             <Box component={"form"} onSubmit={statusSubmit}>
                                 <Select
                                     value={state.status}
@@ -179,19 +162,10 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                                     />
                                 </IconButton>
                             </Box>
-                        ) : (
-                            <div
-                                style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                }}
-                            >
+                         : (
+                            <div style={{display: "flex",alignItems: "center",}}>
                                 <Typography className="capitalize">
-                                    <Chip
-                                        label={state.status}
-                                        style={{background:StatusStyle.ChipColor[state.status ].color,color: "white",
-                                        }}
-                                    />
+                                    <Chip label={state.status} style={{background:StatusStyle.ChipColor[state.status ].color,color: "white",}}/>
                                 </Typography>
                                 {auth.user.user_role !== "hr manager" && (
                                     <IconButton
@@ -232,9 +206,6 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                             />
                         )}
                     </Grid>
-                </Grid>
-                <br />
-                <Grid container>
                     <Grid item xs={4}>
                         <Typography sx={{ fontWeight: "bold" }}>Assign Date</Typography>
                         <Typography className="capitalize"><FormatDate date={data.start_date} /></Typography>
@@ -247,23 +218,16 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                         <Typography sx={{ fontWeight: "bold" }}>Start Date</Typography>
                         <Typography className="capitalize">{data.started_at && <FormatDate date={data.started_at} />}</Typography>
                     </Grid>
-                </Grid>
-                <br />
-                <Grid container>
-                <Grid item xs={4}>
+                    <Grid item xs={4}>
                         <Typography sx={{ fontWeight: "bold" }}>Working Hour</Typography>
-                        <Typography className="capitalize">{data.hour_worked}</Typography>
+                        <Typography className="capitalize">{data.hour_worked} Minutes</Typography>
                     </Grid>
-                </Grid>
-                <br />
-                <Grid container>
                     <Grid item xs={12}>
                         <Typography sx={{ fontWeight: "bold" }}>Description</Typography>
                         <Typography className="capitalize">{data.description} </Typography>
                     </Grid>
                 </Grid>
             </Box>
-
             <Box
                 sx={{
                     flexGrow: 10,
@@ -274,9 +238,7 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                 }}
             >
                 <Grid container>
-                    <Grid
-                        item
-                        xs={12}
+                    <Grid item xs={12}
                         style={{
                             background: "rgb(236 236 236)",
                             alignItems: "center",
@@ -285,14 +247,10 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                             height: "50px",
                         }}
                     >
-                        <Typography sx={{ fontWeight: "bold", marginLeft: "10px" }}>
-                            Developers
-                        </Typography>
+                        <Typography sx={{ fontWeight: "bold", marginLeft: "10px" }}> Developers</Typography>
                     </Grid>
                 </Grid>
-
                 <br />
-
                 <Box>
                     {developer.map(
                         (item, j) => {
@@ -304,10 +262,7 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                                             <Chip label={item.name} key={j} className="capitalize" sx={{ margin:"10px"}}
                                                 color={item.user_role == "project manager" ? "success" : "primary"}/>
                                         </Tooltip>);
-                                })
-
-                            );
-
+                             }) );
                         }
                     )}
                 </Box>

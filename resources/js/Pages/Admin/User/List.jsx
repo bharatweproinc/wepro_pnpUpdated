@@ -52,7 +52,7 @@ export default function List({data, auth }) {
     return (
         <AuthenticatedLayout user={auth.user} >
             <div className="py-12 users-container" >
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto px-16">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg px-2 py-3">
                         <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} mb={2}>
                             <div className="users"><PeopleIcon/> Users</div>

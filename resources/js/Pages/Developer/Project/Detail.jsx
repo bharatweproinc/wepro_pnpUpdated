@@ -23,8 +23,8 @@ export default function Detail({ data, auth, user, task,updated }) {
 
     return (
         <AuthenticatedLayout user={auth.user}>
-              <div style={{ padding:'40px' }}>
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+              <div className="py-12">
+                <div className="max-w-7xl mx-auto px-16">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg px-2 py-3">
                         <Box
                             sx={{
