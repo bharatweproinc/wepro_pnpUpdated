@@ -118,7 +118,6 @@ export default function Create({developer, manager }) {
                 <Fade in={open}>
                     <Box sx={style} style={{ width: "800px" }}>
                         <div className="rounded-t-xl bg-slate-50 border-gray-100 border border-t-0 shadow-sm p-5" >
-                        <div style={{alignItems: "center",display: "flex",justifyContent: "center",paddingBottom:"10px"}}>
                         <form onSubmit={handleSubmit}>
                             <div
                                 style={{
@@ -295,7 +294,6 @@ export default function Create({developer, manager }) {
 
                             </div>
                         </form>
-                        </div>
                         </div>
                     </Box>
                 </Fade>

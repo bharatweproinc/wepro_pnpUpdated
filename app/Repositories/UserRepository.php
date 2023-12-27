@@ -69,13 +69,12 @@ class UserRepository implements UserInterface
                 'user_role' => 'required|string',
             ]);
             $user = User::findOrFail($id);
-
-            if( $data['profile']!== $user->profile && isset($data['profile'])){
+            $profile = asset('storage/'.$user->profile);
+            if( $data['profile']!== $profile && isset($data['profile'])){
                 $profileImage =  $data['profile'];
                 $profileName = uniqid().'_'.time().'_'.$profileImage->getClientOriginalName();
                 $profileImagePath = $profileImage->storeAs('profile', $profileName . $id . '.' . $profileImage->getClientOriginalExtension(),'public');
                 $data['profile'] = $profileImagePath;
-                // User::where('id',$id)->update(['profile' =>$profileImagePath]);
            }
            $user->update($data);
             return [
@@ -96,7 +95,6 @@ class UserRepository implements UserInterface
         $salary = Salary::where('user_id' ,$id)->get();
         $data = User::where('id',$id)->first();
         $data['profile'] = asset('storage/'.$data['profile']);
-        // dd($data['profile']);
         $leave = Leave::where('user_id',$id)->orderBy('created_at','desc')->get();
         foreach($leave as $key => $val){
             $leave[$key]['file'] = asset('storage/'.$val->file);

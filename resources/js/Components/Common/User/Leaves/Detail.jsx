@@ -102,17 +102,20 @@ export default function Details({ data, auth }) {
                             {data.description}
                         </Typography>
                     </Grid>
+                    {
+                        data.file !="http://127.0.0.1:8000/storage" &&
+                        <Grid item xs={12} className="pt-3">
+                            <Typography sx={{ fontWeight: "bold",paddingBottom:'5px' }}>
+                                Uploaded File
+                            </Typography>
+                            <Typography className="capitalize">
+                                <a href={data.file} target="_blank">
+                                    <img src={data.file} alt="leave file" style={{ width: '200px', height: '150px' }}/>
+                                </a>
+                            </Typography>
+                        </Grid>
+                    }
 
-                    <Grid item xs={12} className="pt-3">
-                        <Typography sx={{ fontWeight: "bold",paddingBottom:'5px' }}>
-                            Uploaded File
-                        </Typography>
-                        <Typography className="capitalize">
-                            {/* <a href={data.file} target="_blank"> */}
-                                <img src={data.file} alt="leave file" style={{ width: '200px', height: '150px' }}/>
-                            {/* </a> */}
-                        </Typography>
-                    </Grid>
 
                 </Grid>
 

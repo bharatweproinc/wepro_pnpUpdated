@@ -50,15 +50,18 @@ class LeaveRepository implements LeaveInterface
     {
         try {
             $leave = Leave::where('id',$id)->first();
-        $leave->update($data);
-        if(isset($data['file']) && array_key_exists('file',$data) && is_array($data['file']))
+            $file = $leave->file;
+        if( $file != $data['file'] && isset($data['file']) && array_key_exists('file',$data))
         {
             $file = $data['file'];
             $fileName = uniqid().'_'.time().'_'.$file->getClientOriginalName();
             $filePath = $file->storeAs('LeaveFile', $fileName . $id . '.' . $file->getClientOriginalExtension(), 'public');
-            Leave::where('user_id',$id)->update(['file'=>asset('storage/'.$filePath)]);
+            // Leave::where('user_id',$id)->update(['file'=>asset('storage/'.$filePath)]);
+            $data['file'] = $filePath;
         }
-        return true;
+
+        $leave->update($data);
+        return ['success'=>true];
         } catch (\Throwable $th) {
             return [
                 'success'=>false,

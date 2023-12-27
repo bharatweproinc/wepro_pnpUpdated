@@ -7,17 +7,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useForm } from "@inertiajs/react";
 import CloseIcon from '@mui/icons-material/Close';
 import UpdateIcon from '@mui/icons-material/Update';
-import {
-    Button,
-    IconButton,
-    MenuItem,
-    Select,
-    FormControl,
-    FormControlLabel,
-    Radio,
-    RadioGroup,
-    Typography,
-} from "@mui/material";
+import {Button,IconButton,MenuItem,Select,FormControl,FormControlLabel,Radio,RadioGroup,Typography,} from "@mui/material";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
@@ -47,7 +37,6 @@ export default function Edit({item,auth,user}){
         const [effect ,setEffect] = useState(false);
         const handleOpen = () => setOpen(true);
         const [unique ,setUnique] = useState(item.user_id);
-        const [expand ,setExpand] = useState(user?.length > 0 ? true :false);
 
         const { data, setData, get, post, processing, errors, reset } = useForm({
             subject:item.subject,
@@ -58,9 +47,7 @@ export default function Edit({item,auth,user}){
             reason: item.reason,
             days:item.days,
             file:item?.file,
-            // user_id:item.user_id,
         });
-        console.log(data.file,data.user ,item,item.user_id,'userrr');
 
         const handleClose = () => {
             setOpen(false);
@@ -76,7 +63,6 @@ export default function Edit({item,auth,user}){
                 status: item.status,
                 reason: item.reason,
                 file:item?.file,
-                // user_id:item?.user,
             }))
         },[item]);
 
@@ -313,24 +299,16 @@ export default function Edit({item,auth,user}){
                                             id="days"
                                             type="text"
                                             name="days"
-                                            value={data.days == 'NaN day' ? 0 :data.days}
+                                            value={data.days}
                                             className="mt-1 block w-full"
                                             autoComplete="days"
                                             required
                                             disabled
-                                            style={{
-                                                height: "42px",
-                                                width: "252px",
-                                                marginLeft: "10px",
-                                            }}
+                                            style={{height: "42px", width: "252px",marginLeft: "10px",}}
                                         />
-
-                                        <InputError
-                                            message={errors.days}
-                                            className="mt-2"
-                                        />
-                                         </div>
+                                        <InputError message={errors.days}className="mt-2"/>
                                         </div>
+                                    </div>
 
 
                                     {(data.days == '0 day' ||  data.days == 'half day' ||  data.days == 'full day'
@@ -339,12 +317,9 @@ export default function Edit({item,auth,user}){
                                         <FormControl component="fieldset">
                                         <RadioGroup
                                             value={data.days}
-                                            onChange={(e) =>
-                                                setData("days", e.target.value)
-                                            }
+                                            onChange={(e) => setData("days", e.target.value)}
                                             row
                                         >
-
                                         <FormControlLabel
                                             value="full day"
                                             control={<Radio />}
@@ -377,6 +352,7 @@ export default function Edit({item,auth,user}){
                                             control={<Radio />}
                                             label="First Half"
                                             aria-setsize={"small"}
+                                            checked={data.days=="first half"}
                                         />
 
                                         <FormControlLabel
@@ -384,6 +360,7 @@ export default function Edit({item,auth,user}){
                                             control={<Radio />}
                                             label="Second Half"
                                             aria-setsize={"small"}
+                                            checked={data.days=="second half"}
                                         />
                                         </RadioGroup>
                                         </FormControl>
