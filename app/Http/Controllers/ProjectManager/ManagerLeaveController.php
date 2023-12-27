@@ -26,9 +26,8 @@ class ManagerLeaveController extends Controller
         $leave = $leaves[0];
         return Inertia::render('ProjectManager/Leave/View',['leave'=>$leave]);
     }
-    public function save(Request $request ,$id)
+    public function save(LeaveRequest $request ,$id)
     {
-dd($request);
         $response = $this->leaveRepository->save($request->all(),$id);
         if($response['success']){
             return redirect()->back();

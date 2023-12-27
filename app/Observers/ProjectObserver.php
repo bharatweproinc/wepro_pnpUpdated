@@ -36,7 +36,7 @@ class ProjectObserver
                 'historable_id' => $project->id,
                 'historable_type' => Project::class,
                 'change_type' => 'UPDATE',
-                'description' =>'Project title has been changed from' .$oldDescription .'to'.$project->description,
+                'description' =>'Project title has been changed from ' .$oldDescription .' to '.$project->description,
             ]);
         }
         else if ($project->isDirty('manager')) {
@@ -46,7 +46,7 @@ class ProjectObserver
                 'historable_id' => $project->id,
                 'historable_type' => Project::class,
                 'change_type' => 'UPDATE',
-                'description' =>'Project title has been changed from' .$oldManager .'to'.$project->manager,
+                'description' =>'Project title has been changed from ' .$oldManager .' to '.$project->manager,
 
             ]);
         }

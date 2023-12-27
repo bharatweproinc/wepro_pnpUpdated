@@ -98,7 +98,6 @@ export default function Create({developer, manager }) {
             <Button
                 variant="contained"
                 onClick={handleOpen}
-                size="small"
                 startIcon={<AddIcon />}
             >
                 Create

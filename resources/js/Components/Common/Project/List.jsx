@@ -66,10 +66,7 @@ export default function List({ data, auth, developer, manager ,status}) {
             <div style={{paddingBottom: "10px", display: "flex", justifyContent: "end",}}>
                 {
                     auth.user.user_role=="admin" &&
-                    <Create
-                    developer={developer}
-                    manager={manager}
-                    />
+                    <Create developer={developer} manager={manager} />
                 }
             </div>
 

@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Salary;
+
 
 class DeveloperDashboardController extends Controller
 {

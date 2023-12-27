@@ -43,7 +43,7 @@ export default function Create({ auth ,Id ,user}) {
     const [severity,setSeverity] = useState(null);
     const [effect,setEffect] = useState(false);
     const [expand ,setExpand] = useState(user?.length > 0 ? true :false);
-    const [unique ,setUnique] = useState(Id?.user_id || Id);
+    const [unique ,setUnique] = useState(Id.user_id || Id);
     const handleOpen=(e)=>setOpen(true);
 
     const { data, setData, get, post, processing, errors, reset } = useForm({
