@@ -106,7 +106,9 @@ export default function View({ data, auth, salary }) {
                                         <Grid container className="px-3">
                                             <Grid item xs={4}>
                                                 <Typography sx={{ fontWeight: "bold", paddingBottom: '10px' }}>Profile Image </Typography>
-                                                <img src={data.profile} alt="Profile Image" style={{ width: '200px', height: '150px' }} />
+                                                <a href={data.profile} target='_blank'>
+                                                    <img src={data.profile} alt="Profile Image" style={{ width: '200px', height: '150px' }} />
+                                                </a>
                                             </Grid>
                                         </Grid>
                                     </Box>

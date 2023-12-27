@@ -3,7 +3,7 @@ import List from "@/Components/Common/User/Leaves/List";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Alert,} from "@mui/material";
 
-export default function View({ leave ,auth }) {
+export default function View({ leave ,auth ,Id}) {
     return (
         <AuthenticatedLayout user={auth.user}>
             <div  className="py-12">

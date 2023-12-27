@@ -24,7 +24,8 @@ class ManagerLeaveController extends Controller
     {
         $leaves = $this->leaveRepository->userlist();
         $leave = $leaves[0];
-        return Inertia::render('ProjectManager/Leave/View',['leave'=>$leave]);
+        $id = $leaves[1];
+        return Inertia::render('ProjectManager/Leave/View',['leave'=>$leave ,'Id'=>$id]);
     }
     public function save(LeaveRequest $request ,$id)
     {

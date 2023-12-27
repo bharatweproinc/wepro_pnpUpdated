@@ -50,15 +50,14 @@ class LeaveRepository implements LeaveInterface
     {
         try {
             $leave = Leave::where('id',$id)->first();
-            $file = $leave->file;
-            if( $file != $data['file'] && isset($data['file']) && array_key_exists('file',$data))
+            $doc = $leave->file;
+            if( $doc != $data['file'] && isset($data['file']) )
             {
                 $file = $data['file'];
                 $fileName = uniqid().'_'.time().'_'.$file->getClientOriginalName();
                 $filePath = $file->storeAs('LeaveFile', $fileName . $id . '.' . $file->getClientOriginalExtension(), 'public');
                 $data['file'] = $filePath;
             }
-
             $leave->update($data);
             return ['success'=>true];
         } catch (\Throwable $th) {
@@ -76,6 +75,6 @@ class LeaveRepository implements LeaveInterface
         foreach($leave as $key => $val){
             $leave[$key]['file'] = asset('storage/'.$val->file);
          }
-        return [$leave];
+        return [$leave ,$id];
     }
 }

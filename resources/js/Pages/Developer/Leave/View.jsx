@@ -1,8 +1,9 @@
+import Create from "@/Components/Common/User/Create";
 import List from "@/Components/Common/User/Leaves/List";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Alert,} from "@mui/material";
 
-export default function View({ leave ,auth }) {
+export default function View({ leave ,auth ,Id}) {
     return (
         <AuthenticatedLayout user={auth.user}>
             <div  className="py-12">
@@ -18,6 +19,7 @@ export default function View({ leave ,auth }) {
                                             MarginTop: "9px",
                                         },
                                     }}
+                                    action={<Create auth={auth} Id={Id} user={[]}/> }
                                 >
                                    You don't apply for any  Leaves
                                 </Alert>

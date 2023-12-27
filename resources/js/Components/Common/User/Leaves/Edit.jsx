@@ -34,7 +34,7 @@ export default function Edit({item,auth,user}){
         const [open, setOpen] = useState(false);
         const [alert,setAlert] = useState(false);
         const [severity,setSeverity] = useState(null);
-        const [effect ,setEffect] = useState(false);
+        const [effect ,setEffect] = useState(null);
         const handleOpen = () => setOpen(true);
         const [unique ,setUnique] = useState(item.user_id);
 
@@ -46,7 +46,8 @@ export default function Edit({item,auth,user}){
             status: item.status,
             reason: item.reason,
             days:item.days,
-            file:item?.file,
+            // file:item?.file,
+            file:"",
         });
 
         const handleClose = () => {
@@ -62,7 +63,7 @@ export default function Edit({item,auth,user}){
                 to_date: item.to_date,
                 status: item.status,
                 reason: item.reason,
-                file:item?.file,
+                file:"",
             }))
         },[item]);
 
@@ -72,6 +73,7 @@ export default function Edit({item,auth,user}){
             setEffect(false);
         },[effect]);
 
+        console.log(data.days,item.days ,effect,'datata');
         const handleUser = (e) => {
             setData('user_id',e.target.value);
             setUnique(e.target.value);
@@ -86,8 +88,8 @@ export default function Edit({item,auth,user}){
                               setAlert("Leave Updated.")
                               setOpen(false);
                               setSeverity('success');
-                          },onError:()=>{
-                            setAlert('Something is wrong !')
+                          },onError:(error)=>{
+                            setAlert(error.error)
                             setSeverity('error');
                         }
                       })
@@ -97,8 +99,8 @@ export default function Edit({item,auth,user}){
                               setAlert("Leave Updated.");
                               setOpen(false);
                               setSeverity('success');
-                          },onError:()=>{
-                            setAlert('Something is wrong !')
+                          },onError:(error)=>{
+                            setAlert(error.error)
                             setSeverity('error');
                         }
                       });
@@ -194,12 +196,7 @@ export default function Edit({item,auth,user}){
                                                 value={data.description}
                                                 className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
                                                 autoComplete="requested_date"
-                                                onChange={(e) =>
-                                                    setData(
-                                                        "description",
-                                                        e.target.value
-                                                    )
-                                                }
+                                                onChange={(e) =>setData( "description",e.target.value)}
                                                 required
                                             />
 
@@ -326,6 +323,7 @@ export default function Edit({item,auth,user}){
                                             label="Full Day"
                                             aria-setsize={"small"}
                                             style={{ paddingRight:'10px' }}
+                                            checked={data.days == "full day" }
                                         />
 
                                         <FormControlLabel
@@ -339,13 +337,13 @@ export default function Edit({item,auth,user}){
                                         </RadioGroup>
                                         </FormControl>
 
-                                        { (data.days == '0 day'|| data.days == 'half day'|| data.days == 'first half' || data.days =='second half') &&
+                                        { (data.days == 'half day'|| data.days == 'first half' || data.days =='second half') &&
 
                                         <FormControl component="fieldset">
                                         <RadioGroup
                                             value={data.days}
                                             onChange={(e) => setData("days", e.target.value)}
-                                            row
+                                            row checked = {data.days}
                                         >
                                         <FormControlLabel
                                             value="first half"

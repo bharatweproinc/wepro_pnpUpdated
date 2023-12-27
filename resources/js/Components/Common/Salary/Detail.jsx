@@ -28,15 +28,15 @@ export default function Details({auth,salary ,data}){
                     </Grid>
                 </Grid>
                 <br />
-                <Grid container className="px-3" style={{ justifyContent:'space-evenly'}}>
-                    <Grid item xs={12} sx={{ paddingTop:'10px' ,display:'flex',justifyContent:'space-around'}}>
+                <Grid container spacing={1} className="px-3" style={{ justifyContent:'space-evenly'}}>
+                    <Grid item xs={12} sx={{  display:'flex',justifyContent:'space-around'}}>
                         <Typography className="title">
                            Basic Salary
                         </Typography>
                         <Typography  className = "text" style={{ maxWidth:'50%' }}>Rs {salary[0]?.basic_salary}</Typography>
                     </Grid>
 
-                    <Grid item xs={12} sx={{ paddingTop:'10px' ,display:'flex',justifyContent:'space-around'}}>
+                    <Grid item xs={12} sx={{display:'flex',justifyContent:'space-around'}}>
                         <Typography  className="title">
                            Medical And Conveyance
                         </Typography>
@@ -45,7 +45,7 @@ export default function Details({auth,salary ,data}){
                         Rs {salary[0]?.medical_and_Conveyance}
                         </Typography>
                     </Grid>
-                    <Grid item xs={12} sx={{ paddingTop:'10px' ,display:'flex',justifyContent:'space-around'}}>
+                    <Grid item xs={12} sx={{display:'flex',justifyContent:'space-around'}}>
                         <Typography  className="title">
                             Leave Travel Allowance
                         </Typography>
@@ -55,7 +55,7 @@ export default function Details({auth,salary ,data}){
                         </Typography>
                     </Grid>
 
-                    <Grid item xs={12} sx={{ paddingTop:'10px' ,display:'flex',justifyContent:'space-around'}}>
+                    <Grid item xs={12} sx={{display:'flex',justifyContent:'space-around'}}>
                         <Typography className="title">
                            Statutory Bonus
                         </Typography>
@@ -64,7 +64,7 @@ export default function Details({auth,salary ,data}){
                         Rs {salary[0]?.statutory_bonus}
                         </Typography>
                     </Grid>
-                    <Grid item xs={12} sx={{ paddingTop:'10px' ,display:'flex',justifyContent:'space-around'}}>
+                    <Grid item xs={12} sx={{display:'flex',justifyContent:'space-around'}}>
                         <Typography  className="title">
                           Provided Fund
                         </Typography>
@@ -73,7 +73,7 @@ export default function Details({auth,salary ,data}){
                         Rs {salary[0]?.provided_fund}
                         </Typography>
                     </Grid>
-                    <Grid item xs={12} sx={{ paddingTop:'10px' ,display:'flex',justifyContent:'space-around'}}>
+                    <Grid item xs={12} sx={{display:'flex',justifyContent:'space-around'}}>
                         <Typography className="title">
                             House Rent
                         </Typography>
@@ -83,7 +83,7 @@ export default function Details({auth,salary ,data}){
                         </Typography>
                     </Grid>
 
-                    <Grid item xs={12} sx={{ paddingTop:'10px' ,display:'flex',justifyContent:'space-around',borderTop:"1px solid gray"}}>
+                    <Grid item xs={12} sx={{display:'flex',justifyContent:'space-around',borderTop:"1px solid gray"}}>
                         <Typography className="title">
                             Gross Salary
                         </Typography>
@@ -92,7 +92,7 @@ export default function Details({auth,salary ,data}){
                         Rs {salary[0]?.gross_salary}
                         </Typography>
                     </Grid>
-                    <Grid item xs={12} sx={{ paddingTop:'10px' ,display:'flex',justifyContent:'space-around'}}>
+                    <Grid item xs={12} sx={{display:'flex',justifyContent:'space-around'}}>
                         <Typography  className="title">
                            Tax Deduction
                         </Typography>
@@ -101,7 +101,7 @@ export default function Details({auth,salary ,data}){
                          {salary[0]?.tax_deducted_at_source}% of Rs {salary[0]?.gross_salary} = {tax}
                         </Typography>
                     </Grid>
-                    <Grid item xs={12} sx={{ paddingTop:'10px' ,display:'flex',justifyContent:'space-around',borderTop:"1px solid gray"}}>
+                    <Grid item xs={12} sx={{display:'flex',justifyContent:'space-around',borderTop:"1px solid gray"}}>
                         <Typography className="title" >
                            Net Salary
                         </Typography>
