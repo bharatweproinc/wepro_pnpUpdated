@@ -20,6 +20,7 @@ import SuccessMsg from "@/Components/Common/SuccessMsg";
 import { useEffect } from "react";
 import SalaryValidation from "../../../Components/Common/Salary/Component/SalaryValidation";
 import Joi from "@/Util/JoiValidator";
+import Currency from "@/Util/Currency";
 
 
 export default function Create({ auth }) {
@@ -123,7 +124,7 @@ export default function Create({ auth }) {
                         autoComplete="basic_salary"
                         onChange={handleChange}
                         size="small"
-                        InputProps={{ startAdornment:<InputAdornment position="start"> Rs </InputAdornment> }}
+                        InputProps={{ startAdornment:<InputAdornment position="start"> ₹ </InputAdornment> }}
                     />
                     </Grid>
                      <InputError message={errors.basic_salary} className="mt-2"/>
@@ -143,7 +144,7 @@ export default function Create({ auth }) {
                         autoComplete="house_rent"
                         onChange={handleChange}
                         size="small"
-                        InputProps={{ startAdornment:<InputAdornment position="start"> Rs </InputAdornment> }}
+                        InputProps={{ startAdornment:<InputAdornment position="start"> ₹ </InputAdornment> }}
                     />
                     </Grid>
                      <InputError message={errors.house_rent} className="mt-2"/>
@@ -163,7 +164,7 @@ export default function Create({ auth }) {
                         autoComplete="leave_allowance"
                         onChange={handleChange}
                         size="small"
-                        InputProps={{ startAdornment:<InputAdornment position="start"> Rs </InputAdornment> }}
+                        InputProps={{ startAdornment:<InputAdornment position="start"> ₹ </InputAdornment> }}
                     />
                     </Grid>
                     <InputError message={errors.leave_allowance}  className="mt-2"/>
@@ -183,7 +184,7 @@ export default function Create({ auth }) {
                         autoComplete="medical_conveyance"
                         onChange={handleChange}
                         size="small"
-                        InputProps={{ startAdornment:<InputAdornment position="start"> Rs </InputAdornment> }}
+                        InputProps={{ startAdornment:<InputAdornment position="start"> ₹ </InputAdornment> }}
                     />
                     </Grid>
                     <InputError message={errors.medical_conveyance}className="mt-2" />
@@ -203,7 +204,7 @@ export default function Create({ auth }) {
                         autoComplete="statutory_bonus"
                         onChange={handleChange}
                         size="small"
-                        InputProps={{ startAdornment:<InputAdornment position="start"> Rs </InputAdornment> }}
+                        InputProps={{ startAdornment:<InputAdornment position="start"> ₹ </InputAdornment> }}
                     />
                     </Grid>
                     <InputError  message={errors.statutory_bonus} className="mt-2" />
@@ -224,7 +225,7 @@ export default function Create({ auth }) {
                             autoComplete="provided_fund"
                             onChange={handleChange}
                             size="small"
-                            InputProps={{ startAdornment:<InputAdornment position="start"> Rs </InputAdornment> }}
+                            InputProps={{ startAdornment:<InputAdornment position="start"> ₹ </InputAdornment> }}
                         />
                         </Grid>
                         <InputError  message={errors.provided_fund} className="mt-2" />
@@ -267,7 +268,7 @@ export default function Create({ auth }) {
                      value={data.gross_salary}
                      autoComplete="gross_salary"
                      size="small"
-                     InputProps={{ startAdornment:<InputAdornment position="start"> Rs </InputAdornment> }}
+                     InputProps={{ startAdornment:<InputAdornment position="start"> ₹ </InputAdornment> }}
                     />
                     </Grid>
                      <InputError message={errors.gross_salary} className="mt-2" />
@@ -285,7 +286,7 @@ export default function Create({ auth }) {
                       value={data.net_salary}
                       autoComplete="net_salary"
                       size="small"
-                      InputProps={{ startAdornment:<InputAdornment position="start">Gross Salary - Tax Deduction = Rs </InputAdornment> }}
+                      InputProps={{ startAdornment:<InputAdornment position="start">Gross Salary - Tax Deduction = ₹ </InputAdornment> }}
                     />
                     </Grid>
                      <InputError message={errors.net_salary} className="mt-2" />

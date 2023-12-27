@@ -17,6 +17,6 @@ class HrDashboardController extends Controller
         $user = User::all();
         $project = Project::all();
         $leave = Leave::whereDate('created_at',  Carbon::today()->toDateString())->get();
-        return Inertia::Render('HRManager/Dashboard/View',['user'=>$user ,'project'=>$project ,'leave'=>$leave]);
+        return Inertia::Render('Dashboard',['user'=>$user ,'project'=>$project ,'leave'=>$leave]);
     }
 }

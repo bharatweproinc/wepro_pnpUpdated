@@ -40,17 +40,18 @@ export default function Edit({ auth, salary, userId }) {
     const [severity, setSeverity] = useState(null);
 
     const { data, setData, post, processing, errors ,setError } = useForm({
-        basic_salary: salary[0]?.basic_salary,
-        house_rent: salary[0]?.house_rent,
-        leave_allowance: salary[0]?.leave_travel_allowance,
-        medical_conveyance: salary[0]?.medical_and_Conveyance,
-        statutory_bonus: salary[0]?.statutory_bonus,
-        tax_deducted: salary[0]?.tax_deducted_at_source,
-        provided_fund: salary[0]?.provided_fund,
-        gross_salary: salary[0]?.gross_salary,
-        net_salary: salary[0]?.net_salary,
+        basic_salary: salary?.basic_salary,
+        house_rent: salary?.house_rent,
+        leave_allowance: salary?.leave_travel_allowance,
+        medical_conveyance: salary?.medical_and_Conveyance,
+        statutory_bonus: salary?.statutory_bonus,
+        tax_deducted: salary?.tax_deducted_at_source,
+        provided_fund: salary?.provided_fund,
+        gross_salary: salary?.gross_salary,
+        net_salary: salary?.net_salary,
     });
 
+    console.log( data.basic_salary ,salary?.basic_salary ,'salary');
     useEffect(() => {
         const grossSalary =
             Number(data.basic_salary) +
@@ -177,7 +178,7 @@ export default function Edit({ auth, salary, userId }) {
                                             autoComplete="basic_salary"
                                             onChange={handleChange}
                                             size="small"
-                                            InputProps={{ startAdornment: <InputAdornment position="start"> Rs </InputAdornment> }}
+                                            InputProps={{ startAdornment: <InputAdornment position="start"> ₹ </InputAdornment> }}
                                         />
                                     </Grid>
                                     <InputError
@@ -202,7 +203,7 @@ export default function Edit({ auth, salary, userId }) {
                                             autoComplete="house_rent"
                                             onChange={handleChange}
                                             size="small"
-                                            InputProps={{ startAdornment: <InputAdornment position="start"> Rs </InputAdornment> }}
+                                            InputProps={{ startAdornment: <InputAdornment position="start"> ₹ </InputAdornment> }}
                                         />
                                     </Grid>
                                     <InputError
@@ -227,7 +228,7 @@ export default function Edit({ auth, salary, userId }) {
                                             autoComplete="leave_allowance"
                                             onChange={handleChange}
                                             size="small"
-                                            InputProps={{ startAdornment: <InputAdornment position="start"> Rs </InputAdornment> }}
+                                            InputProps={{ startAdornment: <InputAdornment position="start"> ₹ </InputAdornment> }}
                                         />
                                     </Grid>
                                     <InputError
@@ -252,7 +253,7 @@ export default function Edit({ auth, salary, userId }) {
                                             autoComplete="medical_conveyance"
                                             onChange={handleChange}
                                             size="small"
-                                            InputProps={{ startAdornment: <InputAdornment position="start"> Rs </InputAdornment> }}
+                                            InputProps={{ startAdornment: <InputAdornment position="start"> ₹ </InputAdornment> }}
                                         />
                                     </Grid>
                                     <InputError
@@ -277,7 +278,7 @@ export default function Edit({ auth, salary, userId }) {
                                             autoComplete="statutory_bonus"
                                             onChange={handleChange}
                                             size="small"
-                                            InputProps={{ startAdornment: <InputAdornment position="start"> Rs </InputAdornment> }}
+                                            InputProps={{ startAdornment: <InputAdornment position="start"> ₹ </InputAdornment> }}
                                         />
                                     </Grid>
                                     <InputError
@@ -302,7 +303,7 @@ export default function Edit({ auth, salary, userId }) {
                                             autoComplete="provided_fund"
                                             onChange={handleChange}
                                             size="small"
-                                            InputProps={{ startAdornment: <InputAdornment position="start"> Rs </InputAdornment> }}
+                                            InputProps={{ startAdornment: <InputAdornment position="start"> ₹ </InputAdornment> }}
                                         />
                                     </Grid>
                                     <InputError
@@ -351,7 +352,7 @@ export default function Edit({ auth, salary, userId }) {
                                             value={data.gross_salary}
                                             autoComplete="gross_salary"
                                             size="small"
-                                            InputProps={{ startAdornment: <InputAdornment position="start"> Rs </InputAdornment> }}
+                                            InputProps={{ startAdornment: <InputAdornment position="start"> ₹ </InputAdornment> }}
                                         />
 
                                     </Grid>
@@ -375,7 +376,7 @@ export default function Edit({ auth, salary, userId }) {
                                             value={data.net_salary}
                                             autoComplete="net_salary"
                                             size="small"
-                                            InputProps={{ startAdornment: <InputAdornment position="start">Gross Salary - Tax Deduction = Rs</InputAdornment> }}
+                                            InputProps={{ startAdornment: <InputAdornment position="start">Gross Salary - Tax Deduction = ₹</InputAdornment> }}
                                         />
                                     </Grid>
                                     <InputError

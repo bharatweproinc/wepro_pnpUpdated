@@ -359,7 +359,6 @@ export default function Create({ auth ,Id ,user}) {
                                             }
                                             row
                                         >
-
                                         <FormControlLabel
                                             value="full day"
                                             control={<Radio />}
@@ -367,7 +366,6 @@ export default function Create({ auth ,Id ,user}) {
                                             aria-setsize={"small"}
                                             style={{ paddingRight:'10px' }}
                                         />
-
                                         <FormControlLabel
                                             value="half day"
                                             control={<Radio />}
@@ -428,7 +426,7 @@ export default function Create({ auth ,Id ,user}) {
                                             }}
                                         />
                                         <select value={data.user} onChange={handleUser} className="w-full block" required>
-                                            <option>Select User</option>
+                                            <option value="">Select User</option>
                                             {
                                                 user?.map((name,index)=>{
                                                     return (

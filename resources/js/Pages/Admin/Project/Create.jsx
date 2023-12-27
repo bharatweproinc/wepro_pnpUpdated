@@ -187,7 +187,6 @@ export default function Create({developer, manager }) {
                                     htmlFor="manager"
                                     value="Select Manager"
                                 />
-
                                 {manager.length == 0 ? (
                                     <Alert severity="info">
                                         Don't have project Manager
@@ -200,8 +199,7 @@ export default function Create({developer, manager }) {
                                         onChange={(e) =>setData("project_manager",e.target.value)}
                                         required
                                     >
-                                        <option>Select Manager</option>
-
+                                        <option value="">Select Manager</option>
                                         {manager.map((mngr, index) => {
                                             return (
                                                 <option

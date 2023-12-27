@@ -37,7 +37,7 @@ export default function Details({auth,salary ,data}){
                         <Typography className="title">
                            Basic Salary
                         </Typography>
-                        <Typography  className = "text" style={{ maxWidth:'50%' }}>{Currency.INRFormate( salary?.basic_salary)}</Typography>
+                        <Typography  className = "text" style={{ maxWidth:'50%' }}>{Currency.INRFormate(salary?.basic_salary)}</Typography>
                     </Grid>
 
                     <Grid item xs={12} sx={{display:'flex',justifyContent:'space-around'}}>
@@ -46,7 +46,7 @@ export default function Details({auth,salary ,data}){
                         </Typography>
 
                         <Typography  className = "text">
-                        {Currency.INRFormate( salary?.medical_and_Conveyance)}
+                        {Currency.INRFormate(salary?.medical_and_Conveyance)}
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sx={{display:'flex',justifyContent:'space-around'}}>
@@ -55,7 +55,7 @@ export default function Details({auth,salary ,data}){
                         </Typography>
 
                         <Typography  className = "text">
-                        {Currency.INRFormate( salary?.leave_travel_allowance)}
+                        {Currency.INRFormate(salary?.leave_travel_allowance)}
                         </Typography>
                     </Grid>
 
@@ -65,7 +65,7 @@ export default function Details({auth,salary ,data}){
                         </Typography>
 
                         <Typography  className = "text">
-                        {Currency.INRFormate( salary?.statutory_bonus)}
+                        {Currency.INRFormate(salary?.statutory_bonus)}
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sx={{display:'flex',justifyContent:'space-around'}}>
@@ -74,7 +74,7 @@ export default function Details({auth,salary ,data}){
                         </Typography>
 
                         <Typography  className = "text">
-                        {Currency.INRFormate( salary?.provided_fund)}
+                        {Currency.INRFormate(salary?.provided_fund)}
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sx={{display:'flex',justifyContent:'space-around'}}>
@@ -83,7 +83,7 @@ export default function Details({auth,salary ,data}){
                         </Typography>
 
                         <Typography  className = "text">
-                        {Currency.INRFormate( salary?.house_rent)}
+                        {Currency.INRFormate(salary?.house_rent)}
                         </Typography>
                     </Grid>
 
@@ -93,7 +93,7 @@ export default function Details({auth,salary ,data}){
                         </Typography>
 
                         <Typography  className = "text">
-                        {Currency.INRFormate( salary?.gross_salary)}
+                        {Currency.INRFormate(salary?.gross_salary)}
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sx={{display:'flex',justifyContent:'space-around'}}>
@@ -102,7 +102,7 @@ export default function Details({auth,salary ,data}){
                         </Typography>
 
                         <Typography className="text">
-                         { salary?.tax_deducted_at_source}% of {Currency.INRFormate( salary?.gross_salary)} = {tax}
+                         { salary?.tax_deducted_at_source}% of {Currency.INRFormate(salary?.gross_salary)} = {Currency.INRFormate(tax)}
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sx={{display:'flex',justifyContent:'space-around',borderTop:"1px solid gray"}}>
@@ -111,7 +111,7 @@ export default function Details({auth,salary ,data}){
                         </Typography>
 
                         <Typography  className = "text">
-                          Gross Salary - Tax Deduction =  {Currency.INRFormate( salary?.net_salary)}
+                          Gross Salary - Tax Deduction =  {Currency.INRFormate(salary?.net_salary)}
                         </Typography>
                     </Grid>
                   </Grid>
