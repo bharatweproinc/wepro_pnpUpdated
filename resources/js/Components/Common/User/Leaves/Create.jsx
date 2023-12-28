@@ -415,7 +415,7 @@ export default function Create({ auth ,Id ,user}) {
                                        expand &&
                                     <div className="mt-4">
                                         <InputLabel
-                                            htmlFor="File"
+                                            htmlFor="user"
                                             value="Select User"
                                             style={{
                                                 fontSize: "15px",
@@ -433,35 +433,24 @@ export default function Create({ auth ,Id ,user}) {
                                                 })
                                             }
                                         </select>
-
                                     </div>
                                     }
-
                                     <div className="mt-4">
                                             <InputLabel
                                                 htmlFor="File"
                                                 value="Upload File"
-                                                style={{
-                                                    fontSize: "15px",
-                                                    fontWeight: "bold",
-                                                }}
+                                                style={{fontSize: "15px",fontWeight: "bold",}}
                                             />
                                            <input type="file" onChange={e => setData('file', e.target.files[0])}/>
-                                            <InputError
-                                                message={errors.file}
-                                                className="mt-2"
-                                            />
+                                            <InputError message={errors.file} className="mt-2"/>
                                     </div>
 
                                     <div className="flex items-center justify-center m-8">
-                                    <Button
+                                        <Button
                                             onClick={handleClose}
                                             variant="contained"
                                             color="error"
-                                            style={{
-                                                height: "33px",
-                                                marginLeft: "10px",
-                                            }}
+                                            style={{ height: "33px", marginLeft: "10px",}}
                                             startIcon={<CloseIcon/>}
                                         >
                                             Cancle
@@ -470,14 +459,10 @@ export default function Create({ auth ,Id ,user}) {
                                             className="ms-4"
                                             variant="contained"
                                             disabled={processing}
-                                            style={{
-                                                height: "40px",
-                                                backgroundColor: "#1976d2",
-                                            }}
+                                            style={{ height: "40px",backgroundColor: "#1976d2", }}
                                         ><SaveIcon sx={{ height:'15px' }}/>
                                             Save
                                         </PrimaryButton>
-
                                     </div>
                                 </form>
                             </div>

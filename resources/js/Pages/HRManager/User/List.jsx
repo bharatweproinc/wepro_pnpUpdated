@@ -66,16 +66,8 @@ export default function View({data, auth }) {
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg px-2 py-3">
                         <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} mb={2}>
                             <div><PeopleIcon/> Users</div>
-
-                            <div
-                            style={{
-                                margin: "10px",
-                                display: "flex",
-                                justifyContent: "end",
-                            }}
-                        >
+                            <div style={{ margin: "10px",  display: "flex", justifyContent: "end",}}>
                             <Create auth={auth}/>
-
                         </div>
                         </Box>
                         <TableContainer

@@ -168,7 +168,7 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                     </Grid>
                     <Grid item xs={4}>
                         <Typography sx={{ fontWeight: "bold" }}>Working Hour</Typography>
-                        <Typography className="capitalize">{data.hour_worked} Minutes</Typography>
+                        <Typography className="capitalize">{data.development_hours} Minutes</Typography>
                     </Grid>
                     <Grid item xs={12}>
                         <Typography sx={{ fontWeight: "bold" }}>Description</Typography>

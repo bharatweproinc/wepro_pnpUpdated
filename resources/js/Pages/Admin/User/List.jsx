@@ -3,6 +3,7 @@ import { Link, useForm, usePage } from "@inertiajs/react";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import {
     Box,
+    Button,
     Chip,
     IconButton,
     Table,
@@ -16,16 +17,21 @@ import {
 import PeopleIcon from '@mui/icons-material/People';
 import { useState } from "react";
 import Create from "@/Components/Common/User/Create";
-import Edit from "@/Components/Common/User/Edit";
 import '../style.scss'
 import DeletePopup from "@/Components/Common/User/Components/DeletePopup";
 import GlobalStyle from "@/Components/Common/User/Components/GlobalStyle";
+import SearchIcon from '@mui/icons-material/Search';
+import TextInput from "@/Components/TextInput";
 
 export default function List({data, auth }) {
     const {url} = usePage();
-    const {  setData, get, processing, errors, setError } = useForm();
+    const { get, processing, errors, setError } = useForm();
     const [page, setPage] = useState(0);
+    const [searchItem ,setSearchItem] = useState();
+    const [search ,setSearch] = useState(false);
+    const [isFilter ,setIsFilter] = useState(true);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [item,setItem] = useState(data.data);
     const { current_page, last_page, total } = data;
     const handleView =(id) =>{
         get(route("admin.user.detail", {id}));
@@ -48,6 +54,24 @@ export default function List({data, auth }) {
         setPage(0);
         get(`${data.path}?page=1&per_page=${newRowsPerPage}`);
     };
+    const handleSearch = () =>{
+        setSearch(true);
+        setIsFilter(false);
+    }
+    const handleClose =() =>{
+        setSearch(false);
+        setIsFilter(true);
+    }
+    const handleInputChange =(e) =>{
+        const searchTerm = e.target.value;
+        setSearchItem(searchTerm);
+
+        const filterItem = data.data.filter((val)=>
+            val.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            val.email.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setItem(filterItem);
+    }
 
     return (
         <AuthenticatedLayout user={auth.user} >
@@ -56,8 +80,26 @@ export default function List({data, auth }) {
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg px-2 py-3">
                         <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} mb={2}>
                             <div className="users"><PeopleIcon/> Users</div>
-                            <div style={{ margin: "10px", display: "flex", justifyContent: "end",}}><Create auth={auth}/></div>
+                            <div style={{ margin: "10px", display: "flex", justifyContent: "end",}}>
+                                {isFilter &&
+                                        <Button variant="contained" startIcon={<SearchIcon/>} onClick={handleSearch} sx={{ marginRight:'10px',width:'120px' }}> Filter</Button>
+                                }
+                                { search &&
+                                    <div style={{ display:'flex' ,justifyContent:'end' ,marginRight:"10px", height:'38px'}}>
+                                        <TextInput
+                                        id="search"
+                                        placeholder="Type To search"
+                                        value={searchItem}
+                                        onChange={handleInputChange}
+                                        style={{ height:'' }}
+                                        />
+                                        <Button variant="contained" color="error" onClick={handleClose} style={{ position:"absolute", fontWeight:"bold" ,margin:'2px 2px 0px 0px',height:'33px'}}>x</Button>
+                                    </div>
+                                }
+                                <Create auth={auth}/>
+                            </div>
                         </Box>
+
                         <TableContainer
                          sx={{ padding:"10px",border:"1px solid whitesmoke" }}>
                             <Table aria-label="simple table" size="small" >
@@ -71,7 +113,7 @@ export default function List({data, auth }) {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {data.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, j) => {
+                                    {item.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, j) => {
                                         return (
                                             <TableRow key={j + 1}>
                                                 <TableCell>{item.id}</TableCell>

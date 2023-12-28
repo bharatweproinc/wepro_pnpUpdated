@@ -10,8 +10,7 @@ interface TaskInterface
     public function edit($id);
     public function update($id,$data);
     public function detail($id);
-
     public function status($id,$data);
     public function multipleFile($id,$file,$type ,$data);
-
+    public function filterData($data ,$id);
 }

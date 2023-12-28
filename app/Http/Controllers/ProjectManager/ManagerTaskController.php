@@ -37,31 +37,11 @@ class ManagerTaskController extends Controller
 
     }
 
-    // public function edit($id){
-
-    //     $items = $this->taskRepository->edit($id);
-    //     $data= $items[0];
-    //     $developer = $items[1];
-    //     $user = $items[2];
-    //     return Inertia::render('projectManager/Task/Edit',['data'=>$data ,'devId'=>$developer, 'developer'=>$user]);
-    // }
 
     public function update(Request $request,$id){
-
         $proj_id = $this->taskRepository->update($id ,$request->all());
-        // return Redirect::route('projectManager.project.task.list',$proj_id);
         return redirect()->back();
-
-
     }
-
-    // public function details($id){
-
-    //     $items = $this->taskRepository->detail($id);
-    //     $data = $items[0];
-    //     $user = $items[1];
-    //     return Inertia::render('Admin/Task/Details',['data'=>$data , 'developer'=>$user]);
-    // }
 
     public function status(Request $request, $id){
         $this->taskRepository->status($id,$request->only('status'));

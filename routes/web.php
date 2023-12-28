@@ -110,9 +110,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
             Route::get('/edit/{id}','edit')->name('task');
             Route::post('/update/{id}','update')->name('update');
             Route::get('/detail/{id}','details')->name('detail');
-
             Route::post('/status/{id}' , 'status')->name('status');
-
+            Route::post('/filter/{id}','filter')->name('filter');
         });
     });
 

@@ -1,4 +1,5 @@
 import {
+    Button,
     Chip,
     Collapse,
     IconButton,
@@ -18,13 +19,20 @@ import Create from "../User/Leaves/Create";
 import Edit from "../User/Leaves/Edit";
 import Details from "../User/Leaves/Detail";
 import LeaveStyle from "./Component/LeaveStyle";
+import TextInput from "@/Components/TextInput";
+import SearchIcon from '@mui/icons-material/Search';
+import { info } from "autoprefixer";
 
 export default function List({ leave, auth, user}) {
 
     const [page, setPage] = useState(0);
     const [expandedRows, setExpandedRows] = useState([]);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const { item, setItem, get, post, processing, errors, reset } = useForm();
+    const [isFilter ,setIsFilter] = useState(true);
+    const [search, setSearch] = useState(false);
+    const [searchItem,setSearchItem] = useState();
+    const [data,setData] = useState(leave);
+    const { get, post, processing, errors, reset } = useForm();
 
     const toggleRow = (id) => {
         if (expandedRows.includes(id)) {
@@ -42,10 +50,48 @@ export default function List({ leave, auth, user}) {
         setRowsPerPage(event.target.value, 10);
         setPage(0);
     };
+
+    const handleSearch = () =>{
+        setSearch(true);
+        setIsFilter(false);
+    }
+    const handleClose =() =>{
+        setSearchItem("");
+        setSearch(false);
+        setIsFilter(true);
+        setData(leave);
+    }
+    const handleInputChange =(e) =>{
+        const searchTerm = e.target.value;
+        setSearchItem(searchTerm);
+        console.log(user,'userrr');
+        const filterItem = user.filter((val) => {
+            return val.name.toLowerCase().includes(searchTerm.toLowerCase());
+          });
+        setData(filterItem);
+    }
+
+
     return (
         <>
             <div style={{ display: "flex", justifyContent: "end", paddingBottom:"10px"}} >
-                {(auth.user.user_role == "admin" || auth.user.user_role == "hr manager") && ( <Create Id={leave} auth={auth} user={user}/> )}
+                {isFilter &&
+                         <Button variant="contained" startIcon={<SearchIcon/>} onClick={handleSearch} sx={{ marginRight:'10px' }}> Filter</Button>
+                }
+                { search &&
+                    <div style={{ display:'flex' ,justifyContent:'end' ,marginRight:"10px", height:'38px'}}>
+                         <TextInput
+                         id="search"
+                         placeholder="Type To search"
+                         value={searchItem}
+                         onChange={handleInputChange}
+                         style={{ height:'' }}
+                         />
+                         <Button variant="contained" color="error" onClick={handleClose} style={{ position:"absolute", fontWeight:"bold" ,margin:'2px 2px 0px 0px',height:'33px'}}>x</Button>
+                     </div>
+                }
+               {(auth.user.user_role == "admin" || auth.user.user_role == "hr manager") && ( <Create Id={leave} auth={auth} user={user}/> )}
+
             </div>
 
             <TableContainer sx={{ padding: "10px", border: "2px solid whitesmoke", background: "rgba(0,0,0,0.02)", }}>
@@ -61,17 +107,16 @@ export default function List({ leave, auth, user}) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {leave.slice( page * rowsPerPage,page * rowsPerPage + rowsPerPage)
+                        {data.slice( page * rowsPerPage,page * rowsPerPage + rowsPerPage)
                           .map((item, j) => {
                                 return (
                                     <>
                                         <TableRow key={j + 1}>
                                             <TableCell>{item.id}</TableCell>
                                             <TableCell>{
-                                                user.map((info,index)=>{
+                                                user.map((info)=>{
                                                     return (info.id == item.user_id  && info.name)
                                                 })
-                                                // user.filter(value => value.id === item.user_id)= user.name
                                             }
                                             </TableCell>
                                             <TableCell className="capitalize">

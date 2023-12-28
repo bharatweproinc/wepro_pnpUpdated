@@ -17,8 +17,10 @@ import {
     Button,
     FormControl,
     FormControlLabel,
+    Grid,
     Radio,
     RadioGroup,
+    Select,
     Typography,
 } from "@mui/material";
 import { useState } from "react";
@@ -54,7 +56,12 @@ export default function Create({ auth }) {
         password_confirmation: "",
         user_role: "",
         salary: "",
+        dob:"",
+        gender:"",
+        local_address:"",
+        residential_address:"",
         profile:null,
+        contact_no:"",
     });
 
     const handleClose = () => {
@@ -117,31 +124,19 @@ export default function Create({ auth }) {
     return (
         <div>
             {alert && <SuccessMsg severity={severity} error={alert} setError={setAlert} title={alert}/>}
-        <Button variant="contained" onClick={handleOpen} startIcon={<AddIcon />} >  Create</Button>
+        <Button variant="contained" onClick={handleOpen} startIcon={<AddIcon />}>Create</Button>
         <Modal aria-labelledby="transition-modal-title" aria-describedby="transition-modal-description" open={open} onClose={handleClose} closeAfterTransition slots={{ backdrop: Backdrop }} slotProps={{  backdrop: {  timeout: 500,}, }}>
             <Fade in={open}>
                 <Box sx={style}>
                 <div className="rounded-t-xl bg-slate-50 border-gray-100 border border-t-0 shadow-sm p-5" >
                     <div style={{alignItems: "center",display: "flex",justifyContent: "center",paddingBottom:"10px"}}>
                     <form onSubmit={submit}>
-                        <div
-                            style={{
-                                alignItems: "center",
-                                display: "flex",
-                                justifyContent: "center",
-                                paddingBottom: "30px",
-                            }}
-                        >
-                            <Typography
-                                variant="h5"
-                                style={{ fontWeight: "bold" }}
-                            >
-                                Create User
-                            </Typography>
+                        <div style={{alignItems: "center", display: "flex",justifyContent: "center", paddingBottom: "30px", }} >
+                            <Typography variant="h5" style={{ fontWeight: "bold" }}>Create User</Typography>
                         </div>
-                        <div>
+                        <Grid container spacing={2}>
+                        <Grid item xs={6}>
                             <InputLabel htmlFor="name" value="Name" />
-
                             <TextInput
                                 id="name"
                                 name="name"
@@ -152,16 +147,10 @@ export default function Create({ auth }) {
                                 onChange={(e) => handleChange("name", e.target.value)}
                                 required
                             />
-
-                            <InputError
-                                message={errors.name}
-                                className="mt-2"
-                            />
-                        </div>
-
-                        <div className="mt-4">
+                            <InputError message={errors.name}className="mt-2"/>
+                        </Grid>
+                        <Grid item xs={6}>
                             <InputLabel htmlFor="email" value="Email" />
-
                             <TextInput
                                 id="email"
                                 type="email"
@@ -172,16 +161,10 @@ export default function Create({ auth }) {
                                 onChange={(e) => handleChange("email", e.target.value)}
                                 required
                             />
-
-                            <InputError
-                                message={errors.email}
-                                className="mt-2"
-                            />
-                        </div>
-
-                        <div className="mt-4">
+                            <InputError message={errors.email} className="mt-2"/>
+                        </Grid>
+                        <Grid item xs={6}>
                             <InputLabel htmlFor="password" value="Password" />
-
                             <TextInput
                                 id="password"
                                 type="password"
@@ -192,19 +175,10 @@ export default function Create({ auth }) {
                                 onChange={(e) => handleChange("password", e.target.value)}
                                 required
                             />
-
-                            <InputError
-                                message={errors.password}
-                                className="mt-2"
-                            />
-                        </div>
-
-                        <div className="mt-4">
-                            <InputLabel
-                                htmlFor="password_confirmation"
-                                value="Confirm Password"
-                            />
-
+                            <InputError message={errors.password} className="mt-2"/>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <InputLabel htmlFor="password_confirmation" value="Confirm Password"/>
                             <TextInput
                                 id="password_confirmation"
                                 type="password"
@@ -215,15 +189,10 @@ export default function Create({ auth }) {
                                 onChange={(e) => handleChange("password_confirmation",e.target.value)}
                                 required
                             />
-
-                            <InputError
-                                message={errors.password_confirmation}
-                                className="mt-2"
-                            />
-                        </div>
-                        <div className="mt-4">
+                            <InputError message={errors.password_confirmation} className="mt-2"/>
+                        </Grid>
+                        <Grid item xs={6}>
                             <InputLabel htmlFor="contact_no" value="Phone No" />
-
                             <TextInput
                                 id="contact_no"
                                 type="number"
@@ -234,14 +203,122 @@ export default function Create({ auth }) {
                                 onChange={(e) => PhoneValidate(e, 10, handleChange)}
                                 required
                             />
-
-                            <InputError
-                                message={errors.contact_no}
-                                className="mt-2"
+                            <InputError message={errors.contact_no} className="mt-2"/>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <InputLabel htmlFor="Date of Birth" value="Date Of Birth" />
+                            <TextInput
+                                id="dob"
+                                type="date"
+                                name="dob"
+                                value={data.dob}
+                                className="mt-1 block w-full"
+                                autoComplete="dob"
+                                onChange={(e) =>handleChange("dob",e.target.value)}
+                                required
                             />
-                        </div>
-
-                       <div className="mt-4">
+                            <InputError message={errors.dob} className="mt-2"/>
+                        </Grid>
+                        {/* <Grid item xs={6}>
+                            <InputLabel htmlFor="state" value="State" />
+                            <select
+                                id="state"
+                                name="state"
+                                value={data.state}
+                                className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
+                                autoComplete="state"
+                                onChange={(e) =>handleChange}
+                                required
+                            >
+                                <option value="">Select State</option>
+                            </select>
+                            <InputError message={errors.state} className="mt-2"/>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <InputLabel htmlFor="city" value="City" />
+                            <select
+                                id="city"
+                                name="city"
+                                size="samll"
+                                value={data.city}
+                                className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
+                                autoComplete="dob"
+                                onChange={(e) =>handleChange}
+                                required
+                            >
+                                <option value="">Select City</option>
+                            </select>
+                            <InputError message={errors.city} className="mt-2"/>
+                        </Grid> */}
+                        <Grid item xs={12}>
+                            <InputLabel htmlFor="local address" value="Local Address" />
+                            <textarea
+                                id="local_address"
+                                name="local_address"
+                                value={data.local_address}
+                                rows={3}
+                                className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
+                                autoComplete="local_address"
+                                onChange={(e) =>handleChange("local_address",e.target.value)}
+                                required
+                            />
+                            <InputError message={errors.local_address} className="mt-2"/>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <InputLabel htmlFor="residential address" value="Residential Address" />
+                            <textarea
+                                id="residential_address"
+                                name="residential_address"
+                                value={data.residential_address}
+                                rows={3}
+                                className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
+                                autoComplete="residential_address"
+                                onChange={(e) =>handleChange("residential_address",e.target.value)}
+                                required
+                            />
+                            <InputError message={errors.residential_address} className="mt-2"/>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <FormControl component="fieldset">
+                                <InputLabel htmlFor="gender" value="Select Gender" />
+                                <RadioGroup
+                                    value={data.gender}
+                                    onChange={(e) => handleChange("gender", e.target.value)}
+                                    row
+                                >
+                                    <FormControlLabel
+                                        value="female"
+                                        control={<Radio />}
+                                        label="Female"
+                                        aria-setsize={"small"}
+                                        style={{ paddingRight:'10px' }}
+                                    />
+                                    <FormControlLabel
+                                        value="male"
+                                        control={<Radio />}
+                                        label="Male"
+                                        aria-setsize={"small"}
+                                        style={{ paddingRight:'10px' }}
+                                    />
+                                </RadioGroup>
+                            </FormControl>
+                            <InputError message={errors.gender} className="mt-2"/>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <InputLabel htmlFor="pin_code" value="Pin Code" />
+                            <TextInput
+                                id="pin_code"
+                                type="number"
+                                name="pin_code"
+                                value={data.pin_code}
+                                className="mt-1 block w-full"
+                                autoComplete="pin_code"
+                                onChange={(e) => PhoneValidate(e, 6, handleChange)}
+                                required
+                            />
+                            <InputError message={errors.pin_code} className="mt-2"/>
+                        </Grid>
+                        <Grid item xs={12}>
                             <FormControl component="fieldset">
                                 <InputLabel
                                     htmlFor="user_role"
@@ -262,7 +339,6 @@ export default function Create({ auth }) {
                                         style={{ paddingRight:'10px' }}
                                     />
                                     }
-
                                     <FormControlLabel
                                         value="hr manager"
                                         control={<Radio />}
@@ -293,15 +369,10 @@ export default function Create({ auth }) {
                                     />
                                 </RadioGroup>
                             </FormControl>
-
-                            <InputError
-                                message={errors.user_role}
-                                className="mt-2"
-                            />
-                        </div>
-                        <div className="mt-4">
+                            <InputError message={errors.user_role} className="mt-2"/>
+                        </Grid>
+                        <Grid item xs={6}>
                             <InputLabel htmlFor="profile" value="Profile Photo" />
-
                              <input type="file" className="mt-1 block w-full filetype"
                              id="profile" name="profile" accept="image/png, image/jpeg ,image/jpeg , image/svg"
                               onChange={(event)=>{handleChange('profile',event.target.files[0]);handleProfile(event)}}
@@ -328,10 +399,10 @@ export default function Create({ auth }) {
                                 message={errors.profile}
                                 className="mt-2"
                             />
-                        </div>
+                        </Grid>
 
-                        {data.user_role === "admin" ? (
-                            <div className="flex items-center justify-center m-4">
+                        {data.user_role === "admin" ?
+                            <Grid item xs={12} className="flex items-center justify-center m-4">
                                 <PrimaryButton
                                     className="ms-4"
                                     disabled={processing}
@@ -342,18 +413,16 @@ export default function Create({ auth }) {
                                 >
                                    <SaveIcon sx={{ height:'15px' }}/> Create
                                 </PrimaryButton>
-                            </div>
-                        ) : (
-                            <>
-
-                                <div className="flex items-center justify-center mt-10">
+                            </Grid>
+                            :
+                            <Grid item xs={12} className="flex items-center justify-center mt-10">
                                     <Button onClick={handleClose} variant="contained" color="error" style={{ height: "33px", marginLeft:"10px",}}><CloseIcon/> Close</Button>
                                     <PrimaryButton className="ms-4" disabled={processing} style={{ height: "40px", backgroundColor: "#1976d2", }}>
                                        Next <NavigateNextIcon sx={{ height:"15px" }}/>
                                     </PrimaryButton>
-                                </div>
-                            </>
-                        )}
+                            </Grid>
+                        }
+                        </Grid>
                     </form>
                     </div>
                 </div>

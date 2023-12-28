@@ -155,13 +155,8 @@ export default function Create({developer, manager }) {
                                     className="mt-2"
                                 />
                             </div>
-
                             <div className="mt-4">
-                                <InputLabel
-                                    htmlFor="description"
-                                    value="Description"
-                                />
-
+                                <InputLabel htmlFor="description" value="Description"/>
                                 <textarea
                                     id="description"
                                     type="text"
@@ -175,23 +170,13 @@ export default function Create({developer, manager }) {
                                     }
                                     required
                                 />
-
-                                <InputError
-                                    message={errors.description}
-                                    className="mt-2"
-                                />
+                                <InputError message={errors.description}className="mt-2" />
                             </div>
-
                             <div className="mt-4">
-                                <InputLabel
-                                    htmlFor="manager"
-                                    value="Select Manager"
-                                />
-                                {manager.length == 0 ? (
-                                    <Alert severity="info">
-                                        Don't have project Manager
-                                    </Alert>
-                                ) : (
+                                <InputLabel htmlFor="manager" value="Select Manager" />
+                                {manager.length == 0 ?
+                                    <Alert severity="info"> Don't have project Manager</Alert>
+                                    :
                                     <select
                                         value={data.project_manager}
                                         name="project_manager"
@@ -211,7 +196,7 @@ export default function Create({developer, manager }) {
                                             );
                                         })}
                                     </select>
-                                )}
+                                }
                                 <InputError
                                     message={errors.project_manager}
                                     className="mt-2"

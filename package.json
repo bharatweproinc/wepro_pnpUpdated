@@ -34,6 +34,7 @@
         "@procore/core-react": "^11.25.2",
         "@progress/kendo-date-math": "^1.5.12",
         "@unicef/material-ui-currency-textfield": "^0.8.6",
+        "date-fns": "^3.0.6",
         "dayjs": "^1.11.10",
         "joi-browser": "^13.4.0",
         "lodash": "^4.17.21",

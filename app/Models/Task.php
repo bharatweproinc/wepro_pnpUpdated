@@ -18,7 +18,8 @@ class Task extends Model
         'status',
         'level',
         'developer_id',
-        'project_id'
+        'project_id',
+        'estimated_date',
     ];
 
     public function developer()

@@ -46,6 +46,7 @@ export default function Create({ developer, Id ,auth }) {
         priority: "",
         developer: [],
         level: "",
+        estimated_date:"",
     });
 
     const handleDeveloper = (id) => {
@@ -143,12 +144,8 @@ export default function Create({ developer, Id ,auth }) {
                                 <InputLabel
                                     htmlFor="task-name"
                                     value="Task Name"
-                                    style={{
-                                        fontSize: "15px",
-                                        fontWeight: "bold",
-                                    }}
+                                    style={{ fontSize: "15px", fontWeight: "bold", }}
                                 />
-
                                 <TextInput
                                     id="task_name"
                                     name="task_name"
@@ -177,7 +174,6 @@ export default function Create({ developer, Id ,auth }) {
                                         fontWeight: "bold",
                                     }}
                                 />
-
                                 <textarea
                                     id="description"
                                     type="text"
@@ -186,79 +182,79 @@ export default function Create({ developer, Id ,auth }) {
                                     value={data.description}
                                     className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
                                     autoComplete="description"
-                                    onChange={(e) =>
-                                        setData("description", e.target.value)
-                                    }
+                                    onChange={(e) =>setData("description", e.target.value)}
                                     required
                                 />
-
-                                <InputError
-                                    message={errors.description}
-                                    className="mt-2"
-                                />
+                                <InputError  message={errors.description}  className="mt-2"/>
                             </div>
-
-                            <div className="mt-4">
-                                <InputLabel
-                                    htmlFor="Assign Date"
-                                    value="Assign Date"
-                                    style={{
-                                        fontSize: "15px",
-                                        fontWeight: "bold",
-                                    }}
-                                />
-
-                                <TextInput
-                                    id="start_date"
-                                    type="datetime-local"
-                                    name="start_date"
-                                    value={data.start_date}
-                                    className="mt-1 block w-full"
-                                    autoComplete="start_date"
-                                    onChange={(e) =>
-                                        setData("start_date", e.target.value)
-                                    }
-                                    required
-                                />
-
-                                <InputError
-                                    message={errors.start_date}
-                                    className="mt-2"
-                                />
-                            </div>
-
                             <div
                                 style={{
                                     display: "flex",
                                     justifyContent: "",
                                 }}
                             >
-                                <div className="mt-4">
+                                    <div className="mt-4" style={{ width:'50%',paddingRight:'10px'}}>
+                                        <InputLabel
+                                            htmlFor="Assign Date"
+                                            value="Assign Date"
+                                            style={{ fontSize: "15px", fontWeight: "bold", }}
+                                        />
+                                        <TextInput
+                                            id="start_date"
+                                            type="datetime-local"
+                                            name="start_date"
+                                            value={data.start_date}
+                                            className="mt-1 block w-full"
+                                            autoComplete="start_date"
+                                            onChange={(e) => setData("start_date", e.target.value)}
+                                            required
+                                        />
+                                        <InputError
+                                            message={errors.start_date}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                                    <div className="mt-4" style={{ width:'50%' ,paddingLeft:'10px' }}>
+                                        <InputLabel
+                                            htmlFor="estimated Date"
+                                            value="Estimated Date"
+                                            style={{ fontSize: "15px", fontWeight: "bold", }}
+                                        />
+                                        <TextInput
+                                            id="estimated_date"
+                                            type="datetime-local"
+                                            name="estimated_date"
+                                            value={data.estimated_date}
+                                            className="mt-1 block w-full"
+                                            autoComplete="estimated_date"
+                                            onChange={(e) => setData("estimated_date", e.target.value)}
+                                            required
+                                        />
+                                        <InputError
+                                            message={errors.estimated_date}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                            </div>
+
+                            <div  style={{ display: "flex", justifyContent: "", }}>
+                                <div className="mt-4" style={{ width:'50%' ,paddingRight:'10px' }}>
                                     <InputLabel
                                         htmlFor="priority"
                                         value="Priority"
-                                        style={{
-                                            fontSize: "15px",
-                                            fontWeight: "bold",
-                                        }}
+                                        style={{ fontSize: "15px",fontWeight: "bold",}}
                                     />
                                     <Select
                                         value={data.priority}
                                         name="priority"
-                                        style={{
-                                            height: "42px",
-                                            width: "355px",
-                                        }}
-                                        className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 "
+                                        style={{ height: "42px",background:'white' }}
+                                        className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 w-full"
                                         onChange={(e) =>
                                             setData("priority", e.target.value)
                                         }
                                         required
                                     >
-                                        <MenuItem selected>
-                                            Choose Priority
-                                        </MenuItem>
-
+                                        <MenuItem selected>Choose Priority</MenuItem>
                                         {priority.map((prio, index) => (
                                             <MenuItem
                                                 key={index}
@@ -269,39 +265,23 @@ export default function Create({ developer, Id ,auth }) {
                                             </MenuItem>
                                         ))}
                                     </Select>
-                                    <InputError
-                                        message={errors.priority}
-                                        className="mt-2"
-                                    />
+                                    <InputError message={errors.priority} className="mt-2"/>
                                 </div>
-
-                                <div className="mt-4">
+                                <div className="mt-4" style={{ width:'50%' ,paddingLeft:'10px' }}>
                                     <InputLabel
                                         htmlFor="level"
                                         value="Task Level"
-                                        style={{
-                                            fontSize: "15px",
-                                            fontWeight: "bold",
-                                            marginLeft: "20px",
-                                        }}
+                                        style={{ fontSize: "15px",fontWeight: "bold", }}
                                     />
                                     <Select
                                         value={data.level}
                                         name="level"
-                                        style={{
-                                            height: "42px",
-                                            width: "350px",
-                                            marginLeft: "20px",
-                                        }}
-                                        className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 "
-                                        onChange={(e) =>
-                                            setData("level", e.target.value)
-                                        }
+                                        style={{ height: "42px",background:'white',}}
+                                        className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 w-full "
+                                        onChange={(e) => setData("level", e.target.value)}
                                         required
                                     >
-                                        <MenuItem selected>
-                                            Choose Label
-                                        </MenuItem>
+                                        <MenuItem selected> Choose Label </MenuItem>
                                         {level.map((lab, index) => (
                                             <MenuItem
                                                 key={index}
@@ -312,15 +292,11 @@ export default function Create({ developer, Id ,auth }) {
                                             </MenuItem>
                                         ))}
                                     </Select>
-                                    <InputError
-                                        message={errors.label}
-                                        className="mt-2"
-                                    />
+                                    <InputError message={errors.label}className="mt-2"/>
                                 </div>
                             </div>
 
                             <div className="mt-4">
-
                                 <InputLabel
                                     htmlFor="Assign to"
                                     style={{
@@ -329,32 +305,6 @@ export default function Create({ developer, Id ,auth }) {
                                     }}
                                 > Assign To - Project Manager <Chip label="PM" color="success" size="small" style={{ fontSize:'10px' }}/> &emsp; Developer <Chip label="D" size="small" style={{ fontSize:'10px' ,background:'gray',color:'white' }}/>
                                 </InputLabel>
-                                {/* <Select
-                                    multiple
-                                    value={data.developer}
-                                    style={{ height: "42px" }}
-                                    onChange={handleDeveloperSelect}
-                                    className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
-                                >
-                                    {developer.map(
-                                        (dev, index) => (
-                                            (
-                                                <MenuItem
-                                                    key={index}
-                                                    value={dev.id}
-                                                    label={dev.name}
-                                                >
-                                                    {dev.name} (
-                                                    {dev.user_role ==
-                                                    "senior_developer"
-                                                        ? "Senior"
-                                                        : "Junior"}
-                                                    )
-                                                </MenuItem>
-                                            )
-                                        )
-                                    )}
-                                </Select> */}
                                 <Grid item xs={12}>
                                     { developer.length == 0 ? (
                                         <Alert severity="info">

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
 use App\Models\Leave;
 use App\Models\History;
-
+use App\Models\Address;
 
 
 class UserRepository implements UserInterface
@@ -27,12 +27,16 @@ class UserRepository implements UserInterface
 
     public function save($data){
        try {
+
              $user=User::create([
                  'name' => $data->name,
                  'email' => $data->email,
                  'user_role'=>str_replace('_', ' ', $data->user_role),
                  'password' => Hash::make($data->password),
-                  'contact_no' => $data->contact_no,
+                 'contact_no' => $data->contact_no,
+                 'gender' => $data->gender,
+                 'dob' => $data->dob,
+                 'pin_code' => $data->pin_code,
             ]);
                 if($data->hasFile('profile') && $data->profile != null){
                      $profileImage = $data->profile;
@@ -40,6 +44,12 @@ class UserRepository implements UserInterface
                      $profileImagePath = $profileImage->storeAs('profile', $fileName . $user->id . '.' . $profileImage->getClientOriginalExtension(), 'public');
                      $data=User::where('id',$user->id)->update(['profile' =>$profileImagePath]);
                 }
+                $user_id = $user->id;
+                $address = Address::create([
+                    'user_id'=>$user_id,
+                    'local_address' =>$data->local_address,
+                    'residential_address' => $data->residential_address,
+                ]);
             return [
                 'success'=>true,
                 'data'=>$user,

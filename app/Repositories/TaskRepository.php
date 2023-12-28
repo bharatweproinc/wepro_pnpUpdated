@@ -65,13 +65,13 @@ class TaskRepository implements TaskInterface
              $data= Task::create([ 'task_name' => $items['task_name'],
             'description' => $items['description'],
             'start_date' => $items['start_date'],
+            'estimated_date' => $items['estimated_date'],
             'priority' => $items['priority'],
             'level'=>$items['level'],
             'developer_id' => implode(',', $items['developer']),
             'project_id'=>$id,
             ]);
             $task_id = $data->id;
-
             $task = Task::find($task_id);
             $taskCreate = $task->developer()->create([  'project_id' => $id,
             'developer_id' => implode(',', $items['developer']),
@@ -111,13 +111,11 @@ class TaskRepository implements TaskInterface
         $task->description =$data['description'];
         $task->priority =$data['priority'];
         $task->level = $data['level'];
-
+        $task->estimated_date = $data['estimated_date'];
         $task->save();
         $task->update(['developer_id'=>$dev_id]);
-
         $developer = implode(',', $data['developer']);
         $task_id = $task->id;
-
         $dev =  Developer::where(['assignable_id'=>$task_id , 'assignable_type'=>'App\Models\Task'])->first();
         $dev->update(['developer_id' => $developer]);
         return $proj_id;
@@ -125,7 +123,6 @@ class TaskRepository implements TaskInterface
 
     public function detail($id)
     {
-
         $data = Task::findOrfail($id);
         $developer = Developer::where(['assignable_id'=> $data->id ,'assignable_type'=>'App\Models\Task'])->pluck('developer_id');
         $dev = explode(',', $developer[0]);
@@ -140,37 +137,67 @@ class TaskRepository implements TaskInterface
         if ($task) {
             $user = Auth::user();
             $user_id = $user->id;
-            $task_id = Developer::where('developer_id', 'like', '%' . $user_id . '%')->where('assignable_type','App\Models\Task')->pluck('assignable_id')->toArray();
-            $status = Task::whereIn('id', $task_id)->where('status', 'started')->get();
-            if ($task && count($status) <= 0) {
-                $task->status = $item;
-                $task->started_at = Carbon::now();
-                $task->save();
-            }
-            else if ($task && count($status) !== 0) {
-
-                $startedAt = $status[0]->started_at;
-                $totalTime = now()->diffInMinutes($startedAt);
-
-                if ($totalTime > 59) {
-                    $totalTime = $totalTime / 60;
+                $task_id = Developer::where('developer_id', 'like', '%' . $user_id . '%')->where('assignable_type','App\Models\Task')->pluck('assignable_id')->toArray();
+                $status = Task::whereIn('id', $task_id)->where('status', 'started')->get();
+                if ($task && count($status) <= 0) {
+                    $task->status = $item;
+                    $task->started = Carbon::now();
+                    $task->save();
                 }
-                $task->status = $item;
-                $task->started_at = Carbon::now();
-                $task->save();
-
-                $hour = $status[0];
-                $hour->hour_worked = $totalTime;
-                $hour->save();
-                return redirect()->back();
-            }
-            else {
-                return redirect()->back()->withError('first Start the Task then  update');
-            }
+                else if ($task && count($status) !== 0) {
+                    $startedAt = $status[0]->started;
+                    $totalTime = now()->diffInMinutes($startedAt);
+                    if ($totalTime > 59) {
+                        $totalTime = $totalTime / 60;
+                    }
+                    $hour = $status[0];
+                    $hour->development_hours = $totalTime;
+                    $hour->save();
+                    $task->status = $item;
+                    $task->started = Carbon::now();
+                    $task->save();
+                    return redirect()->back();
+                }
+                else {
+                 return redirect()->back()->withError('first Start the Task then update');
+                }
         }
         else
         {
             return redirect()->back()->withError('Task not found for updated status');
+        }
+    }
+
+    public function filterData($data ,$id){
+        try {
+            if($data->status && $data->developer_id && $data->from_date){
+                $task_id = Developer::where('assignable_type','App\Models\Task')->pluck('assignable_id')->toArray();
+                dd($task_id);
+                $filterData =Task::where('status', 'like', '%' . $data->status . '%')->whereIn('id', $task_id)->whereBetween('started', [$from_date, $to_date])->get();
+                dd($filterData);
+            }
+            if($data->status)
+            {
+                dd("status");
+                $filterData = Task::where('status', 'like', '%' . $data->status . '%')->get();
+            }
+            if($data->developer_id)
+            {
+                dd("developer");
+                $task_id = Developer::where('developer_id', 'like', '%' . $user_id . '%')->where('assignable_type','App\Models\Task')->pluck('assignable_id')->toArray();
+                $filterData = Task::whereIn('id', $task_id)->get();
+            }
+            if($data->from_date)
+            {dd("from_date");
+                $filterData = Task::whereBetween('started', [$from_date, $to_date])->get();
+            }
+            dd($filterData ,"no");
+            // return [ 'success' =>true ,'status'=>$status ,'developer'=>$developer ,'date'=>$date];
+            return [ 'success' =>true ,'data'=>$filterData];
+
+        } catch (\Throwable $th) {
+            dd("nothing");
+            return ['success'=>false,'error'=>$th->getMessage()];
         }
     }
 

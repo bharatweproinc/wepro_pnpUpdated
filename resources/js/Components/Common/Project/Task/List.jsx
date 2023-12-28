@@ -49,10 +49,10 @@ export default function List({ auth, developer, Id, data ,updated}) {
     const handleFilter = () => {
         setIsFilter(true);
       }
-      const handleApplyFilter =(filterData) =>{
-        console.log(filterData);
-        setIsFilter(false)
-      }
+    const handleApplyFilter =(filterData) =>{
+    post(route('admin.project.task.filter',{id:Id} ,filterData));
+    // setIsFilter(false)
+    }
 
     return (
         <>

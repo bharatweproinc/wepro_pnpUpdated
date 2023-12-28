@@ -15,6 +15,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useEffect } from "react";
 import UpdateIcon from '@mui/icons-material/Update';
 import SuccessMsg from "../../SuccessMsg";
+import { format } from 'date-fns';
+
 
 const style = {
     position: "absolute",
@@ -57,6 +59,7 @@ export default function Edit({ data, developer, devId ,auth }) {
         priority: data.priority,
         developer:  dev,
         level: data.level,
+        estimated_date:data.estimated_date,
     });
 
     const handleChange = (e) => {
@@ -72,7 +75,6 @@ export default function Edit({ data, developer, devId ,auth }) {
                 : [id],
         }));
     };
-
     useEffect(()=>{
         setItem((prev)=>({
             task_name: prev.task_name,
@@ -81,6 +83,7 @@ export default function Edit({ data, developer, devId ,auth }) {
             priority: prev.priority,
             developer:  prev.developer,
             level: prev.level,
+            estimated_date:prev.estimated_date,
         }));
     },[data]);
     const handleSubmit = (e) => {
@@ -174,22 +177,11 @@ export default function Edit({ data, developer, devId ,auth }) {
                                     required
                                 />
 
-                                <InputError
-                                    message={errors.task_name}
-                                    className="mt-2"
-                                />
+                                <InputError message={errors.task_name} className="mt-2" />
                             </div>
 
                             <div className="mt-4">
-                                <InputLabel
-                                    htmlFor="description"
-                                    value="Description"
-                                    style={{
-                                        fontSize: "15px",
-                                        fontWeight: "bold",
-                                    }}
-                                />
-
+                                <InputLabel htmlFor="description" value="Description" style={{ fontSize: "15px", fontWeight: "bold",}}/>
                                 <textarea
                                     id="description"
                                     type="text"
@@ -201,20 +193,30 @@ export default function Edit({ data, developer, devId ,auth }) {
                                     onChange={handleChange}
                                     required
                                 />
-
-                                <InputError
-                                    message={errors.description}
-                                    className="mt-2"
-                                />
+                                <InputError message={errors.description} className="mt-2" />
                             </div>
-
-
-                            <div
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "",
-                                }}
-                            >
+                            <div className="mt-4">
+                                        <InputLabel
+                                            htmlFor="estimated Date"
+                                            value="Estimated Date"
+                                            style={{ fontSize: "15px", fontWeight: "bold", }}
+                                        />
+                                        <TextInput
+                                            id="estimated_date"
+                                            type="datetime-local"
+                                            name="estimated_date"
+                                            value={item.estimated_date}
+                                            className="mt-1 block w-full"
+                                            autoComplete="estimated_date"
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                        <InputError
+                                            message={errors.estimated_date}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                            <div style={{ display: "flex", justifyContent: "", }}>
                                 <div className="mt-4">
                                     <InputLabel
                                         htmlFor="priority"

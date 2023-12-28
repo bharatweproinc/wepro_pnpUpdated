@@ -33,7 +33,6 @@ class TaskController extends Controller
     }
 
     public function create ($id){
-
             $items = $this->taskRepository->create($id);
             $user = $items[0];
             return Inertia::render('Admin/Task/List' ,['developer'=>$user ,'projectId'=>$id]);
@@ -43,8 +42,6 @@ class TaskController extends Controller
             $this->taskRepository->save($id,$request->all());
             return back();
         }
-
-
 
     public function edit($id){
 
@@ -72,6 +69,16 @@ class TaskController extends Controller
     public function status(Request $request, $id){
         $this->taskRepository->status($id,$request->only('status'));
         return redirect()->back();
+    }
 
+    public function filter(Request $request ,$id){
+       $response = $this->taskRepository->filterData($request,$id);
+        if($response['success'])
+        {
+            return $response['data'];
+        }
+        else{
+
+        }
     }
 }
