@@ -1,4 +1,6 @@
 import {
+    Box,
+    Button,
     Chip,
     Collapse,
     IconButton,
@@ -18,13 +20,15 @@ import Detail from "./Detail";
 import Create from "./Create";
 import Edit from "./Edit";
 import StatusStyle from "../Components/StatusStyle";
+import Filter from "./Filter";
+
 export default function List({ auth, developer, Id, data ,updated}) {
 
     const [page, setPage] = useState(0);
     const [expandedRows, setExpandedRows] = useState([]);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const { item, setItem, get, post, processing, errors, reset } = useForm();
-
+    const [isFilter, setIsFilter] = useState(false);
 
     const toggleRow = (id) => {
         if (expandedRows.includes(id)) {
@@ -42,11 +46,25 @@ export default function List({ auth, developer, Id, data ,updated}) {
         setRowsPerPage(event.target.value, 5);
         setPage(0);
     };
+    const handleFilter = () => {
+        setIsFilter(true);
+      }
+      const handleApplyFilter =(filterData) =>{
+        console.log(filterData);
+        setIsFilter(false)
+      }
 
     return (
         <>
             <div style={{ display: "flex", justifyContent: "end",paddingBottom:'10px'}} >
-                {(auth.user.user_role === "admin" || auth.user.user_role == "project manager")  && ( <Create developer={developer} Id={Id} auth={auth} /> )}
+                {(auth.user.user_role === "admin" || auth.user.user_role == "project manager")  && <Box sx={{ display:'flex' ,gap:'15px'}}>
+                        <Box>
+                    { isFilter && <Filter  ApplyFilter={handleApplyFilter} developer={developer} Id={Id} auth={auth} />}
+                            {!isFilter &&  <Button variant="contained" onClick={handleFilter} > Filter  </Button>}
+                        </Box>
+                        <Create developer={developer} Id={Id} auth={auth} />
+                    </Box>
+                }
             </div>
             <TableContainer  sx={{ padding: "10px", border: "2px solid whitesmoke", background: "rgba(0,0,0,0.02)", }}>
                 <Table aria-label="simple table" size="small">

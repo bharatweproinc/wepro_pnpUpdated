@@ -1,91 +1,43 @@
-import FormatDate from "@/Util/FormatDate";
-import { router, useForm } from "@inertiajs/react";
-import EditIcon from "@mui/icons-material/Edit";
-import {
-    Alert,
-    Box,
-    Chip,
-    Grid,
-    IconButton,
-    MenuItem,
-    Select,
-    Tooltip,
-    Typography,
-} from "@mui/material";
-import DateTimeFormat from "@/Util/DateTimeFormat";
-import { useState } from "react";
-import Edit from "./Edit";
-import StatusPopup from "./StatusPopup";
-import SaveIcon from "@mui/icons-material/Save";
-import StartTimerPopUp from "../Components/StartTimerPopup";
-import PauseorUpdateTime from "../Components/PauseOrUpdateTime";
-import StatusStyle from "../Components/StatusStyle";
+import React from "react";
+import { Tab } from "@mui/material";
+import TaskDetail from "./TaskDetail";
+import TaskBugs from "./TaskBugs";
+import TaskResult from "./TaskResult";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
 
 export default function Detail({ data, developer, auth, devId, updated }) {
 
-    const { item, setItem, get, post, processing, errors, reset } = useForm();
-    const [openStart, setopenStart] = useState(false);
-    const [state, setState] = useState({
-        status: data.status,
-    });
-    const [isEdit, setIsEdit] = useState(false);
-    const handleUpdate = (id) => {
-        get(route("admin.project.task.edit", { id }));
+
+    const [value, setValue] = React.useState("1");
+
+    const handleChangeTab = (event, newValue) => {
+        setValue(newValue);
     };
 
     const dev_id = data.developer_id.split(",");
-    const dev = dev_id.map((item,j) => Number(item));
 
-    const handleStatus = () => {
-        setIsEdit(true);
-    };
-    const handleChange = (e) => {
-        setopenStart(true);
-        setState({ status: e.target.value });
-    };
 
-    const pauseStatus = (item) => {
-        {
-            auth.user.user_role == "admin" ? (
-                router.post(route("admin.project.task.status", { id: updated[0].id }),item)
-            ) : auth.user.user_role == "project manager" ? (
-                router.post(route("projectManager.project.task.status", { id: updated[0].id }),item)
-            ) : auth.user.user_role == "senior developer" ? (
-                router.post(route("developer.project.task.status", { id: updated[0].id }),item)
-            ) : auth.user.user_role == "junior developer" && (
-                router.post(route("developer.project.task.status", { id: updated[0].id }),item)
-            )
-        }
-    }
-
-    const statusSubmit = () => {
-        {
-            auth.user.user_role == "admin" ? (
-                router.post(
-                    route("admin.project.task.status", { id: data.id }),state,
-                    {
-                        onSuccess: () => {},
-                    }
-                )
-            ) : auth.user.user_role == "project manager" ? (
-                router.post(
-                    route("projectManager.project.task.status", {id: data.id,}),state,
-                    {
-                        onSuccess: () => {},
-                    }
-                )
-            ) : auth.user.user_role == "senior developer" ? (
-                router.post(route("developer.project.task.status", { id: data.id }),state)
-            ) : auth.user.user_role == "junior developer" && (
-                router.post(route("developer.project.task.status", { id: data.id }), state)
-            )
-        }
-        setIsEdit(false);
-    };
 
     return (
         <>
-            <Box
+            <TabContext value={value}>
+                <TabList onChange={handleChangeTab} className="px-3">
+                    <Tab label="Details" value="1" style={{ fontWeight:"bold"}}/>
+                    <Tab label="Bugs" value="2" style={{ fontWeight:"bold"}}/>
+                    <Tab label="Result" value="3" style={{ fontWeight:"bold"}}/>
+                </TabList>
+
+                <TabPanel value="1">
+                    <TaskDetail auth={auth} data={data} developer={developer} />
+                </TabPanel>
+                <TabPanel value="2">
+                    <TaskBugs />
+                </TabPanel>
+                <TabPanel value="3">
+                    <TaskResult />
+                </TabPanel>
+            </TabContext>
+            {/* <Box
                 sx={{
                     flexGrow: 10,
                     margin: "2%",
@@ -262,7 +214,7 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                         }
                     )}
                 </Box>
-            </Box>
+            </Box> */}
         </>
     );
 }
