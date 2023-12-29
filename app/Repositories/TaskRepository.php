@@ -41,7 +41,6 @@ class TaskRepository implements TaskInterface
         $developer = str_replace(array('[', ']', '"'),'',$developer);
         $dev = array_map('intval', $developer);
         $developers = User::whereIn('id',$dev)->select('id','name','email','contact_no','user_role')->get();
-
         if($role === 'junior developer' || $role === 'senior developer' || $role == "project manager"){
             $user_id = $user->id;
             $task_id = Developer::where('developer_id', 'like', '%' . $user_id . '%')->where('assignable_type', 'App\Models\Task')->pluck('assignable_id');
@@ -49,7 +48,6 @@ class TaskRepository implements TaskInterface
             return [$data,$id ,$developers ,$status];
         }
         return [$data,$id ,$developers];
-
     }
 
     public function create($id)
@@ -170,37 +168,39 @@ class TaskRepository implements TaskInterface
 
     public function filterData($data ,$id){
         try {
-            // dd($data->status ,$data->developer_id);
             $filterData = null;
+            $task_id = Developer::where(['assignable_type'=>'App\Models\Task','project_id'=>$id])->pluck('assignable_id')->toArray();
             if(($data->status !="all") && ($data->developer_id != "all") && isset($data->from_date)){
-                $task_id = Developer::where(['assignable_type'=>'App\Models\Task','project_id'=>$id])->pluck('assignable_id')->toArray();
-                $filterData =Task::where('status', $data->status)->whereIn('id', $task_id)->whereBetween('started', [$from_date, $to_date])->get();
-                dd($filterData);
+                $filterData =Task::where('status', $data->status)->whereIn('id', $task_id)->whereBetween('started', [$data->from_date, $data->to_date])->get();
             }
-            else if($data->status && $data->developer_id){
-                dd("hello");
+            else if(($data->status !="all")  && ($data->developer_id != "all")){
+                $filterData =Task::where('status', $data->status)->whereIn('id', $task_id)->get();
+                // dd($filterData);
             }
-            else if($data->status)
+            else if(($data->developer_id != "all") && isset($data->from_date)){
+                $task = Developer::where('developer_id', 'like', '%' . $data->developer_id . '%')->where(['assignable_type'=>'App\Models\Task','project_id'=>$id])->pluck('assignable_id')->toArray();
+                $filterData =Task::where('status', $data->status)->whereIn('id', $task)->get();
+                // dd($filterData);
+            }
+            else if($data->status !="all")
             {
-                dd("status");
-                $filterData = Task::where('status', 'like', '%' . $data->status . '%')->get();
+                $filterData = Task::where(['status'=>$data->status ,'id'=>$task_id])->get();
+                // dd($filterData);
             }
-            else if($data->developer_id)
+            else if($data->developer_id != "all")
             {
-                dd("developer");
-                $task_id = Developer::where('developer_id', 'like', '%' . $user_id . '%')->where('assignable_type','App\Models\Task')->pluck('assignable_id')->toArray();
-                $filterData = Task::whereIn('id', $task_id)->get();
+                $task = Developer::where('developer_id', 'like', '%' . $data->developer_id . '%')->where(['assignable_type'=>'App\Models\Task','project_id'=>$id])->pluck('assignable_id')->toArray();
+                $filterData = Task::whereIn('id', $task)->get();
+                // dd($filterData);
             }
-           else if($data->from_date)
-            {dd("from_date");
-                $filterData = Task::whereBetween('started', [$from_date, $to_date])->get();
+           else if(isset($data->from_date))
+            {
+                $filterData = Task::whereBetween('started', [$data->from_date, $data->to_date])->where('id',$task_id)->get();
+                // dd($filterData);
             }
-            dd($filterData ,"no");
-            // return [ 'success' =>true ,'status'=>$status ,'developer'=>$developer ,'date'=>$date];
             return [ 'success' =>true ,'data'=>$filterData];
 
         } catch (\Throwable $th) {
-            dd("nothing");
             return ['success'=>false,'error'=>$th->getMessage()];
         }
     }

@@ -75,10 +75,11 @@ class TaskController extends Controller
        $response = $this->taskRepository->filterData($request,$id);
         if($response['success'])
         {
-            return $response['data'];
+            $data = $response['data'];
+            return Redirect::back()->with(['data'=>$data]);
         }
         else{
-
+            return Redirect::back()->withErrors($response);
         }
     }
 }
