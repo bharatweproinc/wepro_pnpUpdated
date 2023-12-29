@@ -22,9 +22,9 @@ import Edit from "./Edit";
 import StatusStyle from "../Components/StatusStyle";
 import Filter from "./Filter";
 import { useEffect } from "react";
-import axios from "axios";
 import Validation_Schema from "./ValidationSchema";
 import Joi from "@/Util/JoiValidator";
+import axios from "axios";
 
 export default function List({ auth, developer, Id, data ,updated}) {
 
@@ -61,11 +61,20 @@ export default function List({ auth, developer, Id, data ,updated}) {
         setIsFilter(true);
       }
 
+    useEffect(()=>{
+        handleApplyFilter
+    },[isFilter])
 
-    const handleApplyFilter = async (filterData) => {
-        // router.get(route('admin.project.detail', { id:Id }), filterData);
+    const handleApplyFilter = async (filterData,errors,setError) => {
         try {
-
+            // console.log(errors,"errors")
+            // const err = Joi.validateToPlainErrors(filterData,Validation_Schema.APPLY_FILTER)
+            // setFrom(filterData?.from_date)
+            // SetToDate(filterData?.to_date)
+            // setError(err)
+            //     if (Joi.hasPlainError(err)) {
+            //         return;
+            //     }
           const response = await axios.post(route('admin.project.task.filter', { id:Id }), filterData)
             const filterTaskData = response.data;
             setTaskData(filterTaskData);

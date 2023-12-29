@@ -81,10 +81,12 @@ class TaskController extends Controller
     }
 
     public function filter(Request $request ,$id){
+        dd($request);
        $response = $this->taskRepository->filterData($request,$id);
         if($response['success'])
         {
             $data = $response['data'];
+            dd($data);
             return response()->json($data);
         }
         else{
