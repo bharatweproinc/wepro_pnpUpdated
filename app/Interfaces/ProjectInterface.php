@@ -10,4 +10,5 @@ interface ProjectInterface
     public function update($id,$data);
     public function detail($id);
     public function image($id,$data);
+    public function filter($id,$data);
 }

@@ -46,6 +46,8 @@ export default function Edit({ auth, user }) {
         user_role: user.user_role,
         contact_no: user.contact_no,
         profile:user.profile,
+        dob:user.dob,
+        gender:user.gender
     });
     const handleClose = () => {
         setOpen(false);
@@ -81,7 +83,8 @@ export default function Edit({ auth, user }) {
             user_role: prev.user_role,
             contact_no: prev.contact_no,
             profile:prev.profile,
-
+            dob:prev.dob,
+            gender:prev.gender,
     }));
     }, [user]);
 
@@ -174,6 +177,46 @@ export default function Edit({ auth, user }) {
                                     <TextInput id="contact_no" type="number" name="contact_no" value={value.contact_no} className="mt-1 block w-full" autoComplete="contact_no" onChange={(e) => PhoneValidate(e, 10, handleChange)} required/>
                                     <InputError message={errors.contact_no} className="mt-2" />
                                 </div>
+                                <div className="mt-4">
+                            <InputLabel htmlFor="Date of Birth" value="Date Of Birth" />
+                            <TextInput
+                                id="dob"
+                                type="date"
+                                name="dob"
+                                value={value.dob}
+                                className="mt-1 block w-full"
+                                autoComplete="dob"
+                                onChange={(e) =>handleChange("dob",e.target.value)}
+                                required
+                            />
+                            <InputError message={errors.dob} className="mt-2"/>
+                        </div>
+                        <div className="mt-4">
+                            <FormControl component="fieldset">
+                                <InputLabel htmlFor="gender" value="Select Gender" />
+                                <RadioGroup
+                                    value={value.gender}
+                                    onChange={(e) => handleChange("gender", e.target.value)}
+                                    row
+                                >
+                                    <FormControlLabel
+                                        value="female"
+                                        control={<Radio />}
+                                        label="Female"
+                                        aria-setsize={"small"}
+                                        style={{ paddingRight:'10px' }}
+                                    />
+                                    <FormControlLabel
+                                        value="male"
+                                        control={<Radio />}
+                                        label="Male"
+                                        aria-setsize={"small"}
+                                        style={{ paddingRight:'10px' }}
+                                    />
+                                </RadioGroup>
+                            </FormControl>
+                            <InputError message={errors.gender} className="mt-2"/>
+                        </div>
 
                                 <div className="mt-4">
                                     <FormControl component="fieldset">

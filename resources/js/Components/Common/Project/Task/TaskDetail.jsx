@@ -11,93 +11,73 @@ const TaskDetail = ({auth, data, developer}) => {
     const dev_id = data.developer_id.split(",");
     const dev = dev_id.map((item,j) => Number(item));
     let role = auth.user.user_role;
+    const handleClick =(key)=>{
+         console.log(key ,'valueuu');
+    }
     function getAction(status){
         let btnJSX = '';
         switch(status){
             case 'new':
                 btnJSX = (role == 'admin' || role == 'project manager') ? <>
-                    <Button size="small">Start</Button>
-                    <Button
-                        sx={{
-                            borderRadius:'12px',
-                            marginLeft:'10px',
-                         }}
-                        size="small"
-                        variant='contained'
-                    >Hold</Button>
+                    <Button size="small" onClick={handleClick('start')}>Start</Button>
+                    <Button sx={{ borderRadius:'12px',marginLeft:'10px',}} size="small" variant='contained' onClick={handleClick("hold")}>Hold</Button>
                 </>:<>
-                    <Button sx={{
-                            borderRadius:'12px',
-                            marginLeft:'10px',
-                        }}
+                    <Button sx={{ borderRadius:'12px',  marginLeft:'10px', }}
                         size="small"
                         variant='contained'
+                        onClick={handleClick("start")}
                     >Start</Button>
                 </>
                 break;
             case 'in progress':
                 btnJSX = (role == 'admin' || role == 'project manager') ? <>
                     <Button
-                        sx={{
-                            borderRadius:'12px',
-                            marginLeft:'10px',
-                         }}
+                        sx={{borderRadius:'12px',marginLeft:'10px',}}
                         size="small"
                         variant='contained'
+                        onClick={handleClick("pause")}
                     >Pause</Button>
-                    <Button sx={{
-                            borderRadius:'12px',
-                            marginLeft:'10px',
-                        }}
+                    <Button sx={{ borderRadius:'12px', marginLeft:'10px',}}
                         size="small"
                         variant='contained'
+                        onClick={handleClick("hold")}
                     >Hold</Button>
                 </>:<>
-                    <Button sx={{
-                            borderRadius:'12px',
-                            marginLeft:'10px',
-                        }}
+                    <Button sx={{ borderRadius:'12px',marginLeft:'10px', }}
                         size="small"
                         variant='contained'
+                        onClick={handleClick}
                     >Pause</Button>
                     <ActionStatus role={role} buttonText={'completed'} taskId={data.id} />
                 </>
                 break;
             case 'pause':
                 btnJSX =  (role == 'admin' || role == 'project manager') ? <>
-                    <Button sx={{
-                            borderRadius:'12px',
-                            marginLeft:'10px',
-                        }}
+                    <Button sx={{ borderRadius:'12px', marginLeft:'10px',  }}
                         size="small"
                         variant='contained'
+                        onClick={handleClick}
                     >Start</Button>
-                    <Button sx={{
-                            borderRadius:'12px',
-                            marginLeft:'10px',
-                        }}
+                    <Button sx={{ borderRadius:'12px', marginLeft:'10px',}}
                         size="small"
                         variant='contained'
+                        onClick={handleClick}
                     >Hold</Button>
                 </>:<>
-                    <Button sx={{
-                            borderRadius:'12px',
-                            marginLeft:'10px',
-                        }}
+                    <Button sx={{ borderRadius:'12px', marginLeft:'10px', }}
                         size="small"
                         variant='contained'
+                        onClick={handleClick}
                     >Start</Button>
                     <ActionStatus role={role} buttonText={'completed'} taskId={data.id} />
                 </>
                 break;
             case 'hold':
                 btnJSX = (role == 'admin' || role == 'project manager') ? <>
-                    <Button sx={{
-                        borderRadius:'12px',
-                        marginLeft:'10px',
-                        }}
+                    <Button sx={{ borderRadius:'12px', marginLeft:'10px', }}
                         size="small"
                         variant='contained'
+                        onClick={handleClick}
                     >Unhold</Button>
                 </>:<>
                     <Typography>Status is on Hold Now!</Typography>

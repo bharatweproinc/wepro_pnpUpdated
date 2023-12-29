@@ -21,6 +21,8 @@ import Create from "./Create";
 import Edit from "./Edit";
 import StatusStyle from "../Components/StatusStyle";
 import Filter from "./Filter";
+import { useEffect } from "react";
+import axios from "axios";
 
 export default function List({ auth, developer, Id, data ,updated}) {
 
@@ -29,6 +31,7 @@ export default function List({ auth, developer, Id, data ,updated}) {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const { item, setItem, get, post, processing, errors, reset } = useForm();
     const [isFilter, setIsFilter] = useState(false);
+    const [taskData ,setTaskData] = useState(data);
 
     const toggleRow = (id) => {
         if (expandedRows.includes(id)) {
@@ -49,9 +52,20 @@ export default function List({ auth, developer, Id, data ,updated}) {
     const handleFilter = () => {
         setIsFilter(true);
       }
-    const handleApplyFilter =(filterData) =>{
-        router.post(route("admin.project.task.filter", [Id]), filterData)
-    }
+
+
+    const handleApplyFilter = async (filterData) => {
+        // router.get(route('admin.project.detail', { id:Id }), filterData);
+        try {
+          const response = await axios.post(route('admin.project.task.filter', { id:Id }), filterData)
+            const filterTaskData = response.data;
+            setTaskData(filterTaskData);
+            console.log(filterTaskData, 'data after POST request');
+
+        } catch (error) {
+            console.error('Axios error:', error);
+        }
+      };
 
     return (
         <>
@@ -86,7 +100,7 @@ export default function List({ auth, developer, Id, data ,updated}) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data.slice( page * rowsPerPage,page * rowsPerPage + rowsPerPage)
+                        {taskData.slice( page * rowsPerPage,page * rowsPerPage + rowsPerPage)
                           .map((item, j) => {
                                 return (
                                     <>

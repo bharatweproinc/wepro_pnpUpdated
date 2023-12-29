@@ -50,9 +50,19 @@ class ProjectController extends Controller
 
     }
 
-    public function details($id)
+    public function details(Request $request,$id)
     {
-       $allData = $this->projectRepository->detail($id);
+    //     if (($request->status != "all" || $request->developer_id != "all" || isset($request->status))) {
+    //         $allData = $this->projectRepository->detail($id, $request);
+    //         $data = $allData[0];
+    //         $user = $allData[1];
+    //         $task = $allData[2];
+    //         $status = $allData[3];
+    //         $history = $allData[4];
+    //         return Redirect::back()->with(compact('data', 'user', 'task', 'history'));
+    //     }
+    //    else{
+       $allData = $this->projectRepository->detail($id,$request);
        $data = $allData[0];
        $user = $allData[1];
        $task = $allData[2];
@@ -60,6 +70,7 @@ class ProjectController extends Controller
        $history = $allData[4];
        return Inertia::render('Admin/Project/Detail',
         ['data' => $data, 'user' => $user,'task'=>$task ,'updated'=>$status ,'history'=>$history]);
+    //    }
     }
 
 
@@ -74,9 +85,6 @@ class ProjectController extends Controller
         ['data' => $data, 'developer' => $devUsers,
         'manager' => $manager, 'devId' => $developer]);
     }
-
-
-
 
     public function update(EditProjectRequest $request, $id)
     {
