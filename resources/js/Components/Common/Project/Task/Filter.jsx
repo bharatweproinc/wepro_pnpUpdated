@@ -12,7 +12,6 @@ import Create from "./Create";
 export default function Filter({Id,auth,isFilter,ApplyFilter,developer,handleFilter}) {
 
     const { data, setData, post, processing, errors,setError, reset } = useForm(Constant.formData);
-
     function convert(str) {
         let date = new Date(str),
           mnth = ("0" + (date.getMonth() + 1)).slice(-2),
@@ -52,7 +51,7 @@ export default function Filter({Id,auth,isFilter,ApplyFilter,developer,handleFil
                                     ))}
                                 </Select>
                                 </FormControl>
-                                {errors?.status && (<div className="error" style={{ color:'red' }}>{errors?.status}</div>)}
+                                {/* {errors?.status && (<div className="error" style={{ color:'red' }}>{errors?.status}</div>)} */}
                         </Grid>
 
                         <Grid item xs={12} md={3}>
@@ -82,7 +81,7 @@ export default function Filter({Id,auth,isFilter,ApplyFilter,developer,handleFil
                                             ))}
                                     </Select>
                                 </FormControl>
-                                {errors?.developer_id && (<div className="error" style={{ color:'red' }}>{errors?.developer_id}</div>)}
+                                {/* {errors?.developer_id && (<div className="error" style={{ color:'red' }}>{errors?.developer_id}</div>)} */}
                         </Grid>
 
                         <Grid item xs={12} md={3} paddingTop={'7px !important'}>
@@ -99,7 +98,7 @@ export default function Filter({Id,auth,isFilter,ApplyFilter,developer,handleFil
                                         </FormControl>
                                     </DemoContainer>
                                 </LocalizationProvider>
-                                {errors?.from_date && (<div className="error-text" style={{ color:'red' }}>{errors?.from_date}</div>)}
+                                {/* {errors?.from_date && (<div className="error-text" style={{ color:'red' }}>{errors?.from_date}</div>)} */}
                         </Grid>
 
                         <Grid item xs={12} md={3}  paddingTop={'7px !important'}>
@@ -115,7 +114,7 @@ export default function Filter({Id,auth,isFilter,ApplyFilter,developer,handleFil
                                         </FormControl>
                                     </DemoContainer>
                                 </LocalizationProvider>
-                                {errors?.to_date && (<div className="error" style={{ color:'red' }}>{errors?.to_date}</div>)}
+                                {/* {data?.from_date && errors?.to_date && (<div className="error" style={{ color:'red' }}>{errors?.to_date}</div>)} */}
                         </Grid>
                      </>
                  }

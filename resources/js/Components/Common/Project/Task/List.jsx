@@ -26,6 +26,7 @@ import Validation_Schema from "./ValidationSchema";
 import Joi from "@/Util/JoiValidator";
 import axios from "axios";
 
+
 export default function List({ auth, developer, Id, data ,updated}) {
 
     const [page, setPage] = useState(0);
@@ -61,13 +62,9 @@ export default function List({ auth, developer, Id, data ,updated}) {
         setIsFilter(true);
       }
 
-    useEffect(()=>{
-        handleApplyFilter
-    },[isFilter])
 
     const handleApplyFilter = async (filterData,errors,setError) => {
         try {
-            // console.log(errors,"errors")
             // const err = Joi.validateToPlainErrors(filterData,Validation_Schema.APPLY_FILTER)
             // setFrom(filterData?.from_date)
             // SetToDate(filterData?.to_date)
@@ -84,22 +81,6 @@ export default function List({ auth, developer, Id, data ,updated}) {
             console.error('Axios error:', error);
         }
       };
-    //   const handleApplyFilter =(filterData,errors,setError) =>{
-
-    //     const err = Joi.validateToPlainErrors(filterData,Validation_Schema.APPLY_FILTER)
-    //     setFrom(filterData?.from_date)
-    //     SetToDate(filterData?.to_date)
-    //     setError(err)
-    //         if(fromDate && ToDate ){
-    //             // console.log('clicked')
-    //             console.log(fromDate,ToDate,":::errors")
-    //             setError('')
-    //         }
-    //         if (Joi.hasPlainError(err)) {
-    //             return;
-    //         }
-    //         router.post(route("admin.project.task.filter", [Id]), filterData)
-    // }
 
     return (
         <>
@@ -125,7 +106,7 @@ export default function List({ auth, developer, Id, data ,updated}) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {taskData.slice( page * rowsPerPage,page * rowsPerPage + rowsPerPage)
+                        {taskData?.slice( page*rowsPerPage,page*rowsPerPage + rowsPerPage)
                           .map((item, j) => {
                                 return (
                                     <>

@@ -6,27 +6,33 @@ import StatusStyle from '../Components/StatusStyle';
 import FormatDate from "@/Util/FormatDate";
 import DateTimeFormat from "@/Util/DateTimeFormat";
 import ActionStatus from './ActionStatus';
-
+import StatusPopUp from './Components/StatusPopUp';
 const TaskDetail = ({auth, data, developer}) => {
     const dev_id = data.developer_id.split(",");
     const dev = dev_id.map((item,j) => Number(item));
     let role = auth.user.user_role;
-    const handleClick =(status)=>{
+    // const handleClick =(status)=>{
 
+    // }
+    function handleClick (key) {
+      console.log(key,'key');
     }
     function getAction(status){
         let btnJSX = '';
         switch(status){
             case 'new':
                 btnJSX = (role == 'admin' || role == 'project manager') ? <>
+                    {/* <StatusPopUp role={role} buttonText={'Start'} status={status} taskId={data.id}  />
+                    <StatusPopUp role={role} buttonText={'Hold'} status={status} taskId={data.id}  /> */}
                     <Button size="small" onClick={handleClick('started')}>Start</Button>
                     <Button sx={{ borderRadius:'12px',marginLeft:'10px',}} size="small" variant='contained' onClick={handleClick("hold")}>Hold</Button>
                 </>:<>
-                    <Button sx={{ borderRadius:'12px',  marginLeft:'10px', }}
+                    {/* <Button sx={{ borderRadius:'12px',  marginLeft:'10px', }}
                         size="small"
                         variant='contained'
                         onClick={handleClick("started")}
-                    >Start</Button>
+                    >Start</Button> */}
+                    <StatusPopUp role={role} buttonText={'Start'} status={status} taskId={data.id}  />
                 </>
                 break;
             case 'in progress':
@@ -43,11 +49,12 @@ const TaskDetail = ({auth, data, developer}) => {
                         onClick={handleClick("hold")}
                     >Hold</Button>
                 </>:<>
-                    <Button sx={{ borderRadius:'12px',marginLeft:'10px', }}
+                    {/* <Button sx={{ borderRadius:'12px',marginLeft:'10px', }}
                         size="small"
                         variant='contained'
                         onClick={handleClick}
-                    >Pause</Button>
+                    >Pause</Button> */}
+                    <StatusPopUp role={role} buttonText={'Pause'} status={status} taskId={data.id}  />
                     <ActionStatus role={role} buttonText={'completed'} taskId={data.id} />
                 </>
                 break;
