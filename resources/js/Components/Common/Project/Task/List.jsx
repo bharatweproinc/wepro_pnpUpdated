@@ -62,10 +62,15 @@ export default function List({ auth, developer, Id, data ,updated}) {
       }
 
 
-    const handleApplyFilter = async (filterData) => {
-        // router.get(route('admin.project.detail', { id:Id }), filterData);
+    const handleApplyFilter = async (filterData,errors,setError) => {
         try {
-
+            const err = Joi.validateToPlainErrors(filterData,Validation_Schema.APPLY_FILTER)
+            setFrom(filterData?.from_date)
+            SetToDate(filterData?.to_date)
+            setError(err)
+                if (Joi.hasPlainError(err)) {
+                    return;
+                }
           const response = await axios.post(route('admin.project.task.filter', { id:Id }), filterData)
             const filterTaskData = response.data;
             setTaskData(filterTaskData);
@@ -75,22 +80,6 @@ export default function List({ auth, developer, Id, data ,updated}) {
             console.error('Axios error:', error);
         }
       };
-    //   const handleApplyFilter =(filterData,errors,setError) =>{
-
-    //     const err = Joi.validateToPlainErrors(filterData,Validation_Schema.APPLY_FILTER)
-    //     setFrom(filterData?.from_date)
-    //     SetToDate(filterData?.to_date)
-    //     setError(err)
-    //         if(fromDate && ToDate ){
-    //             // console.log('clicked')
-    //             console.log(fromDate,ToDate,":::errors")
-    //             setError('')
-    //         }
-    //         if (Joi.hasPlainError(err)) {
-    //             return;
-    //         }
-    //         router.post(route("admin.project.task.filter", [Id]), filterData)
-    // }
 
     return (
         <>
@@ -116,7 +105,7 @@ export default function List({ auth, developer, Id, data ,updated}) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {taskData.slice( page * rowsPerPage,page * rowsPerPage + rowsPerPage)
+                        {taskData?.slice( page * rowsPerPage,page * rowsPerPage + rowsPerPage)
                           .map((item, j) => {
                                 return (
                                     <>
