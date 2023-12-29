@@ -115,7 +115,7 @@ export default function Filter({Id,auth,isFilter,ApplyFilter,developer,handleFil
                                         </FormControl>
                                     </DemoContainer>
                                 </LocalizationProvider>
-                                {data?.from_date && errors?.to_date && (<div className="error" style={{ color:'red' }}>{errors?.to_date}</div>)}
+                                {/* {data?.from_date && errors?.to_date && (<div className="error" style={{ color:'red' }}>{errors?.to_date}</div>)} */}
                         </Grid>
                      </>
                  }

@@ -222,6 +222,7 @@ class TaskRepository implements TaskInterface
             }
             else if(($data->status !="all")  && ($data->developer_id != "all")){
                 $filterData =Task::where('status', $data->status)->whereIn('id', $task_id)->get();
+
             }
             else if(($data->developer_id != "all") && isset($data->from_date)){
                 $task = Developer::where('developer_id', 'like', '%' . $data->developer_id . '%')->where(['assignable_type'=>'App\Models\Task','project_id'=>$id])->pluck('assignable_id')->toArray();
@@ -229,7 +230,7 @@ class TaskRepository implements TaskInterface
             }
             else if($data->status !="all")
             {
-                $filterData = Task::where(['status'=>$data->status ])->get();
+                $filterData = Task::where(['status'=>$data->status ])->whereIn('id',$task_id)->get();
             }
             else if($data->developer_id != "all")
             {
@@ -238,7 +239,7 @@ class TaskRepository implements TaskInterface
             }
            else if(isset($data->from_date))
             {
-                $filterData = Task::whereBetween('started', [$data->from_date, $data->to_date])->where('id',$task_id)->get();
+                $filterData = Task::whereBetween('started', [$data->from_date, $data->to_date])->whereIn('id',$task_id)->get();
             }
             else{
                 $filterData = Task::where('id',$id)->get();

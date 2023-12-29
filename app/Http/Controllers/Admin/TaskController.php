@@ -86,6 +86,7 @@ class TaskController extends Controller
         {
             $data = $response['data'];
             return response()->json($data);
+            // return redirect()->back()->with('filterdTaskData', $data);
         }
         else{
             return Redirect::back()->withErrors($response);

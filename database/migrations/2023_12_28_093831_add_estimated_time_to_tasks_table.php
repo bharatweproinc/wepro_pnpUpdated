@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('tasks', function (Blueprint $table) {
-            // $table->renameColumn('hour_worked','development_hours');
+            $table->renameColumn('hour_worked','development_hours');
             $table->float('debugging_hours',10,2)->default(0);
             $table->integer('is_debugging')->default(1);
-            // $table->renameColumn('started_at','started');
+            $table->renameColumn('started_at','started');
             $table->integer('estimated');
         });
     }
