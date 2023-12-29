@@ -59,7 +59,7 @@ export default function Edit({ data, developer, devId ,auth }) {
         priority: data.priority,
         developer:  dev,
         level: data.level,
-        estimated_date:data.estimated_date,
+        estimated:data.estimated,
     });
 
     const handleChange = (e) => {
@@ -83,7 +83,7 @@ export default function Edit({ data, developer, devId ,auth }) {
             priority: prev.priority,
             developer:  prev.developer,
             level: prev.level,
-            estimated_date:prev.estimated_date,
+            estimated:prev.estimated,
         }));
     },[data]);
     const handleSubmit = (e) => {
@@ -197,22 +197,22 @@ export default function Edit({ data, developer, devId ,auth }) {
                             </div>
                             <div className="mt-4">
                                         <InputLabel
-                                            htmlFor="estimated Date"
-                                            value="Estimated Date"
+                                            htmlFor="estimated"
+                                            value="Estimated Time"
                                             style={{ fontSize: "15px", fontWeight: "bold", }}
                                         />
                                         <TextInput
-                                            id="estimated_date"
-                                            type="datetime-local"
-                                            name="estimated_date"
-                                            value={item.estimated_date}
+                                            id="estimated"
+                                            type="number"
+                                            name="estimated"
+                                            value={item.estimated}
                                             className="mt-1 block w-full"
-                                            autoComplete="estimated_date"
+                                            autoComplete="estimated"
                                             onChange={handleChange}
                                             required
                                         />
                                         <InputError
-                                            message={errors.estimated_date}
+                                            message={errors.estimated}
                                             className="mt-2"
                                         />
                                     </div>

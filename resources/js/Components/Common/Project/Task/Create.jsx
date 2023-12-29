@@ -46,7 +46,7 @@ export default function Create({ developer, Id ,auth }) {
         priority: "",
         developer: [],
         level: "",
-        estimated_date:"",
+        estimated:"",
     });
 
     const handleDeveloper = (id) => {
@@ -114,10 +114,7 @@ export default function Create({ developer, Id ,auth }) {
                 onClose={handleClose}
                 closeAfterTransition
                 slots={{ backdrop: Backdrop }}
-                slotProps={{
-                    backdrop: {
-                        timeout: 500,
-                    },
+                slotProps={{ backdrop: {timeout: 500,},
                 }}
             >
                 <Fade in={open}>
@@ -216,22 +213,22 @@ export default function Create({ developer, Id ,auth }) {
                                     </div>
                                     <div className="mt-4" style={{ width:'50%' ,paddingLeft:'10px' }}>
                                         <InputLabel
-                                            htmlFor="estimated Date"
-                                            value="Estimated Date"
+                                            htmlFor="estimated Time"
+                                            value="Estimated time"
                                             style={{ fontSize: "15px", fontWeight: "bold", }}
                                         />
                                         <TextInput
-                                            id="estimated_date"
-                                            type="datetime-local"
-                                            name="estimated_date"
-                                            value={data.estimated_date}
+                                            id="estimated"
+                                            type="number"
+                                            name="estimated"
+                                            value={data.estimated}
                                             className="mt-1 block w-full"
-                                            autoComplete="estimated_date"
-                                            onChange={(e) => setData("estimated_date", e.target.value)}
+                                            autoComplete="estimated"
+                                            onChange={(e) => setData("estimated", e.target.value)}
                                             required
                                         />
                                         <InputError
-                                            message={errors.estimated_date}
+                                            message={errors.estimated}
                                             className="mt-2"
                                         />
                                     </div>

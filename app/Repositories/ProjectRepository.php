@@ -175,14 +175,9 @@ class ProjectRepository implements ProjectInterface
             $user = User::whereIn('id', $dev)->get();
             $task = Task::where(['project_id'=>$id])->get();
 
-            $task_id = Developer::where('assignable_type', 'App\Models\TAsk')
-                ->where('project_id',$id)
-                ->pluck('assignable_id');
+            $task_id = Developer::where('assignable_type', 'App\Models\TAsk')->where('project_id',$id) ->pluck('assignable_id');
             $status = Task::whereIn('id', $task_id)->where('status', 'started')->get();
-
-           return [
-            $data , $user , $task ,$status
-           ];
+           return [ $data , $user , $task ,$status];
         }
         else if($role === "junior developer" || $role === "senior developer" ){
             $data = Project::findOrFail($id);

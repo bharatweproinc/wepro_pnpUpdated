@@ -98,9 +98,9 @@ export default function Filter({Id,auth,isFilter,ApplyFilter,developer,handleFil
                                             <DatePicker label="From"
 
                                             slotProps={{ textField: { size: 'small',error: false, } }}
-                                            value={dayjs(data.started)}
+                                            value={dayjs(data.from_date)}
                                             onChange={(e) =>
-                                                setData("started", convert(e.$d))
+                                                setData("from_date", convert(e.$d))
                                             }/>
                                         </FormControl>
                                     </DemoContainer>
@@ -113,9 +113,9 @@ export default function Filter({Id,auth,isFilter,ApplyFilter,developer,handleFil
                                         <FormControl fullWidth size='small'>
                                             <DatePicker label="To"
                                             slotProps={{ textField: { size: 'small',error: false, } }}
-                                            value={dayjs(data.estimated_date)}
+                                            value={dayjs(data.to_date)}
                                             onChange={(e) =>
-                                                setData("estimated_date", convert(e.$d))
+                                                setData("to_date", convert(e.$d))
                                             }/>
                                         </FormControl>
                                     </DemoContainer>

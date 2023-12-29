@@ -39,8 +39,13 @@ class TaskController extends Controller
     }
 
     public function save (TaskRequest $request,$id ){
-            $this->taskRepository->save($id,$request->all());
+           $response = $this->taskRepository->save($id,$request->all());
+           if($response['success']){
             return back();
+           }
+           else{
+            return Redirect::back()->withErrors($response);
+           }
         }
 
     public function edit($id){
@@ -55,11 +60,15 @@ class TaskController extends Controller
     public function update(Request $request,$id){
 
         $proj_id = $this->taskRepository->update($id ,$request->all());
-        return redirect()->back();
+        if($response['success']){
+            return back();
+        }
+        else{
+         return Redirect::back()->withErrors($response);
+        }
     }
 
     public function details($id){
-
         $items = $this->taskRepository->detail($id);
         $data = $items[0];
         $user = $items[1];
@@ -67,7 +76,7 @@ class TaskController extends Controller
     }
 
     public function status(Request $request, $id){
-        $this->taskRepository->status($id,$request->only('status'));
+        $this->taskRepository->status($id,$request);
         return redirect()->back();
     }
 
