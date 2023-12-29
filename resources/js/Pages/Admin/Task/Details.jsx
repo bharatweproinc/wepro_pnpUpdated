@@ -1,10 +1,9 @@
 import FormatDate from "@/Util/FormatDate";
 import { router, useForm } from "@inertiajs/react";
 import EditIcon from '@mui/icons-material/Edit';
-import { Box, Button, Chip, Grid, IconButton, MenuItem, Select, Typography } from "@mui/material";
+import { Box, Chip, Grid, IconButton, MenuItem, Select, Typography } from "@mui/material";
 import DateTimeFormat from "@/Util/DateTimeFormat";
 import { useState } from "react";
-import StatusPopup from "../../../Components/Common/Project/Task/StatusPopup";
 import CheckIcon from '@mui/icons-material/Check';
 import Edit from "@/Components/Common/Project/Task/Edit";
 import StatusStyle from "@/Components/Common/Project/Components/StatusStyle";
@@ -111,9 +110,6 @@ export default function Details({data ,developer}){
                  </IconButton>
              </div>
             }
-            {
-                state.status == 'Complete' && <StatusPopup/>
-            }
             </Grid>
        </Grid>
        <br/>
@@ -145,7 +141,7 @@ export default function Details({data ,developer}){
        </Grid>
        </Box>
 
-    <Box
+        <Box
             sx={{
                 flexGrow:10,
                 margin: "2%",
@@ -176,19 +172,19 @@ export default function Details({data ,developer}){
 
         <br />
         <Box>
-                    {
-                       dev.map((dev_id) =>  (
-                        developer.map((item, j) =>(
-                           dev_id === item.id &&
-                            (
-                            <Chip label={item.name} className="capitalize" sx={{ margin:"10px"}}
-                             color={item.user_role == "senior_developer" ? "primary" : "secondary"}/>
+            {
+                dev.map((dev_id) =>  (
+                developer.map((item, j) =>(
+                    dev_id === item.id &&
+                    (
+                    <Chip label={item.name} className="capitalize" sx={{ margin:"10px"}}
+                        color={item.user_role == "senior_developer" ? "primary" : "secondary"}/>
 
-                           )
-                        ))
-                       ))
-                           }
-                    </Box>
+                    )
+                ))
+                ))
+            }
+        </Box>
     </Box>
 
 

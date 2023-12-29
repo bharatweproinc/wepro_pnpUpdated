@@ -5,19 +5,18 @@ import React from 'react'
 import StatusStyle from '../Components/StatusStyle';
 import FormatDate from "@/Util/FormatDate";
 import DateTimeFormat from "@/Util/DateTimeFormat";
+import ActionStatus from './ActionStatus';
 
 const TaskDetail = ({auth, data, developer}) => {
     const dev_id = data.developer_id.split(",");
     const dev = dev_id.map((item,j) => Number(item));
+    let role = auth.user.user_role;
     function getAction(status){
         let btnJSX = '';
-        let role = auth.user.user_role;
         switch(status){
             case 'new':
-                btnJSX = role == 'admin'? <>
-                    <Button
-                        size="small"
-                    >Start</Button>
+                btnJSX = (role == 'admin' || role == 'project manager') ? <>
+                    <Button size="small">Start</Button>
                     <Button
                         sx={{
                             borderRadius:'12px',
@@ -27,18 +26,17 @@ const TaskDetail = ({auth, data, developer}) => {
                         variant='contained'
                     >Hold</Button>
                 </>:<>
-                    <Button
-                        sx={{
+                    <Button sx={{
                             borderRadius:'12px',
                             marginLeft:'10px',
-                         }}
+                        }}
                         size="small"
                         variant='contained'
                     >Start</Button>
                 </>
                 break;
             case 'in progress':
-                btnJSX = role == 'admin'? <>
+                btnJSX = (role == 'admin' || role == 'project manager') ? <>
                     <Button
                         sx={{
                             borderRadius:'12px',
@@ -47,77 +45,57 @@ const TaskDetail = ({auth, data, developer}) => {
                         size="small"
                         variant='contained'
                     >Pause</Button>
-                    <Button
-                        sx={{
+                    <Button sx={{
                             borderRadius:'12px',
                             marginLeft:'10px',
-                         }}
+                        }}
                         size="small"
                         variant='contained'
                     >Hold</Button>
                 </>:<>
-                    <Button
-                        sx={{
+                    <Button sx={{
                             borderRadius:'12px',
                             marginLeft:'10px',
-                         }}
+                        }}
                         size="small"
                         variant='contained'
                     >Pause</Button>
-                    <Button
-                        sx={{
-                            borderRadius:'12px',
-                            marginLeft:'10px',
-                         }}
-                        size="small"
-                        variant='contained'
-                    >Completed</Button>
+                    <ActionStatus role={role} buttonText={'completed'} taskId={data.id} />
                 </>
                 break;
             case 'pause':
-                btnJSX = role == 'admin'? <>
-                    <Button
-                        sx={{
+                btnJSX =  (role == 'admin' || role == 'project manager') ? <>
+                    <Button sx={{
                             borderRadius:'12px',
                             marginLeft:'10px',
-                         }}
+                        }}
                         size="small"
                         variant='contained'
                     >Start</Button>
-                    <Button
-                        sx={{
+                    <Button sx={{
                             borderRadius:'12px',
                             marginLeft:'10px',
-                         }}
+                        }}
                         size="small"
                         variant='contained'
                     >Hold</Button>
                 </>:<>
-                    <Button
-                        sx={{
+                    <Button sx={{
                             borderRadius:'12px',
                             marginLeft:'10px',
-                         }}
+                        }}
                         size="small"
                         variant='contained'
                     >Start</Button>
-                    <Button
-                        sx={{
-                            borderRadius:'12px',
-                            marginLeft:'10px',
-                         }}
-                        size="small"
-                        variant='contained'
-                    >Completed</Button>
+                    <ActionStatus role={role} buttonText={'completed'} taskId={data.id} />
                 </>
                 break;
             case 'hold':
-                btnJSX = role == 'admin'? <>
-                    <Button
-                        sx={{
-                            borderRadius:'12px',
-                            marginLeft:'10px',
-                         }}
+                btnJSX = (role == 'admin' || role == 'project manager') ? <>
+                    <Button sx={{
+                        borderRadius:'12px',
+                        marginLeft:'10px',
+                        }}
                         size="small"
                         variant='contained'
                     >Unhold</Button>
@@ -126,36 +104,28 @@ const TaskDetail = ({auth, data, developer}) => {
                 </>
                 break;
             case 'completed':
-                btnJSX = role == 'admin'? <>
-                    <Button
-                        sx={{
+                btnJSX =  (role == 'admin' || role == 'project manager') ? <>
+                    <Button sx={{
                             borderRadius:'12px',
                             marginLeft:'10px',
-                         }}
+                        }}
                         size="small"
                         variant='contained'
                     >Reviewed</Button>
-                    <Button
-                        sx={{
-                            borderRadius:'12px',
-                            marginLeft:'10px',
-                         }}
-                        size="small"
-                        variant='contained'
-                    >Debugged</Button>
+                    <ActionStatus role={role} buttonText={'debug'} taskId={data.id} />
                 </>:<>
                     <Typography>Task has been completed</Typography>
                 </>
                 break;
             case 'reviewed':
-                btnJSX = role == 'admin'? <>
+                btnJSX =  (role == 'admin' || role == 'project manager') ? <>
                     <Typography>Task has been reviewed</Typography>
                 </>:<>
                     <Typography>Task has been reviewed</Typography>
                 </>
                 break;
             case 'debugging':
-                btnJSX = role == 'admin'? <>
+                btnJSX =  (role == 'admin' || role == 'project manager') ? <>
                     <Typography>Task has been reviewed</Typography>
                 </>:<>
                     <Typography>Task has been reviewed</Typography>
@@ -236,10 +206,12 @@ const TaskDetail = ({auth, data, developer}) => {
                             <Typography sx={{ fontWeight: "bold" }}>Working Hour</Typography>
                             <Typography className="capitalize">{data.hour_worked} Minutes</Typography>
                         </Grid>
-                        <Grid item xs={4}>
-                            <Typography sx={{ fontWeight: "bold" }}>Action</Typography>
-                            {getAction(data.status)}
-                        </Grid>
+                        {role !== 'hr manager' &&
+                            <Grid item xs={4}>
+                                <Typography sx={{ fontWeight: "bold" }}>Action</Typography>
+                                {getAction(data.status)}
+                            </Grid>
+                        }
                         <Grid item xs={12}>
                             <Typography sx={{ fontWeight: "bold" }}>Description</Typography>
                             <Typography className="capitalize">{data.description} </Typography>
@@ -279,8 +251,10 @@ const TaskDetail = ({auth, data, developer}) => {
                                             <Tooltip title={item.user_role}>
                                                 <Chip label={item.name} key={j} className="capitalize" sx={{ margin:"10px"}}
                                                     color={item.user_role == "project manager" ? "success" : "primary"}/>
-                                            </Tooltip>);
-                                    }) );
+                                            </Tooltip>
+                                        );
+                                    })
+                                );
                             }
                         )}
                     </Box>

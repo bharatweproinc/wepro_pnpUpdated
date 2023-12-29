@@ -1,14 +1,7 @@
 import FormatDate from "@/Util/FormatDate";
 import { useForm } from "@inertiajs/react";
 import EditIcon from "@mui/icons-material/Edit";
-import {
-    Box,
-    Grid,
-    Typography,
-    IconButton,
-    Chip,
-    Tooltip,
-} from "@mui/material";
+import { Box, Grid, Typography, IconButton, Chip, Tooltip, } from "@mui/material";
 
 export default function Details({ user, data, auth ,updated}) {
     const { setData, get, processing, errors, setError } = useForm();
@@ -81,7 +74,6 @@ export default function Details({ user, data, auth ,updated}) {
                         </Typography>
                     </Grid>
                 </Grid>
-
             </Box>
             <br/>
 
@@ -115,7 +107,7 @@ export default function Details({ user, data, auth ,updated}) {
                         user.map((item, j) =>
                         {
                            return (
-                            <Tooltip title={item.user_role}>
+                            <Tooltip title={item.user_role} key={j}>
                             <Chip label={item.name} key={j} className="capitalize" sx={{ margin:"10px"}}
                              color={item.user_role == "project manager" ? "success" : "primary"}/>
                              </Tooltip>

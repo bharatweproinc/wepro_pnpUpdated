@@ -55,7 +55,15 @@ export default function List({ auth, developer, Id, data ,updated}) {
 
     return (
         <>
-            <div style={{ display: "flex", justifyContent: "end",paddingBottom:'10px'}} >
+            <div style={{paddingBottom:'10px'}} >
+                    {(auth.user.user_role === "admin" || auth.user.user_role == "project manager")  &&
+
+                        <Box sx={{ display:'flex' ,gap:'15px', display: "flex", justifyContent:"flex-end"}}>
+                                <Filter isFilter={isFilter} ApplyFilter={handleApplyFilter} handleFilter={handleFilter} developer={developer} Id={Id} auth={auth} />
+                        </Box>
+                    }
+            </div>
+            {/* <div style={{ display: "flex", justifyContent: "end",paddingBottom:'10px'}} >
                 {(auth.user.user_role === "admin" || auth.user.user_role == "project manager")  && <Box sx={{ display:'flex' ,gap:'15px'}}>
                         <Box>
                     { isFilter && <Filter  ApplyFilter={handleApplyFilter} developer={developer} Id={Id} auth={auth} />}
@@ -64,7 +72,7 @@ export default function List({ auth, developer, Id, data ,updated}) {
                         <Create developer={developer} Id={Id} auth={auth} />
                     </Box>
                 }
-            </div>
+            </div> */}
             <TableContainer  sx={{ padding: "10px", border: "2px solid whitesmoke", background: "rgba(0,0,0,0.02)", }}>
                 <Table aria-label="simple table" size="small">
                     <TableHead>
