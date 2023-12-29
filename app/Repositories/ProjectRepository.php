@@ -191,11 +191,10 @@ class ProjectRepository implements ProjectInterface
                ];
         }
     }
-
     public function filter($id,$request){
-
                 $filterData = null;
                 $task_id = Developer::where(['assignable_type'=>'App\Models\Task','project_id'=>$id])->pluck('assignable_id')->toArray();
+                dd($task_id);
                 if(($request->status !="all") && ($request->developer_id != "all") && isset($request->from_date)){
 
                     $filterData =Task::where('status', $request->status)->whereIn('id', $task_id)->whereBetween('started', [$request->from_date, $request->to_date])->get();

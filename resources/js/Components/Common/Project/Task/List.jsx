@@ -13,6 +13,7 @@ import {
     TableRow,
 } from "@mui/material";
 import { useState } from "react";
+import axios from "axios";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { router, useForm } from "@inertiajs/react";
 import DateTimeFormat from "@/Util/DateTimeFormat";
@@ -36,7 +37,6 @@ export default function List({ auth, developer, Id, data ,updated}) {
     const [taskData ,setTaskData] = useState(data);
    const [fromDate,setFrom] = useState(null);
    const [ToDate,SetToDate] = useState(null);
-
    const date1 = new Date(fromDate);
    const date2 = new Date(ToDate);
    const diffTime = Math.abs(date2 - date1);
@@ -62,7 +62,9 @@ export default function List({ auth, developer, Id, data ,updated}) {
         setIsFilter(true);
       }
 
-
+useEffect(()=>{
+    handleApplyFilter;
+    },[]);
     const handleApplyFilter = async (filterData,errors,setError) => {
         try {
             // const err = Joi.validateToPlainErrors(filterData,Validation_Schema.APPLY_FILTER)
@@ -72,13 +74,11 @@ export default function List({ auth, developer, Id, data ,updated}) {
             //     if (Joi.hasPlainError(err)) {
             //         return;
             //     }
-          const response = await axios.post(route('admin.project.task.filter', { id:Id }), filterData)
-            const filterTaskData = response.data;
-            setTaskData(filterTaskData);
-            console.log(filterTaskData, 'data after POST request');
-
+           await axios.post(route('admin.project.task.filter', { id:Id }), filterData).then((response)=>{const filterTaskData = response.data;
+           setTaskData(filterTaskData);
+            })
         } catch (error) {
-            console.error('Axios error:', error);
+            console.error('error:', error);
         }
       };
 

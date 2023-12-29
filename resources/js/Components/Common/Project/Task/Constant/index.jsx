@@ -11,6 +11,10 @@ const statusOption  = [
         value: 'new',
     },
     {
+        label: "Started",
+        value: 'started',
+    },
+    {
         label: "In Progress",
         value: 'in progress',
     },
