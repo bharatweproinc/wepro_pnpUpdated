@@ -23,15 +23,23 @@ import StatusStyle from "../Components/StatusStyle";
 import Filter from "./Filter";
 import { useEffect } from "react";
 import axios from "axios";
+import Validation_Schema from "./ValidationSchema";
+import Joi from "@/Util/JoiValidator";
 
 export default function List({ auth, developer, Id, data ,updated}) {
 
     const [page, setPage] = useState(0);
     const [expandedRows, setExpandedRows] = useState([]);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const { item, setItem, get, post, processing, errors, reset } = useForm();
     const [isFilter, setIsFilter] = useState(false);
     const [taskData ,setTaskData] = useState(data);
+   const [fromDate,setFrom] = useState(null);
+   const [ToDate,SetToDate] = useState(null);
+
+   const date1 = new Date(fromDate);
+   const date2 = new Date(ToDate);
+   const diffTime = Math.abs(date2 - date1);
+   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
     const toggleRow = (id) => {
         if (expandedRows.includes(id)) {
@@ -57,6 +65,7 @@ export default function List({ auth, developer, Id, data ,updated}) {
     const handleApplyFilter = async (filterData) => {
         // router.get(route('admin.project.detail', { id:Id }), filterData);
         try {
+
           const response = await axios.post(route('admin.project.task.filter', { id:Id }), filterData)
             const filterTaskData = response.data;
             setTaskData(filterTaskData);
@@ -66,6 +75,22 @@ export default function List({ auth, developer, Id, data ,updated}) {
             console.error('Axios error:', error);
         }
       };
+    //   const handleApplyFilter =(filterData,errors,setError) =>{
+
+    //     const err = Joi.validateToPlainErrors(filterData,Validation_Schema.APPLY_FILTER)
+    //     setFrom(filterData?.from_date)
+    //     SetToDate(filterData?.to_date)
+    //     setError(err)
+    //         if(fromDate && ToDate ){
+    //             // console.log('clicked')
+    //             console.log(fromDate,ToDate,":::errors")
+    //             setError('')
+    //         }
+    //         if (Joi.hasPlainError(err)) {
+    //             return;
+    //         }
+    //         router.post(route("admin.project.task.filter", [Id]), filterData)
+    // }
 
     return (
         <>
@@ -77,16 +102,7 @@ export default function List({ auth, developer, Id, data ,updated}) {
                         </Box>
                     }
             </div>
-            {/* <div style={{ display: "flex", justifyContent: "end",paddingBottom:'10px'}} >
-                {(auth.user.user_role === "admin" || auth.user.user_role == "project manager")  && <Box sx={{ display:'flex' ,gap:'15px'}}>
-                        <Box>
-                    { isFilter && <Filter  ApplyFilter={handleApplyFilter} developer={developer} Id={Id} auth={auth} />}
-                            {!isFilter &&  <Button variant="contained" onClick={handleFilter} > Filter  </Button>}
-                        </Box>
-                        <Create developer={developer} Id={Id} auth={auth} />
-                    </Box>
-                }
-            </div> */}
+
             <TableContainer  sx={{ padding: "10px", border: "2px solid whitesmoke", background: "rgba(0,0,0,0.02)", }}>
                 <Table aria-label="simple table" size="small">
                     <TableHead>

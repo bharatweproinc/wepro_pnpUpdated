@@ -7,12 +7,11 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import dayjs from 'dayjs';
 import Constant from "./Constant";
 import Create from "./Create";
+// import Validation_Schema from "./ValidationSchema";
 
 export default function Filter({Id,auth,isFilter,ApplyFilter,developer,handleFilter}) {
 
-    const { data, setData, post, processing, errors, reset } = useForm(Constant.formData);
-
-    const filteredDeveloper = developer.filter((item)=> item.name !== "Project Manager")
+    const { data, setData, post, processing, errors,setError, reset } = useForm(Constant.formData);
 
     function convert(str) {
         let date = new Date(str),
@@ -20,9 +19,6 @@ export default function Filter({Id,auth,isFilter,ApplyFilter,developer,handleFil
           day = ("0" + date.getDate()).slice(-2);
         return [mnth, day, date.getFullYear()].join("-");
     }
-    isFilter
-    console.log(isFilter,"isFilter")
-
     return (
         <>
 
@@ -56,10 +52,7 @@ export default function Filter({Id,auth,isFilter,ApplyFilter,developer,handleFil
                                     ))}
                                 </Select>
                                 </FormControl>
-                                    {/* <InputError
-                                        message={errors.label}
-                                        className="mt-2"
-                                    /> */}
+                                {errors?.status && (<div className="error" style={{ color:'red' }}>{errors?.status}</div>)}
                         </Grid>
 
                         <Grid item xs={12} md={3}>
@@ -89,6 +82,7 @@ export default function Filter({Id,auth,isFilter,ApplyFilter,developer,handleFil
                                             ))}
                                     </Select>
                                 </FormControl>
+                                {errors?.developer_id && (<div className="error" style={{ color:'red' }}>{errors?.developer_id}</div>)}
                         </Grid>
 
                         <Grid item xs={12} md={3} paddingTop={'7px !important'}>
@@ -105,6 +99,7 @@ export default function Filter({Id,auth,isFilter,ApplyFilter,developer,handleFil
                                         </FormControl>
                                     </DemoContainer>
                                 </LocalizationProvider>
+                                {errors?.from_date && (<div className="error-text" style={{ color:'red' }}>{errors?.from_date}</div>)}
                         </Grid>
 
                         <Grid item xs={12} md={3}  paddingTop={'7px !important'}>
@@ -120,6 +115,7 @@ export default function Filter({Id,auth,isFilter,ApplyFilter,developer,handleFil
                                         </FormControl>
                                     </DemoContainer>
                                 </LocalizationProvider>
+                                {errors?.to_date && (<div className="error" style={{ color:'red' }}>{errors?.to_date}</div>)}
                         </Grid>
                      </>
                  }
@@ -132,7 +128,7 @@ export default function Filter({Id,auth,isFilter,ApplyFilter,developer,handleFil
                 <Button variant="contained" onClick={handleFilter} > {'Filter'}  </Button>
             </div>:
             <div style={{ height:'55px' }}>
-                <Button variant="contained" onClick={() => {ApplyFilter(data)}} > Apply  </Button>
+                <Button variant="contained" onClick={() => {ApplyFilter(data,errors,setError)}} > Apply  </Button>
             </div>
             }
             <Create developer={developer} Id={Id} auth={auth} />
@@ -144,125 +140,3 @@ export default function Filter({Id,auth,isFilter,ApplyFilter,developer,handleFil
 
 
 
-
-// import InputLabel from "@/Components/InputLabel";
-// import { useForm } from "@inertiajs/inertia-react";
-// import { Button, MenuItem, Select } from "@mui/material";
-// import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-// import { useState } from "react";
-// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-// import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-// import dayjs from 'dayjs';
-// import Constant from "./Constant";
-
-// export default function Filter({ApplyFilter,developer}) {
-
-//     const { data, setData, post, processing, errors, reset } = useForm(Constant.formData);
-
-//     const filteredDeveloper = developer.filter((item)=> item.name !== "Project Manager")
-
-//     function convert(str) {
-//         let date = new Date(str),
-//           mnth = ("0" + (date.getMonth() + 1)).slice(-2),
-//           day = ("0" + date.getDate()).slice(-2);
-//         return [mnth, day, date.getFullYear()].join("-");
-//     }
-//     return (
-//         <>
-//             <div>
-//                 <div style={{ display:'flex' }}>
-//                     <div className="mt-4" style={{ width:"50%" }}>
-//                             <InputLabel htmlFor="level" value="Status" style={{ fontSize: "15px", fontWeight: "bold", }} />
-//                             <Select value={data.status} name="level" style={{ height:"42px",width:'80%'}}className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 "
-//                                 onChange={(e) =>
-//                                     setData("status", e.target.value)
-//                                 }
-//                                 required
-//                             >
-//                                 <MenuItem selected value={'all'} >
-//                                     All
-//                                 </MenuItem>
-//                                 {Constant.statusOption.map((item, index) => (
-//                                     <MenuItem
-//                                         key={index}
-//                                         value={item.value}
-//                                         label={item.label}
-//                                     >
-//                                         {item.label}
-//                                     </MenuItem>
-//                                 ))}
-//                             </Select>
-//                             {/* <InputError
-//                                 message={errors.label}
-//                                 className="mt-2"
-//                             /> */}
-//                     </div>
-
-//                     <div className="mt-4" style={{ width:"50%" }}>
-//                             <InputLabel htmlFor="level" value="Developer" style={{ fontSize: "15px", fontWeight: "bold", }} />
-//                             <Select value={data.developer_id} name="level" style={{ height: "42px",width:'80%'}}className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 "
-//                                 onChange={(e) =>
-//                                     setData("developer_id", e.target.value)
-//                                 }
-//                                 required
-//                             >
-//                                 <MenuItem selected value={'all'} >
-//                                     All
-//                                 </MenuItem>
-//                                 {filteredDeveloper.map((item, index) => (
-//                                     <MenuItem
-//                                         key={index}
-//                                         value={item.id}
-//                                         label={item.name}
-//                                     >
-//                                         {item.name}
-//                                     </MenuItem>
-//                                 ))}
-//                             </Select>
-//                             {/* <InputError
-//                                 message={errors.label}
-//                                 className="mt-2"
-//                             /> */}
-//                     </div>
-//                 </div>
-
-//                 <div>
-//                     <div style={{ display:'flex', }}>
-//                         <div  className="mt-4" style={{ width:"50%" }}>
-//                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-//                                 <DemoContainer components={['DatePicker']}>
-//                                     <DatePicker label="From"
-//                                     slotProps={{ textField: { size: 'small',error: false, } }}
-//                                     sx={{ width:'80%' }}
-//                                     value={dayjs(data.from_date)}
-//                                     onChange={(e) =>
-//                                         setData("from_date", convert(e.$d))
-//                                     }/>
-//                                 </DemoContainer>
-//                             </LocalizationProvider>
-//                         </div>
-
-//                         <div   className="mt-4" style={{ width:"50%" }}>
-//                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-//                                 <DemoContainer components={['DatePicker']}>
-//                                     <DatePicker label="To"
-//                                     slotProps={{ textField: { size: 'small',error: false, } }}
-//                                     value={dayjs(data.to_date)}
-//                                     sx={{ width:'80%' }}
-//                                     onChange={(e) =>
-//                                         setData("to_date", convert(e.$d))
-//                                     }/>
-//                                 </DemoContainer>
-//                             </LocalizationProvider>
-//                         </div>
-//                     </div>
-//                     <div className="mt-4">
-//                         <Button variant="contained" onClick={() => {ApplyFilter(data)}} > Apply  </Button>
-//                     </div>
-
-//                 </div>
-//             </div>
-
-//         </>
-//     );
-// }
