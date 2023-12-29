@@ -64,11 +64,13 @@ export default function List({ leave, auth, user}) {
     const handleInputChange =(e) =>{
         const searchTerm = e.target.value;
         setSearchItem(searchTerm);
-        console.log(user,'userrr');
         const filterItem = user.filter((val) => {
-            return val.name.toLowerCase().includes(searchTerm.toLowerCase());
+            return val.name.toLowerCase().includes(searchTerm.toLowerCase())
           });
-        setData(filterItem);
+        const user_id = filterItem.map((val)=>val.id);
+        const searched = leave.filter((leav)=>{ return leav.user_id == user_id});
+
+        setData(searched);
     }
 
 
@@ -82,7 +84,7 @@ export default function List({ leave, auth, user}) {
                     <div style={{ display:'flex' ,justifyContent:'end' ,marginRight:"10px", height:'38px'}}>
                          <TextInput
                          id="search"
-                         placeholder="Type To search"
+                         placeholder="Search By Name"
                          value={searchItem}
                          onChange={handleInputChange}
                          style={{ height:'' }}

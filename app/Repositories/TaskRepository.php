@@ -170,24 +170,28 @@ class TaskRepository implements TaskInterface
 
     public function filterData($data ,$id){
         try {
-            if($data->status && $data->developer_id && $data->from_date){
-                $task_id = Developer::where('assignable_type','App\Models\Task')->pluck('assignable_id')->toArray();
-                dd($task_id);
-                $filterData =Task::where('status', 'like', '%' . $data->status . '%')->whereIn('id', $task_id)->whereBetween('started', [$from_date, $to_date])->get();
+            // dd($data->status ,$data->developer_id);
+            $filterData = null;
+            if(($data->status !="all") && ($data->developer_id != "all") && isset($data->from_date)){
+                $task_id = Developer::where(['assignable_type'=>'App\Models\Task','project_id'=>$id])->pluck('assignable_id')->toArray();
+                $filterData =Task::where('status', $data->status)->whereIn('id', $task_id)->whereBetween('started', [$from_date, $to_date])->get();
                 dd($filterData);
             }
-            if($data->status)
+            else if($data->status && $data->developer_id){
+                dd("hello");
+            }
+            else if($data->status)
             {
                 dd("status");
                 $filterData = Task::where('status', 'like', '%' . $data->status . '%')->get();
             }
-            if($data->developer_id)
+            else if($data->developer_id)
             {
                 dd("developer");
                 $task_id = Developer::where('developer_id', 'like', '%' . $user_id . '%')->where('assignable_type','App\Models\Task')->pluck('assignable_id')->toArray();
                 $filterData = Task::whereIn('id', $task_id)->get();
             }
-            if($data->from_date)
+           else if($data->from_date)
             {dd("from_date");
                 $filterData = Task::whereBetween('started', [$from_date, $to_date])->get();
             }

@@ -87,9 +87,9 @@ export default function Filter({ApplyFilter,developer}) {
                                     <DatePicker label="From"
                                     slotProps={{ textField: { size: 'small',error: false, } }}
                                     sx={{ width:'80%' }}
-                                    value={dayjs(data.from_date)}
+                                    value={dayjs(data.started)}
                                     onChange={(e) =>
-                                        setData("from_date", convert(e.$d))
+                                        setData("started", convert(e.$d))
                                     }/>
                                 </DemoContainer>
                             </LocalizationProvider>
@@ -100,10 +100,10 @@ export default function Filter({ApplyFilter,developer}) {
                                 <DemoContainer components={['DatePicker']}>
                                     <DatePicker label="To"
                                     slotProps={{ textField: { size: 'small',error: false, } }}
-                                    value={dayjs(data.to_date)}
+                                    value={dayjs(data.estimated_date)}
                                     sx={{ width:'80%' }}
                                     onChange={(e) =>
-                                        setData("to_date", convert(e.$d))
+                                        setData("estimated_date", convert(e.$d))
                                     }/>
                                 </DemoContainer>
                             </LocalizationProvider>

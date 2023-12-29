@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { useForm } from "@inertiajs/react";
+import { router, useForm } from "@inertiajs/react";
 import DateTimeFormat from "@/Util/DateTimeFormat";
 import Detail from "./Detail";
 import Create from "./Create";
@@ -50,8 +50,7 @@ export default function List({ auth, developer, Id, data ,updated}) {
         setIsFilter(true);
       }
     const handleApplyFilter =(filterData) =>{
-    post(route('admin.project.task.filter',{id:Id} ,filterData));
-    // setIsFilter(false)
+        router.post(route("admin.project.task.filter", [Id]), filterData)
     }
 
     return (
