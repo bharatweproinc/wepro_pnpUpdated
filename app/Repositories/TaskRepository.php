@@ -206,11 +206,6 @@ class TaskRepository implements TaskInterface
                         $task->save();
                     }
                     return redirect()->back();
-
-                }
-                else {
-                 return redirect()->back()->withError('first Start the Task then update');
-                }
         }
         else
         {

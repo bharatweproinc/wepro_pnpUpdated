@@ -1,8 +1,8 @@
 const formData ={
     status: "all",
     developer_id: "all",
-    started: "",
-    estimated_date: "",
+    from_date: "",
+    to_date: "",
 }
 
 const statusOption  = [

@@ -85,7 +85,7 @@ class TaskController extends Controller
         if($response['success'])
         {
             $data = $response['data'];
-            return Redirect::back()->with(['data'=>$data]);
+            return Redirect::back()->with(['filteTaskData'=>$data]);
         }
         else{
             return Redirect::back()->withErrors($response);
