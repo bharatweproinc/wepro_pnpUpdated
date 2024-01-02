@@ -81,17 +81,15 @@ class TaskController extends Controller
     }
 
     public function filter(Request $request ,$id){
-        dd($request);
-       $response = $this->taskRepository->filterData($request,$id);
-        if($response['success'])
-        {
-            $data = $response['data'];
-            dd($data);
-            return response()->json($data);
-            // return redirect()->back()->with('filterdTaskData', $data);
-        }
-        else{
-            return Redirect::back()->withErrors($response);
-        }
-    }
+
+        $response = $this->taskRepository->filterData($request,$id);
+         if($response['success'])
+         {
+             $data = $response['data'];
+             return Redirect::back()->with('filterdTaskData', $data);
+         }
+         else{
+             return Redirect::back()->withErrors(['filterError' => $response['error']]);
+         }
+     }
 }

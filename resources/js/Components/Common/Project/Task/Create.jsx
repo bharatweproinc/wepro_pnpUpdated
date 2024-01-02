@@ -67,6 +67,7 @@ export default function Create({ developer, Id ,auth }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log("hello");
         {
             auth.user.user_role == "admin" ?
            post(route("admin.project.task.save", { id: Id }),{

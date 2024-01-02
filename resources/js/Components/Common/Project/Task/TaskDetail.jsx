@@ -1,5 +1,6 @@
 import { useForm } from '@inertiajs/inertia-react';
 import { router } from '@inertiajs/react';
+import CssBaseline from "@mui/material/CssBaseline";
 import { Box, Chip, Grid, Tooltip, Typography, Button } from '@mui/material';
 import React from 'react'
 import StatusStyle from '../Components/StatusStyle';
@@ -7,32 +8,42 @@ import FormatDate from "@/Util/FormatDate";
 import DateTimeFormat from "@/Util/DateTimeFormat";
 import ActionStatus from './ActionStatus';
 import StatusPopUp from './Components/StatusPopUp';
-const TaskDetail = ({auth, data, developer}) => {
+import { useState } from 'react';
+import SuccessMsg from '../../SuccessMsg';
+import PauseOrUpdateTime from '../Components/PauseOrUpdateTime';
+import ReviewedPopup from './Components/ReviewedPopup';
+
+const TaskDetail = ({auth, data, developer,updated}) => {
     const dev_id = data.developer_id.split(",");
     const dev = dev_id.map((item,j) => Number(item));
     let role = auth.user.user_role;
-    // const handleClick =(status)=>{
 
-    // }
-    function handleClick (key) {
-      console.log(key,'key');
+    const [selectedStatus ,setSelectedStatus] = useState(null);
+    const [state , setState] = useState({status:null});
+    const [msg ,setMsg] = useState(null);
+    const pauseStatus = "pause";
+    const [severity ,setSeverity] = useState("success");
+    function handleClick (status) {
+      setSelectedStatus(status);
+      setState({"status":status});
+    }
+
+    function handleClosePopup() {
+        setSelectedStatus(null);
     }
     function getAction(status){
         let btnJSX = '';
         switch(status){
             case 'new':
                 btnJSX = (role == 'admin' || role == 'project manager') ? <>
-                    {/* <StatusPopUp role={role} buttonText={'Start'} status={status} taskId={data.id}  />
-                    <StatusPopUp role={role} buttonText={'Hold'} status={status} taskId={data.id}  /> */}
-                    <Button size="small" onClick={handleClick('started')}>Start</Button>
-                    <Button sx={{ borderRadius:'12px',marginLeft:'10px',}} size="small" variant='contained' onClick={handleClick("hold")}>Hold</Button>
+                    <Button size="small" variant='contained' onClick={()=>handleClick('started')} sx={{borderRadius:'12px',marginLeft:'10px',}}>Started</Button>
+                    <Button sx={{ borderRadius:'12px',marginLeft:'10px',}} size="small" variant='contained' onClick={()=>handleClick("hold")}>Hold</Button>
                 </>:<>
-                    {/* <Button sx={{ borderRadius:'12px',  marginLeft:'10px', }}
+                    <Button sx={{ borderRadius:'12px',  marginLeft:'10px', }}
                         size="small"
                         variant='contained'
-                        onClick={handleClick("started")}
-                    >Start</Button> */}
-                    <StatusPopUp role={role} buttonText={'Start'} status={status} taskId={data.id}  />
+                        onClick={()=>handleClick("started")}
+                    >Started</Button>
                 </>
                 break;
             case 'in progress':
@@ -41,21 +52,20 @@ const TaskDetail = ({auth, data, developer}) => {
                         sx={{borderRadius:'12px',marginLeft:'10px',}}
                         size="small"
                         variant='contained'
-                        onClick={handleClick("pause")}
+                        onClick={()=>handleClick("pause")}
                     >Pause</Button>
                     <Button sx={{ borderRadius:'12px', marginLeft:'10px',}}
                         size="small"
                         variant='contained'
-                        onClick={handleClick("hold")}
+                        onClick={()=>handleClick("hold")}
                     >Hold</Button>
                 </>:<>
-                    {/* <Button sx={{ borderRadius:'12px',marginLeft:'10px', }}
+                    <Button sx={{ borderRadius:'12px',marginLeft:'10px', }}
                         size="small"
                         variant='contained'
-                        onClick={handleClick}
-                    >Pause</Button> */}
-                    <StatusPopUp role={role} buttonText={'Pause'} status={status} taskId={data.id}  />
-                    <ActionStatus role={role} buttonText={'completed'} taskId={data.id} />
+                        onClick={()=>handleClick("pause")}
+                    >Pause</Button>
+
                 </>
                 break;
             case 'pause':
@@ -63,32 +73,34 @@ const TaskDetail = ({auth, data, developer}) => {
                     <Button sx={{ borderRadius:'12px', marginLeft:'10px',  }}
                         size="small"
                         variant='contained'
-                        onClick={handleClick}
-                    >Start</Button>
+                        onClick={()=>handleClick("started")}
+                    >Started</Button>
                     <Button sx={{ borderRadius:'12px', marginLeft:'10px',}}
                         size="small"
                         variant='contained'
-                        onClick={handleClick}
+                        onClick={()=>handleClick("hold")}
                     >Hold</Button>
                 </>:<>
                     <Button sx={{ borderRadius:'12px', marginLeft:'10px', }}
                         size="small"
                         variant='contained'
-                        onClick={handleClick}
-                    >Start</Button>
+                        onClick={()=>handleClick("started")}
+                    >Started</Button>
                     <ActionStatus role={role} buttonText={'completed'} taskId={data.id} />
                 </>
                 break;
                 case 'started':
                 btnJSX = (role == 'admin' || role == 'project manager') ? <>
-                    <Button size="small" variant='contained' onClick={handleClick('pause')}>Pause</Button>
-                    {/* <Button sx={{ borderRadius:'12px',marginLeft:'10px',}} size="small" variant='contained' onClick={handleClick("hold")}>Hold</Button> */}
+                    <Button size="small" variant='contained' onClick={()=>handleClick('pause')}>Pause</Button>
+                    <Button sx={{ borderRadius:'12px',marginLeft:'10px',}} size="small" variant='contained' onClick={()=>handleClick("complete")}>complete</Button>
                 </>:<>
                     <Button sx={{ borderRadius:'12px',  marginLeft:'10px', }}
                         size="small"
                         variant='contained'
-                        onClick={handleClick("pause")}
+                        onClick={()=>handleClick("pause")}
                     >Pause</Button>
+                   <Button sx={{ borderRadius:'12px',marginLeft:'10px',}} size="small" variant='contained' onClick={()=>handleClick("complete")}>complete</Button>
+
                 </>
                 break;
             case 'hold':
@@ -96,20 +108,25 @@ const TaskDetail = ({auth, data, developer}) => {
                     <Button sx={{ borderRadius:'12px', marginLeft:'10px', }}
                         size="small"
                         variant='contained'
-                        onClick={handleClick("started")}
-                    >start</Button>
+                        onClick={()=>handleClick("started")}
+                    >Started</Button>
                 </>:<>
                     <Typography>Status is on Hold Now!</Typography>
                 </>
                 break;
-            case 'completed':
+            case 'complete':
                 btnJSX =  (role == 'admin' || role == 'project manager') ? <>
                     <Button sx={{borderRadius:'12px',marginLeft:'10px', }}
                         size="small"
                         variant='contained'
-                        onClick={handleClick('reviewed')}
+                        onClick={()=>handleClick('reviewed')}
                     >Reviewed</Button>
-                    <ActionStatus role={role} buttonText={'debug'} taskId={data.id} />
+                     <Button sx={{borderRadius:'12px',marginLeft:'10px', }}
+                        size="small"
+                        variant='contained'
+                        onClick={()=>handleClick('debugging')}
+                    >Debugging</Button>
+                    {/* <ActionStatus role={role} buttonText={'debug'} taskId={data.id} /> */}
                 </>:<>
                     <Typography>Task has been completed</Typography>
                 </>
@@ -123,17 +140,56 @@ const TaskDetail = ({auth, data, developer}) => {
                 break;
             case 'debugging':
                 btnJSX =  (role == 'admin' || role == 'project manager') ? <>
-                    <Typography>Task has been reviewed</Typography>
+                    <Typography>Task has been Debugging</Typography>
                 </>:<>
-                    <Typography>Task has been reviewed</Typography>
+                    <Typography>Task has been Debugging</Typography>
                 </>
                 break;
         }
         return btnJSX
     }
-
+    const handleSubmit =(e)=>{
+        console.log(state,'status');
+        { auth.user.user_role =="admin"?
+        router.post(route("admin.project.task.status", {id:data.id}),state,{
+            onSuccess: ()=> {
+                handleClosePopup();
+                setState("");
+                setMsg('Task Status updated successfully.')
+                setSeverity('success');
+            },onError:(error) => {
+                setMsg(error.message)
+                setSeverity('error');
+            },
+        }) : auth.user.user_role == "project manager" ?
+        router.post(route("projectManager.project.task.status", {id:data.id}),state,{
+            onSuccess: ()=> {
+                setMsg('Task Status updated successfully.')
+                handleClosePopup();
+                setState("");
+                setSeverity('success');
+            },onError:(error) => {
+                setMsg(error.message)
+                setSeverity('error');
+            },}) :
+            auth.user.user_role == "junior developer" || role == "senior developer " &&
+            router.post(route("developer.project.task.status", {id:data.id}),state,{
+                onSuccess: ()=> {
+                    setMsg('Task Status updated successfully.')
+                    setState("");
+                    handleClosePopup();
+                    setSeverity('success');
+                },onError:(error) => {
+                    setMsg(error.message)
+                    setSeverity('error');
+                },})
+    }
+    }
     return (
             <>
+            {
+                msg && <SuccessMsg severity={severity} error={msg} setError={setMsg} title={msg}/>
+            }
                 <Box
                     sx={{
                         flexGrow: 10,
@@ -207,6 +263,31 @@ const TaskDetail = ({auth, data, developer}) => {
                             <Grid item xs={4}>
                                 <Typography sx={{ fontWeight: "bold" }}>Action</Typography>
                                 {getAction(data.status)}
+                                {   selectedStatus && (
+                                <StatusPopUp
+                                 role={role}
+                                 buttonText={selectedStatus}
+                                 status={data.status}
+                                 taskId={data.id}
+                                 onClose={handleClosePopup}
+                                 handleSubmit={handleSubmit}
+                                />
+                                )}
+                                {
+                                    selectedStatus && (state.status =="reviewed" || state.status =="debugging" )&&
+                                    <ReviewedPopup Id={data.id} setSelectedStatus={setSelectedStatus} auth={auth} handleSubmit={handleSubmit} setState={setState} state={state}/>
+                                }
+                                 {selectedStatus && state.status === 'started' && updated .length > 0 && (
+                                data.id === updated[0].id ? <Alert>This task is Already start </Alert> :
+                            <PauseOrUpdateTime
+                                auth={auth}
+                                pauseStatus={pauseStatus}
+                                updated= {updated}
+                                setState = {setState}
+                                setSelectedStatus = {setSelectedStatus}
+                                state={{ status:data.status }}
+                            />
+                        )}
                             </Grid>
                         }
                         <Grid item xs={12}>

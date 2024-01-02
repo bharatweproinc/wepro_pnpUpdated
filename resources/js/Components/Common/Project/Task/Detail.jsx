@@ -11,7 +11,6 @@ export default function Detail({ data, developer, auth, devId, updated }) {
         setValue(newValue);
     };
     const dev_id = data.developer_id.split(",");
-
     return (
         <>
             <TabContext value={value}>
@@ -22,7 +21,7 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                 </TabList>
 
                 <TabPanel value="1">
-                    <TaskDetail auth={auth} data={data} developer={developer} />
+                    <TaskDetail auth={auth} data={data} developer={developer} updated={updated} />
                 </TabPanel>
                 <TabPanel value="2">
                     <TaskBugs />

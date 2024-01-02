@@ -33,10 +33,7 @@ class ManagerTaskController extends Controller
         $this->taskRepository->save($id,$request->all());
         // return Inertia::location(route('projectManager.project.task.list',$id));
         return redirect()->back();
-
-
     }
-
 
     public function update(Request $request,$id){
         $proj_id = $this->taskRepository->update($id ,$request->all());
@@ -44,7 +41,7 @@ class ManagerTaskController extends Controller
     }
 
     public function status(Request $request, $id){
-        $this->taskRepository->status($id,$request->only('status'));
+       $response = $this->taskRepository->status($id,$request);
         return Redirect::back();
     }
 }

@@ -28,14 +28,22 @@ class ProjectRepository implements ProjectInterface
         }
         $data= Image::insert($media);
     }
-
     public function image($id,$data){
+
         if ($data['task_file']){
-                $this->multipleFile($id ,$data['task_file'], $data,'App\Models\Project');
+                $this->multipleFile($id ,$data['task_file'], $data,'App\Models\Task');
+                if($data["estimated"]){
+                    if ($data["estimated"] > 59) {
+                        $data["estimated"] = ($data["estimated"]) / 60;
+                        }
+                    $task = Task::where('id',$id)->first();
+                    $task->estimated = $data["estimated"];
+                    $task->update(["estimated"=>$data["estimated"]]);
+                }
                 return redirect()->back();
             }
             else{
-                return redirect->back()->withError("Images Not Inserted ");
+                return redirect()->back()->withError("Images Not Inserted ");
             }
     }
 
@@ -137,7 +145,7 @@ class ProjectRepository implements ProjectInterface
      }
     }
 
-    public function detail($id)
+    public function detail($id ,$request)
     {
         $auth = Auth::user();
         $role = $auth->user_role;
@@ -149,11 +157,11 @@ class ProjectRepository implements ProjectInterface
             $developer = str_replace(array('[', ']', '"'),'',$developer);
             $dev = array_map('intval', $developer);
             $user = User::whereIn('id', $dev)->get();
-            $task = Task::where(['project_id'=>$id])->get();
-            // $task = $this->filter($id,$request);
+            // $task = Task::where(['project_id'=>$id])->get();
+            $task = $this->filter($id,$request);
             // dd($task);
             $auth = Auth::user();
-            $task_id = Developer::where('assignable_type', 'App\Models\TAsk')
+            $task_id = Developer::where('assignable_type', 'App\Models\Task')
                 ->where('project_id',$id)
                 ->pluck('assignable_id');
             $status = Task::whereIn('id', $task_id)->where('status', 'started')->get();
@@ -171,7 +179,7 @@ class ProjectRepository implements ProjectInterface
             $user = User::whereIn('id', $dev)->get();
             $task = Task::where(['project_id'=>$id])->get();
 
-            $task_id = Developer::where('assignable_type', 'App\Models\TAsk')->where('project_id',$id) ->pluck('assignable_id');
+            $task_id = Developer::where('assignable_type', 'App\Models\Task')->where('project_id',$id) ->pluck('assignable_id');
             $status = Task::whereIn('id', $task_id)->where('status', 'started')->get();
            return [ $data , $user , $task ,$status];
         }
@@ -191,48 +199,48 @@ class ProjectRepository implements ProjectInterface
                ];
         }
     }
-    public function filter($id,$request){
-                $filterData = null;
-                $task_id = Developer::where(['assignable_type'=>'App\Models\Task','project_id'=>$id])->pluck('assignable_id')->toArray();
-                dd($task_id);
-                if(($request->status !="all") && ($request->developer_id != "all") && isset($request->from_date)){
-
-                    $filterData =Task::where('status', $request->status)->whereIn('id', $task_id)->whereBetween('started', [$request->from_date, $request->to_date])->get();
-                }
-                else if(($request->status !="all")  && ($request->developer_id != "all")){
-
-                    $filterData =Task::where('status', $request->status)->whereIn('id', $task_id)->get();
-
-                }
-                else if(($request->developer_id != "all") && isset($request->from_date)){
-
-                 $task = Developer::where('developer_id', 'like', '%' . $request->developer_id . '%')->where(['assignable_type'=>'App\Models\Task','project_id'=>$id])->pluck('assignable_id')->toArray();
-                 $filterData =Task::where('status', $request->status)->whereIn('id', $task)->get();
-
-                }
-                else if($request->status !="all")
-                {
-                    $filterData = Task::where(['status'=>$request->status ,'id'=>$task_id])->get();
-
-                }
-                else if($request->developer_id != "all")
-                {
-                    $task = Developer::where('developer_id', 'like', '%' . $request->developer_id . '%')->where(['assignable_type'=>'App\Models\Task','project_id'=>$id])->pluck('assignable_id')->toArray();
-                    $filterData = Task::whereIn('id', $task)->get();
-
-                }
-                else if(isset($request->from_date))
-                {
-                 $filterData = Task::whereBetween('started', [$request->from_date, $request->to_date])->where('id',$task_id)->get();
-                }
-                else{
-
-                    $filterData = Task::where(['project_id'=>$id])->get();
-                }
-
-                return $filterData;
-
+    public function filter($id, $request)
+{
+    $filterData = null;
+    $task_id = Developer::where(['assignable_type' => 'App\Models\Task', 'project_id' => $id])->pluck('assignable_id')->toArray();
+    if ($request->status != null && $request->developer_id != null && isset($request->from_date)) {
+        $filterData = Task::where('status', $request->status)
+            ->whereIn('id', $task_id)
+            ->whereBetween('started', [$request->from_date, $request->to_date])
+            ->get();
+    } else if ($request->status != null && $request->developer_id != null) {
+        $filterData = Task::where('status', $request->status)
+            ->whereIn('id', $task_id)
+            ->get();
+    } elseif ($request->developer_id != null && $request->from_date  != null) {
+        $task = Developer::where('developer_id', 'like', '%' . $request->developer_id . '%')
+            ->where(['assignable_type' => 'App\Models\Task', 'project_id' => $id])
+            ->pluck('assignable_id')
+            ->toArray();
+            dd("hello");
+        $filterData = Task::where('status', $request->status)
+            ->whereIn('id', $task)
+            ->get();
+            dd("hello");
+    } elseif ($request->status != null) {
+        $filterData = Task::where(['status' => $request->status, 'id' => $task_id])->get();
+    } elseif ($request->developer_id == null) {
+        $task = Developer::where('developer_id', 'like', '%' . $request->developer_id . '%')
+            ->where(['assignable_type' => 'App\Models\Task', 'project_id' => $id])
+            ->pluck('assignable_id')
+            ->toArray();
+        $filterData = Task::whereIn('id', $task)->get();
+    } elseif (isset($request->from_date)) {
+        $filterData = Task::whereBetween('started', [$request->from_date, $request->to_date])
+            ->whereIn('id', $task_id)
+            ->get();
     }
+    else{
+        $filterData = Task::where(['project_id'=>$id])->get();
+    }
+    return $filterData;
+}
+
 }
 
 

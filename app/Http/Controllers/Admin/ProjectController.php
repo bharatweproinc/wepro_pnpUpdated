@@ -52,16 +52,7 @@ class ProjectController extends Controller
 
     public function details(Request $request,$id)
     {
-    //     if (($request->status != "all" || $request->developer_id != "all" || isset($request->status))) {
-    //         $allData = $this->projectRepository->detail($id, $request);
-    //         $data = $allData[0];
-    //         $user = $allData[1];
-    //         $task = $allData[2];
-    //         $status = $allData[3];
-    //         $history = $allData[4];
-    //         return Redirect::back()->with(compact('data', 'user', 'task', 'history'));
-    //     }
-    //    else{
+        if(empty($request->all())){
        $allData = $this->projectRepository->detail($id,$request);
        $data = $allData[0];
        $user = $allData[1];
@@ -70,7 +61,16 @@ class ProjectController extends Controller
        $history = $allData[4];
        return Inertia::render('Admin/Project/Detail',
         ['data' => $data, 'user' => $user,'task'=>$task ,'updated'=>$status ,'history'=>$history]);
-    //    }
+       }
+       else{
+        $allData = $this->projectRepository->detail($id,$request);
+        $data = $allData[0];
+        $user = $allData[1];
+        $task = $allData[2];
+        $status = $allData[3];
+        $history = $allData[4];
+        return response()->json($task);
+       }
     }
 
 

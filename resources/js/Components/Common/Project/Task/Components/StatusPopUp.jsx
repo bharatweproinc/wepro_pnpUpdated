@@ -1,4 +1,5 @@
 import * as React from "react";
+import CssBaseline from "@mui/material/CssBaseline";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
@@ -10,12 +11,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import { Box, DialogContentText, Grid, TextField, TextareaAutosize } from "@mui/material";
 import { useForm } from "@inertiajs/inertia-react";
-import DeleteIcon from "@mui/icons-material/Delete";
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import _ from "lodash";
 import SaveIcon from '@mui/icons-material/Save';
-import Prefix from "@/Constant/APIPrefix";
 import AlarmOnIcon from '@mui/icons-material/AlarmOn';
+import { useState } from "react";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     "& .MuiDialogContent-root": {
@@ -37,17 +36,16 @@ const VisuallyHiddenInput = styled('input')({
     width: 1,
 });
 
-export default function StatusPopUp({buttonText='Open dialog',status, role, taskId}) {
-    const [open, setOpen] = React.useState(false);
+export default function StatusPopUp({role, buttonText, status, taskId, onClose ,handleSubmit}) {
+    const [open, setOpen] = useState(true);
     const initState = {
         status: buttonText,
         description: "",
         task_file: [],
         eta: buttonText === 'debug' ? "" : undefined,
     }
-    console.log(status,"status");
-    const { data, setData, post, processing, errors, setError } = useForm(_.cloneDeep(initState))
 
+    const { data, setData, post, processing, errors, setError } = useForm(_.cloneDeep(initState))
     function handleFileChange(e){
         const files = e.target.files;
         setData("task_file",[...data.task_file, ...files]);
@@ -59,35 +57,19 @@ export default function StatusPopUp({buttonText='Open dialog',status, role, task
         setData("task_file",updatedFiles);
     }
 
-    function handleSubmit(){
-                setOpen(false);
-
-        // post(route(`${Prefix[role]}.task.update`, { id: taskId }),{
-        //     onSuccess: ()=> {
-        //         setData({
-        //             task_file: [],
-        //             description: "",
-        //             eta: buttonText === 'debug' ? "" : undefined,
-        //         });
-        //         setMsg('Task Status updated successfully.')
-        //         setOpen(false);
-        //         setSeverity('success');
-        //     },onError:(error) => {
-        //         setMsg(error.message)
-        //         setSeverity('error');
-        //     },
-        // });
+    const handleStatus=(e)=>{
+        handleSubmit();
     }
 
     return (
         <React.Fragment>
-            <Button sx={{ borderRadius:'12px',
+            {/* <Button sx={{ borderRadius:'12px',
                 marginLeft:'10px',
             }}
                 variant="contained"
                 size="small"
                 onClick={() => {setOpen(true) }}
-            >{buttonText}</Button>
+            >{buttonText}</Button> */}
             <BootstrapDialog
                 onClose={() => setOpen(false)}
                 aria-labelledby="customized-dialog-title"
@@ -115,9 +97,10 @@ export default function StatusPopUp({buttonText='Open dialog',status, role, task
 
                 <DialogActions>
                     <Button color="error" variant="contained" onClick={() => setOpen(false)}  sx={{ cursor:"pointer" }} startIcon={<CloseIcon/>}> Cancle</Button>
-                    <Button variant="contained" onClick={handleSubmit} sx={{ cursor:"pointer" }} startIcon={<AlarmOnIcon/>}> {initState.status}</Button>
+                    <Button variant="contained" onClick={()=>handleStatus()} sx={{ cursor:"pointer" }} startIcon={<AlarmOnIcon/>}> {initState.status}</Button>
 
                 </DialogActions>
+
             </BootstrapDialog>
         </React.Fragment>
     );

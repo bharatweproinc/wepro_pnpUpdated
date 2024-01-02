@@ -62,7 +62,7 @@ class TaskRepository implements TaskInterface
     {
         try {
             if($items['estimated'] >59){
-                $item->esitmated = ($item->esitmated)/60;
+                $items['estimated'] = ($items['estimated'])/60;
             }
             $data= Task::create([ 'task_name' => $items['task_name'],
             'description' => $items['description'],
@@ -143,75 +143,80 @@ class TaskRepository implements TaskInterface
     {
         $item = $data['status'];
         $task = Task::where('id', $id)->first();
-        if ($task) {
-            $user = Auth::user();
-            $user_id = $user->id;
-            $task_id = Developer::where('developer_id', 'like', '%' . $user_id . '%')->where('assignable_type','App\Models\Task')->pluck('assignable_id')->toArray();
-            $status = Task::whereIn('id', $task_id)->where('status', 'started')->get();
-                if ($task && count($status) <= 0) {
-                    $task->status = $item;
-                    $task->started = Carbon::now();
-                    $task->save();
-                }
-                else if ($task && count($status) !== 0) {
-                    $startedAt = $status[0]->started;
-                    $totalTime = now()->diffInMinutes($startedAt);
-                    if ($totalTime > 59) {
-                        $totalTime = $totalTime / 60;
-                    }
-                    $hour = $status[0];
-                    $hour->development_hours = $totalTime;
-                    $hour->save();
-                    $task->status = $item;
-                    if($user->user_role =="junior developer" || $user->user_role =="senior developer")
-                    {
-                        if($item == "pause"){
-                            $task->started = Carbon::now();
-                        }
-                        else if($item == "complete")
-                        {
-                            $task->started = null;
-                        }
-                        // else if($item == "reviewed")
-                        // {
+        $user = Auth::user();
 
-                        // }
-                        // else if($item == "debugging"){
-                        //     if($data->estimated >59){
-                        //         $data->estimated = ($data->estimated)/60;
-                        //     }
-                           $task->estimated = $data->estimated;
-                        }
-                        $task->save();
-                    }
-                    else if($user->user_role =="project manager")
-                    {
-                        if($item == "pause" || $item == "in progress"){
-                            $task->started = Carbon::now();
-                        }
-                        else if($item == "complete")
-                        {
-                            $task->started = null;
-                        }
-                        else if($item == "reviewed")
-                        {
-
-                        }
-                        else if($item == "debugging"){
-                            if($data->estimated >59){
-                                $data->estimated = ($data->estimated)/60;
-                            }
-                           $task->estimated = $data->estimated;
-                        }
-                        $task->save();
-                    }
-                    return redirect()->back();
-        }
-        else
-        {
+        if (!$task) {
             return redirect()->back()->withError('Task not found for updated status');
         }
+
+        $user_id = $user->id;
+
+        if ($user->user_role == "junior developer" || $user->user_role == "senior developer") {
+            $task_id = Developer::where('developer_id', 'like', '%' . $user_id . '%')
+            ->where('assignable_type', 'App\Models\Task')
+            ->pluck('assignable_id')->toArray();
+
+            $status = Task::whereIn('id', $task_id)->where('status', 'started')->get();
+            if (count($status) <= 0) {
+                $task->status = $item;
+                $task->started = Carbon::now();
+            } else {
+                $startedAt = $status[0]->started;
+                $totalTime = now()->diffInMinutes($startedAt);
+
+                if ($totalTime > 59) {
+                    $totalTime = $totalTime / 60;
+                }
+                $hour = $status[0];
+                $hour->development_hours = $totalTime;
+                $hour->save();
+                $task->status = $item;
+                if ($item == "pause") {
+                    $task->started = Carbon::now();
+                } else if ($item == "complete") {
+                    $task->started = null;
+                }
+                $task->estimated = $data->estimated;
+            }
+
+            $task->save();
+        } else if ($user->user_role == "project manager" || $user->user_role == "admin") {
+            $task_id = Developer::where('developer_id', 'like', '%' . $user_id . '%')
+            ->where('assignable_type', 'App\Models\Task')
+            ->pluck('assignable_id')->toArray();
+
+            $status = Task::whereIn('id', $task_id)->where('status', 'started')->get();
+            if (count($status) <= 0) {
+                $task->status = $item;
+                $task->started = Carbon::now();
+            } else {
+                $startedAt = $status[0]->started;
+                $totalTime = now()->diffInMinutes($startedAt);
+                if ($totalTime > 59) {
+                    $totalTime = $totalTime / 60;
+                }
+                $hour = $status[0];
+                $hour->development_hours = $totalTime;
+                $hour->save();
+            }
+            $task->status = $item;
+            if ($item == "pause" || $item == "in progress") {
+                $task->started = Carbon::now();
+            } else if ($item == "complete") {
+                $task->started = null;
+            } else if ($item == "debugging") {
+                // if ($data->estimated > 59) {
+                //     $data->estimated = ($data->estimated) / 60;
+                // }
+                // $task->estimated = $data->estimated;
+                $task->started = null;
+            }
+            $task->save();
+        }
+
+        return true;
     }
+
 
     public function filterData($data ,$id){
         try {
@@ -253,3 +258,4 @@ class TaskRepository implements TaskInterface
     }
 
 }
+

@@ -14,20 +14,17 @@ import {
 import { useState } from "react";
 import AlarmOnIcon from '@mui/icons-material/AlarmOn';
 
-export default function PauseOrUpdateTime({auth,pauseStatus ,updated, setState ,setIsEdit, state}) {
+export default function PauseOrUpdateTime({auth,pauseStatus ,updated, setState ,setSelectedStatus, state}) {
     const [open, setOpen] = useState(true);
-    const [pause_time, setPause_time] = useState('');
     const [item,setItem] = useState({ status : 'pause'});
     const handleClose = () =>{
         setPause_time('');
         setOpen(false);
-        setIsEdit(false);
+        setSelectedStatus(null);
         setState(state);
     }
 
-    const currentTime = new Date().toLocaleTimeString();
     const handlePauseTimer = (e) =>{
-        setPause_time(currentTime);
         setOpen(false);
         pauseStatus(item);
     }

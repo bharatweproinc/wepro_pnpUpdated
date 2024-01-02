@@ -14,7 +14,15 @@ const ChipColor ={
     'pause':{
         title:'Pause',
         color:'#757575',
-    }
+    },
+    'reviewed':{
+        title:'reviewed',
+        color:'#757575',
+    },
+    'debugging':{
+        title:'debugging',
+        color:"#00bcd4"
+    },
 }
 const StatusStyle = {
     ChipColor,

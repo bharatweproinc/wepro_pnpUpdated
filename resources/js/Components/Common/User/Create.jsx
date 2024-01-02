@@ -62,6 +62,7 @@ export default function Create({ auth }) {
         residential_address:"",
         profile:null,
         contact_no:"",
+        alt_phone_no:"",
     });
 
     const handleClose = () => {
@@ -206,6 +207,20 @@ export default function Create({ auth }) {
                             <InputError message={errors.contact_no} className="mt-2"/>
                         </Grid>
                         <Grid item xs={6}>
+                            <InputLabel htmlFor="Alt Phone no" value="Alternative Phone No" />
+                            <TextInput
+                                id="alt_phone_no"
+                                type="number"
+                                name="alt_phone_no"
+                                value={data.alt_phone_no}
+                                className="mt-1 block w-full"
+                                autoComplete="alt_phone_no"
+                                onChange={(e) => PhoneValidate(e, 10, handleChange)}
+                                required
+                            />
+                            <InputError message={errors.alt_phone_no} className="mt-2"/>
+                        </Grid>
+                        <Grid item xs={6}>
                             <InputLabel htmlFor="Date of Birth" value="Date Of Birth" />
                             <TextInput
                                 id="dob"
@@ -219,7 +234,21 @@ export default function Create({ auth }) {
                             />
                             <InputError message={errors.dob} className="mt-2"/>
                         </Grid>
-                        {/* <Grid item xs={6}>
+                        <Grid item xs={6}>
+                            <InputLabel htmlFor="pin_code" value="Pin Code" />
+                            <TextInput
+                                id="pin_code"
+                                type="number"
+                                name="pin_code"
+                                value={data.pin_code}
+                                className="mt-1 block w-full"
+                                autoComplete="pin_code"
+                                onChange={(e) => PhoneValidate(e, 6, handleChange)}
+                                required
+                            />
+                            <InputError message={errors.pin_code} className="mt-2"/>
+                        </Grid>
+                        <Grid item xs={6}>
                             <InputLabel htmlFor="state" value="State" />
                             <select
                                 id="state"
@@ -249,7 +278,7 @@ export default function Create({ auth }) {
                                 <option value="">Select City</option>
                             </select>
                             <InputError message={errors.city} className="mt-2"/>
-                        </Grid> */}
+                        </Grid>
                         <Grid item xs={12}>
                             <InputLabel htmlFor="local address" value="Local Address" />
                             <textarea
@@ -304,20 +333,7 @@ export default function Create({ auth }) {
                             </FormControl>
                             <InputError message={errors.gender} className="mt-2"/>
                         </Grid>
-                        <Grid item xs={6}>
-                            <InputLabel htmlFor="pin_code" value="Pin Code" />
-                            <TextInput
-                                id="pin_code"
-                                type="number"
-                                name="pin_code"
-                                value={data.pin_code}
-                                className="mt-1 block w-full"
-                                autoComplete="pin_code"
-                                onChange={(e) => PhoneValidate(e, 6, handleChange)}
-                                required
-                            />
-                            <InputError message={errors.pin_code} className="mt-2"/>
-                        </Grid>
+
                         <Grid item xs={12}>
                             <FormControl component="fieldset">
                                 <InputLabel

@@ -1,11 +1,14 @@
 import FormatDate from "@/Util/FormatDate";
 import { useForm } from "@inertiajs/react";
+import CssBaseline from "@mui/material/CssBaseline";
 import EditIcon from "@mui/icons-material/Edit";
+import { createTheme } from '@mui/system';
 import { Box, Grid, Typography, IconButton, Chip, Tooltip, } from "@mui/material";
 
 export default function Details({ user, data, auth ,updated}) {
     const { setData, get, processing, errors, setError } = useForm();
 
+    const theme = createTheme();
     const handleUpdate = (id) => {
         get(route("admin.project.edit", { id }));
     };
