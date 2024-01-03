@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use App\Repositories\TaskRepository;
 use App\Interfaces\TaskInterface;
+use App\Models\Image;
+
 
 class TaskController extends Controller
 {
@@ -35,7 +37,8 @@ class TaskController extends Controller
     public function create ($id){
             $items = $this->taskRepository->create($id);
             $user = $items[0];
-            return Inertia::render('Admin/Task/List' ,['developer'=>$user ,'projectId'=>$id]);
+            // return Inertia::render('Admin/Task/List' ,['developer'=>$user ,'projectId'=>$id]);
+            return back();
     }
 
     public function save (TaskRequest $request,$id ){
@@ -77,7 +80,7 @@ class TaskController extends Controller
 
     public function status(Request $request, $id){
         $this->taskRepository->status($id,$request);
-        return redirect()->back();
+        return back();
     }
 
     public function filter(Request $request ,$id){
@@ -86,10 +89,21 @@ class TaskController extends Controller
          if($response['success'])
          {
              $data = $response['data'];
-             return Redirect::back()->with('filterdTaskData', $data);
+             return response()->json($data);
          }
          else{
              return Redirect::back()->withErrors(['filterError' => $response['error']]);
          }
      }
+
+     public function image(Request $request,$id){
+       $response = $this->taskRepository->image($id, $request->all());
+       if($response['success']){
+        return  redirect()->back();
+       }
+       else{
+        Redirect::back()->withErrors($response["error"]);
+       }
+
+    }
 }

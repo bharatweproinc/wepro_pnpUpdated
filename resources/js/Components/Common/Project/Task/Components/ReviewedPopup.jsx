@@ -30,6 +30,7 @@ export default function ReviewedPopup({ auth ,Id,handleSubmit ,setSelectedStatus
         task_file:[],
         text_cases :"",
         estimated:"",
+        title:"",
     });
 
     const handleClose = () => {
@@ -54,7 +55,7 @@ export default function ReviewedPopup({ auth ,Id,handleSubmit ,setSelectedStatus
             {
                  auth.user.user_role === "senior developer" ||
                  auth.user.user_role === "junior developer" ? (
-                   post(route("developer.project.file",{id:Id}),data ,{
+                   post(route("developer.project.task.file",{id:Id}),data ,{
                          onSuccess:()=>{
                             // handleSubmit();
                              setData({});
@@ -62,7 +63,7 @@ export default function ReviewedPopup({ auth ,Id,handleSubmit ,setSelectedStatus
                          }
                      } )
             ) : auth.user.user_role === "admin" ?
-              post(route("admin.project.file",{id:Id}),data ,{
+              post(route("admin.project.task.file",{id:Id}),data ,{
                 onSuccess:()=>{
                     // handleSubmit();
                     setData({});
@@ -143,23 +144,9 @@ export default function ReviewedPopup({ auth ,Id,handleSubmit ,setSelectedStatus
                                                 sm={6}
                                                 key={index}
                                             >
-                                                <div
-                                                    style={{
-                                                        position: "relative",
-                                                    }}
-                                                >
-                                                    <a
-                                                        href={URL.createObjectURL(
-                                                            file
-                                                        )}
-                                                        target="_blank"
-                                                    >
-                                                        <img
-                                                            src={URL.createObjectURL(
-                                                                file
-                                                            )}
-                                                            alt={`selected-${index}`}
-                                                        />
+                                                <div style={{  position: "relative", }}>
+                                                    <a href={URL.createObjectURL(file)}target="_blank" >
+                                                        <img src={URL.createObjectURL(file)} alt={`selected-${index}`}/>
                                                     </a>
                                                     <Button
                                                         style={{
@@ -170,9 +157,7 @@ export default function ReviewedPopup({ auth ,Id,handleSubmit ,setSelectedStatus
                                                             background:
                                                                 "transparent",
                                                         }}
-                                                        onClick={() =>
-                                                            handleDelete(index)
-                                                        }
+                                                        onClick={() => handleDelete(index) }
                                                     >
                                                         <DeleteIcon color="error" />
                                                     </Button>
@@ -193,6 +178,20 @@ export default function ReviewedPopup({ auth ,Id,handleSubmit ,setSelectedStatus
                                         value={data.text_cases}
                                         className="w-full block"
                                         onChange={(e)=>setData("text_cases",e.target.value)}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Typography
+                                        fontWeight={"bold"}
+                                        variant="subtitle3"
+                                    >
+                                        Title
+                                    </Typography>
+                                    <TextareaAutosize
+                                        minRows={2}
+                                        value={data.title}
+                                        className="w-full block"
+                                        onChange={(e)=>setData("title",e.target.value)}
                                     />
                                 </Grid>
 

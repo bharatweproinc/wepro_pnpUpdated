@@ -65,6 +65,27 @@ export default function Create({ developer, Id ,auth }) {
         setData({});
     }
 
+    const handleEstimatedChange = (event) => {
+        const enteredValue = event.target.value;
+        const enteredNumber = parseInt(enteredValue, 10);
+
+        if (!isNaN(enteredNumber) && enteredNumber > 59) {
+          const hours = Math.floor(enteredNumber / 60);
+          const minutes = enteredNumber % 60;
+          const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+          console.log(formattedTime,'formateddd');
+          setData({...data,
+            ["estimated"]: formattedTime,
+        });
+        //   setData({"estimated":formattedTime});
+        } else {
+            setData({...data,
+                ["estimated"]: enteredValue,
+            });
+            // setData({"estimated": enteredValue});
+        }
+      };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("hello");
@@ -121,7 +142,6 @@ export default function Create({ developer, Id ,auth }) {
                 <Fade in={open}>
                     <Box sx={style} style={{ width: "800px" }}>
                     <div className="rounded-t-xl bg-slate-50 border-gray-100 border border-t-0 shadow-sm p-5" >
-
                         <form onSubmit={handleSubmit}>
                             <div
                                 style={{
@@ -225,7 +245,8 @@ export default function Create({ developer, Id ,auth }) {
                                             value={data.estimated}
                                             className="mt-1 block w-full"
                                             autoComplete="estimated"
-                                            onChange={(e) => setData("estimated", e.target.value)}
+                                            // onChange={handleEstimatedChange}
+                                            onChange={(e)=>setData("estimated",e.target.value)}
                                             required
                                         />
                                         <InputError

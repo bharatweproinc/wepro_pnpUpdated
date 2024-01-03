@@ -14,20 +14,39 @@ use Illuminate\Support\Facades\Auth;
 class TaskRepository implements TaskInterface
 {
 
-      public function multipleFile($id, $file, $type ,$data){
+    public function multipleFile($id, $file,$data,$type){
         $media = [];
-        foreach ($files as $key => $file) {
+        foreach ($file as $key => $file) {
             $fileName = uniqid().'_'.time().'_'.$file->getClientOriginalName();
-            // $fileType = $file->getClientOriginalExtension();
-            $file->storeAs('/public/task_file', $fileName);
+            $filePath = $file->storeAs('task_file', $fileName ,'public');
             $media[] = [
-                'text_cases' => $data->text_cases,
-                'url' => asset('storage/'.$fileName),
+                'text_cases' => $data['text_cases'],
+                'url' => $filePath,
+                'title'=>$data['title'],
                 'imageable_type' => $type,
                 'imageable_id' => $id,
             ];
         }
-        Image::insert($media);
+        $data= Image::insert($media);
+    }
+    public function image($id,$data){
+
+        if ($data['task_file']){
+                $this->multipleFile($id ,$data['task_file'], $data,'App\Models\Task');
+                if($data["estimated"]){
+                    if ($data["estimated"] > 59) {
+                        $data["estimated"] = ($data["estimated"]) / 60;
+                        $data["estimated"] = str_replace('.', ':',$data["estimated"]);
+                        }
+                    $task = Task::where('id',$id)->first();
+                    $task->estimated = $data["estimated"];
+                    $task->update(["estimated"=>$data["estimated"]]);
+                }
+                return ['success'=>true];
+            }
+            else{
+                return ['success'=>false, 'error'=>"Image not found"];
+            }
     }
 
     public function getlist($id)
@@ -61,9 +80,6 @@ class TaskRepository implements TaskInterface
     public function save($id,$items)
     {
         try {
-            if($items['estimated'] >59){
-                $items['estimated'] = ($items['estimated'])/60;
-            }
             $data= Task::create([ 'task_name' => $items['task_name'],
             'description' => $items['description'],
             'start_date' => $items['start_date'],
@@ -79,9 +95,7 @@ class TaskRepository implements TaskInterface
             'developer_id' => implode(',', $items['developer']),
             ]);
 
-            // if ($request->hasFile('task_file')){
-            //     $this->multipleFileUpload($request->file('task_file'), $task->id, 'App\Models\Task');
-            // }
+
             return ["success"=>true];
         } catch (\Throwable $th) {
             return ['success'=>false,'error'=>$th->getMessage()];
@@ -160,7 +174,8 @@ class TaskRepository implements TaskInterface
             if (count($status) <= 0) {
                 $task->status = $item;
                 $task->started = Carbon::now();
-            } else {
+                $task->save();
+            } else if(count($status) > 0){
                 $startedAt = $status[0]->started;
                 $totalTime = now()->diffInMinutes($startedAt);
 
@@ -173,23 +188,29 @@ class TaskRepository implements TaskInterface
                 $task->status = $item;
                 if ($item == "pause") {
                     $task->started = Carbon::now();
+
                 } else if ($item == "complete") {
+                    $startedAt = $task->started;
+                    $totalTime = now()->diffInMinutes($startedAt);
+                    $task->development_hours = $totalTime;
                     $task->started = null;
+
                 }
-                $task->estimated = $data->estimated;
+                $task->save();
             }
 
-            $task->save();
-        } else if ($user->user_role == "project manager" || $user->user_role == "admin") {
+        }
+        else if ($user->user_role == "project manager" || $user->user_role == "admin") {
             $task_id = Developer::where('developer_id', 'like', '%' . $user_id . '%')
             ->where('assignable_type', 'App\Models\Task')
             ->pluck('assignable_id')->toArray();
-
             $status = Task::whereIn('id', $task_id)->where('status', 'started')->get();
-            if (count($status) <= 0) {
+            if (count($status) <= 0 && $item =="started") {
                 $task->status = $item;
                 $task->started = Carbon::now();
-            } else {
+                $task->save();
+            }
+             else if(count($status) > 0){
                 $startedAt = $status[0]->started;
                 $totalTime = now()->diffInMinutes($startedAt);
                 if ($totalTime > 59) {
@@ -200,20 +221,21 @@ class TaskRepository implements TaskInterface
                 $hour->save();
             }
             $task->status = $item;
-            if ($item == "pause" || $item == "in progress") {
+            if ($item == "pause" || $item == "in progress" ) {
                 $task->started = Carbon::now();
             } else if ($item == "complete") {
+                $startedAt = $task->started;
+                $totalTime = now()->diffInMinutes($startedAt);
+                $task->development_hours = $totalTime;
                 $task->started = null;
-            } else if ($item == "debugging") {
-                // if ($data->estimated > 59) {
-                //     $data->estimated = ($data->estimated) / 60;
-                // }
-                // $task->estimated = $data->estimated;
+            } else if ($item == "reviewed") {
+                $task->started = null;
+            }else if ($item == "debugging") {
+                $task->is_debugging = 1;
                 $task->started = null;
             }
             $task->save();
         }
-
         return true;
     }
 
@@ -222,7 +244,6 @@ class TaskRepository implements TaskInterface
         try {
             $filterData = null;
             $task_id = Developer::where(['assignable_type'=>'App\Models\Task','project_id'=>$id])->pluck('assignable_id')->toArray();
-            // dd($task_id);
             if(($data->status !="all") && ($data->developer_id != "all") && isset($data->from_date)){
                 $filterData =Task::where('status', $data->status)->whereIn('id', $task_id)->whereBetween('started', [$data->from_date, $data->to_date])->get();
             }

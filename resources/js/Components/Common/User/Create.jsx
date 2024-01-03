@@ -43,19 +43,19 @@ const style = {
     display:'block',
 };
 
-export default function Create({ auth }) {
+export default function Create({ auth ,states}) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const [image,setImage] = useState(null);
     const [alert ,setAlert] = useState(false);
     const [severity ,setSeverity] = useState(null);
+    const [selectCity ,setSelectCity] = useState([]);
     const { data, setData, get, post, processing, errors, reset ,setError } = useForm({
         name: "",
         email: "",
         password: "",
         password_confirmation: "",
         user_role: "",
-        salary: "",
         dob:"",
         gender:"",
         local_address:"",
@@ -63,6 +63,8 @@ export default function Create({ auth }) {
         profile:null,
         contact_no:"",
         alt_phone_no:"",
+        state:"",
+        city:"",
     });
 
     const handleClose = () => {
@@ -116,11 +118,29 @@ export default function Create({ auth }) {
             ...errors,
             [key]: Joi.validateToPlainErrors(val,ValdidationSchema.USER_SCHEMA[key])
         });
-        setData({
-            ...data,
-            [key]: val,
-        });
+
+        if (key === "state") {
+            const selectedState = states.find((state) => state.id === parseInt(val));
+            const citiesArray = selectedState ? selectedState.cities : [];
+            setData({
+                ...data,
+                state: val,
+                city: "",
+            });
+            setSelectCity(citiesArray);
+            console.log(citiesArray, 'sdgfjds');
+        } else if (key === "city") {
+            setData({ ...data,
+                city: val,
+            });
+        } else {
+            setData({
+                ...data,
+                [key]: val,
+            });
+        }
     }
+
 
     return (
         <div>
@@ -256,10 +276,13 @@ export default function Create({ auth }) {
                                 value={data.state}
                                 className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
                                 autoComplete="state"
-                                onChange={(e) =>handleChange}
+                                onChange={(e) =>handleChange("state",e.target.value)}
                                 required
                             >
                                 <option value="">Select State</option>
+                                {
+                                    states.map((state,index)=><option value={state.id} key={index}>{state.state_name}</option>)
+                                }
                             </select>
                             <InputError message={errors.state} className="mt-2"/>
                         </Grid>
@@ -272,10 +295,12 @@ export default function Create({ auth }) {
                                 value={data.city}
                                 className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
                                 autoComplete="dob"
-                                onChange={(e) =>handleChange}
+                                onChange={(e) =>handleChange("city",e.target.value)}
                                 required
                             >
                                 <option value="">Select City</option>
+                               {selectCity && selectCity.map((city,index)=><option value={city.id} key={index}>{city.cities}</option>) }
+
                             </select>
                             <InputError message={errors.city} className="mt-2"/>
                         </Grid>

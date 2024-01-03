@@ -62,7 +62,7 @@ export default function Details({data ,developer}){
         <br/>
        <Grid container >
             <Grid item xs={4}>
-                <Typography sx={{fontWeight:"bold"}}>Task Name </Typography>
+                <Typography sx={{fontWeight:"bold"}}>Task Name</Typography>
                 <Typography className="capitalize">{data.task_name}</Typography>
             </Grid>
             <Grid item xs={4}>

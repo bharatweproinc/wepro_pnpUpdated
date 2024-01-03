@@ -28,7 +28,8 @@ class User extends Authenticatable
         'profile',
         'gender',
         'dob',
-        'pin_code',
+        'alt_phone_no',
+
     ];
     protected $dates = ['deleted_at'];
 
@@ -60,5 +61,10 @@ class User extends Authenticatable
     public function histories()
     {
         return $this->morphMany(History::class, 'historable');
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
     }
 }

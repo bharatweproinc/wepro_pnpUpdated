@@ -13,4 +13,5 @@ interface TaskInterface
     public function status($id,$data);
     public function multipleFile($id,$file,$type ,$data);
     public function filterData($data ,$id);
+    public function image($id,$data);
 }

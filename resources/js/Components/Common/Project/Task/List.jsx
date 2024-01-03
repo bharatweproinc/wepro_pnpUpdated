@@ -13,7 +13,6 @@ import {
     TableRow,
 } from "@mui/material";
 import { useState } from "react";
-import axios from "axios";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { router, useForm } from "@inertiajs/react";
 import DateTimeFormat from "@/Util/DateTimeFormat";
@@ -26,13 +25,14 @@ import { useEffect } from "react";
 import Validation_Schema from "./ValidationSchema";
 import Joi from "@/Util/JoiValidator";
 import axios from "axios";
+import { Inertia } from "@inertiajs/inertia";
 
 
-export default function List({ auth, developer, Id, data ,updated}) {
+export default function List({ auth, developer, Id, data ,updated ,bugs}) {
 
     const [page, setPage] = useState(0);
     const [expandedRows, setExpandedRows] = useState([]);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(15);
     const [isFilter, setIsFilter] = useState(false);
     const [taskData ,setTaskData] = useState(data);
    const [fromDate,setFrom] = useState(null);
@@ -45,6 +45,7 @@ export default function List({ auth, developer, Id, data ,updated}) {
     const toggleRow = (id) => {
         if (expandedRows.includes(id)) {
             setExpandedRows(expandedRows.filter((rowId) => rowId !== id));
+
         } else {
             setExpandedRows([...expandedRows, id]);
         }
@@ -55,17 +56,17 @@ export default function List({ auth, developer, Id, data ,updated}) {
     };
 
     const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(event.target.value, 5);
+        setRowsPerPage(event.target.value, 15);
         setPage(0);
     };
     const handleFilter = () => {
         setIsFilter(true);
       }
 
-useEffect(()=>{
-    handleApplyFilter;
-    },[]);
-    const handleApplyFilter = async (filterData,errors,setError) => {
+    useEffect(()=>{
+        handleApplyFilter;
+    },[taskData]);
+    const handleApplyFilter = async (filterData) => {
         try {
             // const err = Joi.validateToPlainErrors(filterData,Validation_Schema.APPLY_FILTER)
             // setFrom(filterData?.from_date)
@@ -74,8 +75,10 @@ useEffect(()=>{
             //     if (Joi.hasPlainError(err)) {
             //         return;
             //     }
-           await axios.post(route('admin.project.task.filter', { id:Id }), filterData).then((response)=>{const filterTaskData = response.data;
-           setTaskData(filterTaskData);
+        await axios.post(route('admin.project.task.filter', { id:Id }), filterData)
+            .then((response)=>{
+                const filterTaskData = response.data;
+                setTaskData(filterTaskData);
             })
         } catch (error) {
             console.error('error:', error);
@@ -84,9 +87,8 @@ useEffect(()=>{
 
     return (
         <>
-            <div style={{paddingBottom:'10px'}} >
+            <div style={{paddingBottom:'10px'}}>
                     {(auth.user.user_role === "admin" || auth.user.user_role == "project manager")  &&
-
                         <Box sx={{ display:'flex' ,gap:'15px', display: "flex", justifyContent:"flex-end"}}>
                                 <Filter isFilter={isFilter} ApplyFilter={handleApplyFilter} handleFilter={handleFilter} developer={developer} Id={Id} auth={auth} />
                         </Box>
@@ -142,7 +144,8 @@ useEffect(()=>{
                                                         auth={auth}
                                                         devId={item.developer_id}
                                                         updated={updated}
-                                                          />
+                                                        bugs={bugs.filter((image)=>image.imageable_id == item.id)}
+                                                    />
                                                 </Collapse>
                                             </TableCell>
                                         </TableRow>
@@ -153,7 +156,7 @@ useEffect(()=>{
                 </Table>
             </TableContainer>
             <TablePagination
-                rowsPerPageOptions={[5, 15, 25, 35, 50]}
+                rowsPerPageOptions={[15, 25, 35, 45, 50]}
                 component="div"
                 count={data.length}
                 rowsPerPage={rowsPerPage}

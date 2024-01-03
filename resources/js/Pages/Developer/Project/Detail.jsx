@@ -9,7 +9,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import Details from "@/Components/Common/Project/Details";
 import View from "../Task/View";
 
-export default function Detail({ data, auth, user, task,updated }) {
+export default function Detail({ data, auth, user, task,updated,bugs }) {
     const [value, setValue] = React.useState("1");
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -38,11 +38,11 @@ export default function Detail({ data, auth, user, task,updated }) {
                                     <Tab label="Task" value="2" style={{ fontWeight:"bold"}}/>
                                 </TabList>
                                 <TabPanel value="1">
-                                     <Details data={data} user={user} auth={auth} updated={updated}/>
+                                     <Details data={data} user={user} auth={auth} updated={updated} />
                                 </TabPanel>
 
                                 <TabPanel value="2">
-                                    <View data={task} Id={id} developer={user} auth={auth} updated={updated}/>
+                                    <View data={task} Id={id} developer={user} auth={auth} updated={updated} bugs={bugs}/>
                                 </TabPanel>
 
                             </TabContext>

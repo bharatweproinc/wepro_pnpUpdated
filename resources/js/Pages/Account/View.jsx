@@ -40,7 +40,7 @@ function a11yProps(index) {
     };
 }
 
-export default function View({ data, auth, salary }) {
+export default function View({ data, auth, salary ,address}) {
     const [value, setValue] = useState(0);
     const handleChange = (event, newValue) => { setValue(newValue) };
     const tax = (salary?.gross_salary * salary?.tax_deducted_at_source) / 100;
@@ -59,7 +59,7 @@ export default function View({ data, auth, salary }) {
                                     </Tabs>
                                 </Box>
                                 <CustomTabPanel value={value} index={0}>
-                                    <UserDetail data={data} auth={auth} />
+                                    <UserDetail data={data} auth={auth} address={address}/>
                                 </CustomTabPanel>
                                 <CustomTabPanel value={value} index={1}>
                                     <Details auth={auth} salary={salary}/>

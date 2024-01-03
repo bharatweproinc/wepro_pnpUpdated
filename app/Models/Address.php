@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class Address extends Model
 {
@@ -12,5 +13,13 @@ class Address extends Model
         'user_id',
         'local_address',
         'residential_address',
+        'state',
+        'city',
+        'pin_code',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

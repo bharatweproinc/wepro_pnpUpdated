@@ -11,7 +11,7 @@ import View from "./Leave/View";
 import Details from "@/Components/Common/Salary/Detail";
 import History from "@/Components/Common/History";
 
-export default function Detail({ data, auth, salary ,leave ,history }) {
+export default function Detail({ data, auth, salary ,leave ,history ,states ,address}) {
     const [value, setValue] = React.useState("1");
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -41,7 +41,7 @@ export default function Detail({ data, auth, salary ,leave ,history }) {
 
                                 </TabList>
                                 <TabPanel value="1">
-                                    <UserDetail data={data} auth={auth}/>
+                                    <UserDetail data={data} auth={auth} states={states} address={address}/>
                                 </TabPanel>
                                 <TabPanel value="2">
                                     <History data={data} auth={auth} history={history}/>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
-import { FormControl, FormControlLabel, Radio, RadioGroup, IconButton ,Typography, Button, Alert } from "@mui/material";
+import { FormControl, FormControlLabel, Radio, RadioGroup, IconButton ,Typography, Button, Alert, Grid } from "@mui/material";
 import InputError from "@/Components/InputError";
 import {  router, useForm } from "@inertiajs/react";
 import EditIcon from "@mui/icons-material/Edit";
@@ -31,12 +31,12 @@ const style = {
     display:'block',
 };
 
-
-export default function Edit({ auth, user }) {
+export default function Edit({ auth, user,states,address}) {
     const [open, setOpen] = useState(false);
     const [alert,setAlert] = useState(false);
     const [severity ,setSeverity] = useState(null);
     const handleOpen = () => setOpen(true);
+    const [selectCity ,setSelectCity] = useState([]);
     const [image,setImage] = useState(user.profile);
     const { data, setData, get, post, processing, errors, setError, reset } = useForm();
 
@@ -47,20 +47,40 @@ export default function Edit({ auth, user }) {
         contact_no: user.contact_no,
         profile:user.profile,
         dob:user.dob,
-        gender:user.gender
+        gender:user.gender,
+        local_address:address?.local_address,
+        residential_address:address?.residential_address,
+        alt_phone_no:user?.alt_phone_no,
+        state:address?.state,
+        city:address?.city,
+        pin_code:address?.pin_code,
     });
     const handleClose = () => {
         setOpen(false);
     }
-
+console.log(value.local_address);
     const handleChange = (key,val) => {
 
-        setValue((prev) => {
-            return {
-                ...prev,
+        if (key === "state") {
+            const selectedState = states.find((state) => state.id === parseInt(val));
+            const citiesArray = selectedState ? selectedState.cities : [];
+            setValue({
+                ...value,
+                state: val,
+                city: "",
+            });
+            setSelectCity(citiesArray);
+            console.log(citiesArray, 'sdgfjds');
+        } else if (key === "city") {
+            setValue({ ...value,
+                city: val,
+            });
+        } else {
+            setValue({
+                ...value,
                 [key]: val,
-            };
-        });
+            });
+        }
     };
 
     const handleImage = () => {
@@ -136,7 +156,7 @@ export default function Edit({ auth, user }) {
                     },
                 }}
                 style={{ width: "" }}
-            >
+           >
                 <Fade in={open}>
                     <Box sx={style} style={{ width: "800px" }} >
                         <div className="rounded-t-xl bg-slate-50 border-gray-100 border border-t-0 shadow-sm p-5" >
@@ -145,8 +165,7 @@ export default function Edit({ auth, user }) {
                           </div>
 
                             <form onSubmit={handleSubmit}>
-                                <div className="mt-4">
-
+                                <div >
                                     <div style={{ display:'flex',justifyContent:'center' }}>
                                         <InputLabel htmlFor=" profile">
                                             <img id="image" src={image} alt="Profile" style={{ borderRadius:'50%' ,
@@ -160,24 +179,38 @@ export default function Edit({ auth, user }) {
                                      </div>
                                     <InputError message={errors.profile} className="mt-2" />
                                 </div>
-
-                                <div>
+                                <Grid container spacing={2}>
+                                <Grid item xs={6}>
                                     <InputLabel htmlFor="name" value="Name" />
                                     <TextInput id="name" name="name" value={value.name} className="mt-1 block w-full" autoComplete="name" isFocused={true} onChange={(e) => handleChange("name",e.target.value)} required  />
                                     <InputError message={errors.name} className="mt-2" />
-                                </div>
+                                </Grid>
 
-                                <div className="mt-4">
+                                <Grid item xs={6} >
                                     <InputLabel htmlFor="email" value="Email" />
                                     <TextInput id="email" type="email" name="email" value={value.email} className="mt-1 block w-full" autoComplete="email" onChange={(e) => handleChange("email",e.target.value)} required />
                                     <InputError message={errors.email} className="mt-2" />
-                                </div>
-                                <div className="mt-4">
+                                </Grid>
+                                <Grid item xs={6} >
                                     <InputLabel htmlFor="contact_no" value="Phone No" />
                                     <TextInput id="contact_no" type="number" name="contact_no" value={value.contact_no} className="mt-1 block w-full" autoComplete="contact_no" onChange={(e) => PhoneValidate(e, 10, handleChange)} required/>
                                     <InputError message={errors.contact_no} className="mt-2" />
-                                </div>
-                                <div className="mt-4">
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <InputLabel htmlFor="Alt Phone no" value="Alternative Phone No" />
+                                    <TextInput
+                                     id="alt_phone_no"
+                                        type="number"
+                                        name="alt_phone_no"
+                                        value={value.alt_phone_no}
+                                        className="mt-1 block w-full"
+                                        autoComplete="alt_phone_no"
+                                        onChange={(e) => PhoneValidate(e, 10, handleChange)}
+                                        required
+                                    />
+                            <InputError message={errors.alt_phone_no} className="mt-2"/>
+                        </Grid>
+                                <Grid item xs={6} >
                             <InputLabel htmlFor="Date of Birth" value="Date Of Birth" />
                             <TextInput
                                 id="dob"
@@ -190,15 +223,94 @@ export default function Edit({ auth, user }) {
                                 required
                             />
                             <InputError message={errors.dob} className="mt-2"/>
-                        </div>
-                        <div className="mt-4">
+                        </Grid>
+                        <Grid item xs={6}>
+                            <InputLabel htmlFor="pin_code" value="Pin Code" />
+                            <TextInput
+                                id="pin_code"
+                                type="number"
+                                name="pin_code"
+                                value={value.pin_code}
+                                className="mt-1 block w-full"
+                                autoComplete="pin_code"
+                                onChange={(e) => PhoneValidate(e, 6, handleChange)}
+                                required
+                            />
+                            <InputError message={errors.pin_code} className="mt-2"/>
+                        </Grid>
+
+                        <Grid item xs={6}>
+                            <InputLabel htmlFor="state" value="State" />
+                            <select
+                                id="state"
+                                name="state"
+                                value={value.state}
+                                className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
+                                autoComplete="state"
+                                onChange={(e) =>handleChange("state",e.target.value)}
+                                required
+                           >
+                                <option value="">Select State</option>
+                                {
+                                    states?.map((state,index)=><option value={state.id} key={index}>{state.state_name}</option>)
+                                }
+                            </select>
+                            <InputError message={errors.state} className="mt-2"/>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <InputLabel htmlFor="city" value="City" />
+                            <select
+                                id="city"
+                                name="city"
+                                size="samll"
+                                value={value.city}
+                                className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
+                                autoComplete="dob"
+                                onChange={(e) =>handleChange("city",e.target.value)}
+                                required
+                           >
+                                <option value="">Select City</option>
+                               {selectCity && selectCity.map((city,index)=><option value={city.id} key={index}>{city.cities}</option>) }
+
+                            </select>
+                            <InputError message={errors.city} className="mt-2"/>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <InputLabel htmlFor="local address" value="Local Address" />
+                            <textarea
+                                id="local_address"
+                                name="local_address"
+                                value={value.local_address}
+                                rows={3}
+                                className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
+                                autoComplete="local_address"
+                                onChange={(e) =>handleChange("local_address",e.target.value)}
+                                required
+                            />
+                            <InputError message={errors.local_address} className="mt-2"/>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <InputLabel htmlFor="residential address" value="Residential Address" />
+                            <textarea
+                                id="residential_address"
+                                name="residential_address"
+                                value={value.residential_address}
+                                rows={3}
+                                className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
+                                autoComplete="residential_address"
+                                onChange={(e) =>handleChange("residential_address",e.target.value)}
+                                required
+                            />
+                            <InputError message={errors.residential_address} className="mt-2"/>
+                        </Grid>
+                        <Grid item xs={6} >
                             <FormControl component="fieldset">
                                 <InputLabel htmlFor="gender" value="Select Gender" />
                                 <RadioGroup
                                     value={value.gender}
                                     onChange={(e) => handleChange("gender", e.target.value)}
                                     row
-                                >
+                               >
                                     <FormControlLabel
                                         value="female"
                                         control={<Radio />}
@@ -216,9 +328,9 @@ export default function Edit({ auth, user }) {
                                 </RadioGroup>
                             </FormControl>
                             <InputError message={errors.gender} className="mt-2"/>
-                        </div>
+                        </Grid>
 
-                                <div className="mt-4">
+                                <Grid item xs={12} >
                                     <FormControl component="fieldset">
                                         <InputLabel
                                             htmlFor="user_role"
@@ -235,15 +347,15 @@ export default function Edit({ auth, user }) {
                                         </RadioGroup>
                                     </FormControl>
                                     <InputError message={errors.user_role} className="mt-2" />
-                                </div>
+                                </Grid>
 
-                                <div className="flex items-center justify-center mt-4">
+                                <Grid item xs={6} className="flex items-center justify-center mt-4">
                                     <Button onClick={handleClose} variant="contained" color="error"
                                     style={{ height: "33px", marginLeft:"10px" }} startIcon={<CloseIcon/>}> Cancle</Button>
                                     <PrimaryButton className="ms-4" style={{ height: "40px", backgroundColor: "#1976d2",width: "150px", alignItems: "center",
                                     display: "flex", justifyContent: "center",textTransform:"none"  }} > <UpdateIcon sx={{ height:'15px' }}/> Update  </PrimaryButton>
-                                </div>
-
+                                </Grid>
+                                </Grid>
                             </form>
                         </div>
                     </Box>

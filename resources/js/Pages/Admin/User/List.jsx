@@ -23,7 +23,7 @@ import GlobalStyle from "@/Components/Common/User/Components/GlobalStyle";
 import SearchIcon from '@mui/icons-material/Search';
 import TextInput from "@/Components/TextInput";
 
-export default function List({data, auth }) {
+export default function List({data, auth ,states}) {
     const {url} = usePage();
     const { get, processing, errors, setError } = useForm();
     const [page, setPage] = useState(0);
@@ -96,7 +96,7 @@ export default function List({data, auth }) {
                                         <Button variant="contained" color="error" onClick={handleClose} style={{ position:"absolute", fontWeight:"bold" ,margin:'2px 2px 0px 0px',height:'33px'}}>x</Button>
                                     </div>
                                 }
-                                <Create auth={auth}/>
+                                <Create auth={auth} states={states}/>
                             </div>
                         </Box>
 

@@ -9,7 +9,6 @@ use App\Http\Requests\ProjectRequest;
 use App\Models\Developer;
 use App\Models\Project;
 use App\Models\Task;
-use App\Models\Image;
 use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
@@ -50,27 +49,17 @@ class ProjectController extends Controller
 
     }
 
-    public function details(Request $request,$id)
+    public function details($id)
     {
-        if(empty($request->all())){
-       $allData = $this->projectRepository->detail($id,$request);
+       $allData = $this->projectRepository->detail($id);
        $data = $allData[0];
        $user = $allData[1];
        $task = $allData[2];
        $status = $allData[3];
        $history = $allData[4];
+       $bugs = $allData[5];
        return Inertia::render('Admin/Project/Detail',
-        ['data' => $data, 'user' => $user,'task'=>$task ,'updated'=>$status ,'history'=>$history]);
-       }
-       else{
-        $allData = $this->projectRepository->detail($id,$request);
-        $data = $allData[0];
-        $user = $allData[1];
-        $task = $allData[2];
-        $status = $allData[3];
-        $history = $allData[4];
-        return response()->json($task);
-       }
+        ['data' => $data, 'user' => $user,'task'=>$task ,'updated'=>$status ,'history'=>$history ,"bugs"=>$bugs]);
     }
 
 
@@ -110,7 +99,5 @@ class ProjectController extends Controller
         return Inertia::render('Admin/Project/ProjectTasks');
     }
 
-    public function image(Request $request,$id){
-        return $this->projectRepository->image($id, $request->all());
-    }
+
 }

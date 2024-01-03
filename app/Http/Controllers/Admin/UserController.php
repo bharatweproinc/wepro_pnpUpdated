@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\UserRequest;
 use App\Models\User;
+use App\Models\State;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -34,11 +35,13 @@ class UserController extends Controller
     public function list()
     {
         $data = $this->userRepository->getlist();
-        return Inertia::render('Admin/User/List',compact('data'));
+        $states = State::with('cities')->get();
+        return Inertia::render('Admin/User/List',compact('data','states'));
     }
 
     public function create()
     {
+
         return Inertia::render('Admin/User/Create');
     }
 
@@ -83,7 +86,9 @@ class UserController extends Controller
         $salary = $items[1];
         $leave = $items[2];
         $history = $items[3];
-        return Inertia::render('Admin/User/Detail',['data'=>$data ,'salary'=>$salary ,'leave'=>$leave ,'history'=>$history]);
+        $states = $items[4];
+        $address = $items[5];
+        return Inertia::render('Admin/User/Detail',['data'=>$data ,'salary'=>$salary ,'leave'=>$leave ,'history'=>$history,'states'=>$states ,'address'=>$address]);
     }
 
 

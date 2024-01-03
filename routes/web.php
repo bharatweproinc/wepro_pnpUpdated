@@ -100,8 +100,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
         Route::post('/update/{id}','update')->name('update');
         Route::get('project','project')->name('task-project');
         Route::post('/delete/{id}','delete')->name('delete');
-        Route::post('/file/{id}','image')->name('file');
-
 
         Route::prefix('task')->name('task.')->controller(TaskController::class)->group( function () {
             Route::get('/list/{id}','list')->name('list');
@@ -112,6 +110,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
             Route::get('/detail/{id}','details')->name('detail');
             Route::post('/status/{id}' , 'status')->name('status');
             Route::post('/filter/{id}','filter')->name('filter');
+            Route::post('/file/{id}','image')->name('file');
         });
     });
 
@@ -189,11 +188,12 @@ Route::prefix('developer')->name('developer.')->middleware(['auth', 'role:develo
         Route::prefix('project')->name('project.')->controller(DeveloperProjectController::class)->group( function () {
             Route::get('list','list')->name('list');
             Route::get('/detail/{id}','detail')->name('detail');
-            Route::post('/file/{id}','image')->name('file');
+
 
             Route::prefix('task')->name('task.')->controller(DeveloperTaskController::class)->group( function () {
                 Route::get('list','list')->name('list');
                 Route::post('/status/{id}','status')->name('status');
+                Route::post('/file/{id}','image')->name('file');
             });
         });
         Route::prefix('leave')->name('leave.')->controller(DeveloperLeaveController::class)->group(function (){

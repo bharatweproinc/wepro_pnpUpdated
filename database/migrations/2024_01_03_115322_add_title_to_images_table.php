@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string("gender");
-            $table->timestamp("dob");
-            $table->string('alt_phone_no');
+        Schema::table('images', function (Blueprint $table) {
+            $table->string('title');
         });
     }
 
@@ -23,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('images', function (Blueprint $table) {
             //
         });
     }

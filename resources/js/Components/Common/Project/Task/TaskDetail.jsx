@@ -86,7 +86,6 @@ const TaskDetail = ({auth, data, developer,updated}) => {
                         variant='contained'
                         onClick={()=>handleClick("started")}
                     >Started</Button>
-                    <ActionStatus role={role} buttonText={'completed'} taskId={data.id} />
                 </>
                 break;
                 case 'started':
@@ -126,14 +125,22 @@ const TaskDetail = ({auth, data, developer,updated}) => {
                         variant='contained'
                         onClick={()=>handleClick('debugging')}
                     >Debugging</Button>
-                    {/* <ActionStatus role={role} buttonText={'debug'} taskId={data.id} /> */}
                 </>:<>
                     <Typography>Task has been completed</Typography>
                 </>
                 break;
             case 'reviewed':
                 btnJSX =  (role == 'admin' || role == 'project manager') ? <>
-                    <Typography>Task has been reviewed</Typography>
+<                   Button sx={{borderRadius:'12px',marginLeft:'10px', }}
+                        size="small"
+                        variant='contained'
+                        onClick={()=>handleClick('complete')}
+                    >Complete</Button>
+                    <Button sx={{borderRadius:'12px',marginLeft:'10px', }}
+                        size="small"
+                        variant='contained'
+                        onClick={()=>handleClick('debugging')}
+                    >Debugging</Button>
                 </>:<>
                     <Typography>Task has been reviewed</Typography>
                 </>
@@ -142,14 +149,13 @@ const TaskDetail = ({auth, data, developer,updated}) => {
                 btnJSX =  (role == 'admin' || role == 'project manager') ? <>
                     <Typography>Task has been Debugging</Typography>
                 </>:<>
-                    <Typography>Task has been Debugging</Typography>
+                <Typography>Task has been Debugging</Typography>
                 </>
                 break;
         }
         return btnJSX
     }
     const handleSubmit =(e)=>{
-        console.log(state,'status');
         { auth.user.user_role =="admin"?
         router.post(route("admin.project.task.status", {id:data.id}),state,{
             onSuccess: ()=> {
@@ -172,7 +178,7 @@ const TaskDetail = ({auth, data, developer,updated}) => {
                 setMsg(error.message)
                 setSeverity('error');
             },}) :
-            auth.user.user_role == "junior developer" || role == "senior developer " &&
+            (auth.user.user_role == "junior developer" || auth.user.user_role == "senior developer " )&&
             router.post(route("developer.project.task.status", {id:data.id}),state,{
                 onSuccess: ()=> {
                     setMsg('Task Status updated successfully.')
@@ -212,17 +218,7 @@ const TaskDetail = ({auth, data, developer,updated}) => {
                             }}
                         >
                             <Typography sx={{ fontWeight: "bold", marginLeft: "10px" }}>Task Information </Typography>
-                            {auth.user.user_role !== "hr manager" ||
-                                auth.user.user_role !== "junior developer" ||
-                                (auth.user.user_role !== "senior developer" && (
-                                    <Edit
-                                        devId={dev.id}
-                                        developer={developer}
-                                        data={data}
-                                        auth={auth}
-                                        sx={{ display: "flex",justifyContent: "end", }}
-                                    />
-                                ))}
+
                         </Grid>
                     </Grid>
                     <br />
@@ -256,6 +252,10 @@ const TaskDetail = ({auth, data, developer,updated}) => {
                             <Typography className="capitalize">{data.started_at && <FormatDate date={data.started_at} />}</Typography>
                         </Grid>
                         <Grid item xs={4}>
+                            <Typography sx={{ fontWeight: "bold" }}> Estimate Time</Typography>
+                            <Typography className="capitalize">{data.estimated} Minutes</Typography>
+                        </Grid>
+                        <Grid item xs={4}>
                             <Typography sx={{ fontWeight: "bold" }}>Working Hour</Typography>
                             <Typography className="capitalize">{data.hour_worked} Minutes</Typography>
                         </Grid>
@@ -275,6 +275,10 @@ const TaskDetail = ({auth, data, developer,updated}) => {
                                 )}
                                 {
                                     selectedStatus && (state.status =="reviewed" || state.status =="debugging" )&&
+                                    <ReviewedPopup Id={data.id} setSelectedStatus={setSelectedStatus} auth={auth} handleSubmit={handleSubmit} setState={setState} state={state}/>
+                                }
+                                {
+                                    (auth.user.user_role =="junior developer" || auth.user.user_role =="junior developer") && selectedStatus && (state.status == "complete") &&
                                     <ReviewedPopup Id={data.id} setSelectedStatus={setSelectedStatus} auth={auth} handleSubmit={handleSubmit} setState={setState} state={state}/>
                                 }
                                  {selectedStatus && state.status === 'started' && updated .length > 0 && (

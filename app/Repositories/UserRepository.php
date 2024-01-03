@@ -12,6 +12,7 @@ use Illuminate\Http\File;
 use App\Models\Leave;
 use App\Models\History;
 use App\Models\Address;
+use App\Models\State;
 
 
 class UserRepository implements UserInterface
@@ -27,7 +28,6 @@ class UserRepository implements UserInterface
 
     public function save($data){
        try {
-
              $user=User::create([
                  'name' => $data->name,
                  'email' => $data->email,
@@ -36,19 +36,22 @@ class UserRepository implements UserInterface
                  'contact_no' => $data->contact_no,
                  'gender' => $data->gender,
                  'dob' => $data->dob,
-                 'pin_code' => $data->pin_code,
+                 'alt_phone_no'=>$data->alt_phone_no,
             ]);
                 if($data->hasFile('profile') && $data->profile != null){
                      $profileImage = $data->profile;
                      $fileName = uniqid().'_'.time().'_'.$profileImage->getClientOriginalName();
                      $profileImagePath = $profileImage->storeAs('profile', $fileName . $user->id . '.' . $profileImage->getClientOriginalExtension(), 'public');
-                     $data=User::where('id',$user->id)->update(['profile' =>$profileImagePath]);
+                     User::where('id',$user->id)->update(['profile' =>$profileImagePath]);
                 }
                 $user_id = $user->id;
                 $address = Address::create([
                     'user_id'=>$user_id,
-                    'local_address' =>$data->local_address,
                     'residential_address' => $data->residential_address,
+                    'state'=>$data->state,
+                    'city'=>$data->city,
+                    'local_address' =>$data->local_address,
+                    'pin_code' => $data->pin_code,
                 ]);
             return [
                 'success'=>true,
@@ -73,6 +76,7 @@ class UserRepository implements UserInterface
     public function update($id, $data)
     {
         try {
+
             $validator = Validator::make($data, [
                 'email' => 'required|email|unique:users,email,' . $id,
                 'name' => 'required|string|max:255',
@@ -87,6 +91,8 @@ class UserRepository implements UserInterface
                 $data['profile'] = $profileImagePath;
            }
            $user->update($data);
+           $address = Address::where('user_id',$id)->first();
+           $da=$address->update($data);
             return [
                 'success'=>true,
                 'data'=>$user,
@@ -105,12 +111,14 @@ class UserRepository implements UserInterface
         $salary = Salary::where('user_id' ,$id)->get();
         $data = User::where('id',$id)->first();
         $data['profile'] = asset('storage/'.$data['profile']);
+        $address = Address::where('user_id',$id)->first();
         $leave = Leave::where('user_id',$id)->orderBy('created_at','desc')->get();
         foreach($leave as $key => $val){
             $leave[$key]['file'] = asset('storage/'.$val->file);
          }
         $history = History::where('historable_id',$id)->where('historable_type','App\Models\User')->get();
-        return [ $data ,$salary ,$leave ,$history];
+        $states = State::with('cities')->get();
+        return [ $data ,$salary ,$leave ,$history ,$states ,$address];
     }
 
     public function delete($id)

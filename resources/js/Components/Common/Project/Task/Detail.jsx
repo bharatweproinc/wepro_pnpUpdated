@@ -5,12 +5,13 @@ import TaskBugs from "./TaskBugs";
 import TaskResult from "./TaskResult";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 
-export default function Detail({ data, developer, auth, devId, updated }) {
+export default function Detail({ data, developer, auth, devId, updated ,bugs}) {
     const [value, setValue] = React.useState("1");
     const handleChangeTab = (event, newValue) => {
         setValue(newValue);
     };
     const dev_id = data.developer_id.split(",");
+
     return (
         <>
             <TabContext value={value}>
@@ -24,7 +25,7 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                     <TaskDetail auth={auth} data={data} developer={developer} updated={updated} />
                 </TabPanel>
                 <TabPanel value="2">
-                    <TaskBugs />
+                    <TaskBugs bugs={bugs} auth={auth} data={data} developer={developer} updated={updated} />
                 </TabPanel>
                 <TabPanel value="3">
                     <TaskResult />

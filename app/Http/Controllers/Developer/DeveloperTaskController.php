@@ -28,4 +28,14 @@ class DeveloperTaskController extends Controller
         $this->taskRepository->status($id,$request->only('status'));
         return redirect()->back();
     }
+    public function image(Request $request,$id){
+        $response = $this->taskRepository->image($id, $request->all());
+        if($response['success']){
+         return  redirect()->back();
+        }
+        else{
+         Redirect::back()->withErrors($response["error"]);
+        }
+    }
+
 }

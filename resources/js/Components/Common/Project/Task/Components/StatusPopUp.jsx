@@ -45,18 +45,6 @@ export default function StatusPopUp({role, buttonText, status, taskId, onClose ,
         eta: buttonText === 'debug' ? "" : undefined,
     }
 
-    const { data, setData, post, processing, errors, setError } = useForm(_.cloneDeep(initState))
-    function handleFileChange(e){
-        const files = e.target.files;
-        setData("task_file",[...data.task_file, ...files]);
-    }
-
-    function handleDelete(index){
-        const updatedFiles = [...data.task_file];
-        updatedFiles.splice(index, 1);
-        setData("task_file",updatedFiles);
-    }
-
     const handleStatus=(e)=>{
         handleSubmit();
     }

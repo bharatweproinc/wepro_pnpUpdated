@@ -7,7 +7,7 @@ import {
 import Create from "@/Components/Common/Project/Task/Create";
 import List from "@/Components/Common/Project/Task/List";
 
-export default function View({auth,data, Id, developer, updated}) {
+export default function View({auth,data, Id, developer, updated ,bugs}) {
      return (
        <>
                 {data.length === 0 ? (
@@ -35,7 +35,7 @@ export default function View({auth,data, Id, developer, updated}) {
                         </div>
                     </>
                 ) : (
-                  <List auth={auth} data={data} Id={Id} developer={developer} updated={updated}/>
+                  <List auth={auth} data={data} Id={Id} developer={developer} updated={updated} bugs={bugs}/>
                 )}
                 </>
     );
