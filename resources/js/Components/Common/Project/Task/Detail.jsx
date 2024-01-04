@@ -4,8 +4,9 @@ import TaskDetail from "./TaskDetail";
 import TaskBugs from "./TaskBugs";
 import TaskResult from "./TaskResult";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
+import History from "../../History";
 
-export default function Detail({ data, developer, auth, devId, updated ,bugs}) {
+export default function Detail({ data, developer, auth, devId, updated ,bugs ,result ,history}) {
     const [value, setValue] = React.useState("1");
     const handleChangeTab = (event, newValue) => {
         setValue(newValue);
@@ -19,6 +20,7 @@ export default function Detail({ data, developer, auth, devId, updated ,bugs}) {
                     <Tab label="Details" value="1" style={{ fontWeight:"bold"}}/>
                     <Tab label="Bugs" value="2" style={{ fontWeight:"bold"}}/>
                     <Tab label="Result" value="3" style={{ fontWeight:"bold"}}/>
+                    <Tab label="History" value="4" style={{ fontWeight:"bold"}}/>
                 </TabList>
 
                 <TabPanel value="1">
@@ -28,7 +30,10 @@ export default function Detail({ data, developer, auth, devId, updated ,bugs}) {
                     <TaskBugs bugs={bugs} auth={auth} data={data} developer={developer} updated={updated} />
                 </TabPanel>
                 <TabPanel value="3">
-                    <TaskResult />
+                    <TaskResult result={result} auth={auth} data={data}/>
+                </TabPanel>
+                <TabPanel value="4">
+                    <History history={history} auth={auth}/>
                 </TabPanel>
             </TabContext>
         </>

@@ -14,11 +14,11 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { router, useForm } from "@inertiajs/react";
 import DateTimeFormat from "@/Util/DateTimeFormat";
 import Detail from "./Detail";
 import Create from "./Create";
 import Edit from "./Edit";
+import SearchIcon from '@mui/icons-material/Search';
 import StatusStyle from "../Components/StatusStyle";
 import Filter from "./Filter";
 import { useEffect } from "react";
@@ -26,21 +26,28 @@ import Validation_Schema from "./ValidationSchema";
 import Joi from "@/Util/JoiValidator";
 import axios from "axios";
 import { Inertia } from "@inertiajs/inertia";
+import TextInput from "@/Components/TextInput";
 
 
-export default function List({ auth, developer, Id, data ,updated ,bugs}) {
+export default function List({ auth, developer, Id, data ,updated ,bugs ,result ,history}) {
 
     const [page, setPage] = useState(0);
     const [expandedRows, setExpandedRows] = useState([]);
     const [rowsPerPage, setRowsPerPage] = useState(15);
+    const [filter ,setFilter] = useState(true);
     const [isFilter, setIsFilter] = useState(false);
     const [taskData ,setTaskData] = useState(data);
    const [fromDate,setFrom] = useState(null);
    const [ToDate,SetToDate] = useState(null);
+   const [fetch ,setFetch] = useState(false);
+   const [apply,setApply] = useState(false);
+   const [searchItem ,setSearchItem] = useState();
+   const [search ,setSearch] = useState(false);
    const date1 = new Date(fromDate);
    const date2 = new Date(ToDate);
    const diffTime = Math.abs(date2 - date1);
    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
 
     const toggleRow = (id) => {
         if (expandedRows.includes(id)) {
@@ -65,7 +72,7 @@ export default function List({ auth, developer, Id, data ,updated ,bugs}) {
 
     useEffect(()=>{
         handleApplyFilter;
-    },[taskData]);
+    },[fetch]);
     const handleApplyFilter = async (filterData) => {
         try {
             // const err = Joi.validateToPlainErrors(filterData,Validation_Schema.APPLY_FILTER)
@@ -75,23 +82,75 @@ export default function List({ auth, developer, Id, data ,updated ,bugs}) {
             //     if (Joi.hasPlainError(err)) {
             //         return;
             //     }
-        await axios.post(route('admin.project.task.filter', { id:Id }), filterData)
+            {auth.user.user_role == "admin" ?
+            await axios.post(route('admin.project.task.filter', { id:Id }), filterData)
             .then((response)=>{
                 const filterTaskData = response.data;
                 setTaskData(filterTaskData);
+                setApply(true);
             })
-        } catch (error) {
-            console.error('error:', error);
+            :
+            auth.user.user_role == "project manager" &&
+            await axios.post(route('projectManager.project.task.filter', { id:Id }), filterData)
+            .then((response)=>{
+                const filterTaskData = response.data;
+                setTaskData(filterTaskData);
+                setApply(true);
+
+            })
+            setFetch(true);
         }
-      };
+    } catch (error) {
+    }}
+    const handleReset =()=>{
+        setTaskData(data);
+        setApply(false);
+        setIsFilter(false);
+    }
+
+    const handleSearch = () =>{
+        setSearch(true);
+        setFilter(false);
+    }
+    const handleClose =() =>{
+        setSearch(false);
+        setFilter(true);
+        setTaskData(data);
+    }
+    const handleInputChange =(e) =>{
+        const searchTerm = e.target.value;
+        setSearchItem(searchTerm);
+
+        const filterItem = data.filter((val)=>
+            val.task_name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setTaskData(filterItem);
+    }
 
     return (
         <>
-            <div style={{paddingBottom:'10px'}}>
+            <div style={{display:'flex' ,justifyContent:'end',paddingBottom:'10px'}}>
                     {(auth.user.user_role === "admin" || auth.user.user_role == "project manager")  &&
-                        <Box sx={{ display:'flex' ,gap:'15px', display: "flex", justifyContent:"flex-end"}}>
-                                <Filter isFilter={isFilter} ApplyFilter={handleApplyFilter} handleFilter={handleFilter} developer={developer} Id={Id} auth={auth} />
+                       ( <Box sx={{ display:'flex' ,gap:'15px', display: "flex", justifyContent:"flex-end"}}>
+                       <Filter isFilter={isFilter} ApplyFilter={handleApplyFilter} handleFilter={handleFilter} developer={developer} Id={Id} auth={auth} apply={apply} handleReset={handleReset}/>
                         </Box>
+                        )
+                    }
+                    { (auth.user.user_role=="junior developer"||auth.user.user_role=="senior developer") && filter &&
+                              <Button variant="contained" startIcon={<SearchIcon/>} onClick={handleSearch} sx={{ marginRight:'10px',width:'120px' }}> Filter</Button>
+                     }
+                    {(auth.user.user_role=="junior developer"||auth.user.user_role=="senior developer") &&  search &&
+                         <div style={{ display:'flex' ,justifyContent:'end' ,marginRight:"10px", height:'38px'}}>
+                              <TextInput
+                              id="search"
+                              placeholder="Type To search"
+                              value={searchItem}
+                              onChange={handleInputChange}
+                              style={{ height:'' }}
+                              />
+                             <Button variant="contained" color="error" onClick={handleClose} style={{ position:"absolute", fontWeight:"bold" ,margin:'2px 2px 0px 0px',height:'33px'}}>x</Button>
+                        </div>
+
                     }
             </div>
 
@@ -145,6 +204,8 @@ export default function List({ auth, developer, Id, data ,updated ,bugs}) {
                                                         devId={item.developer_id}
                                                         updated={updated}
                                                         bugs={bugs.filter((image)=>image.imageable_id == item.id)}
+                                                        result={result.filter((res)=>res.imageable_id == item.id)}
+                                                        history={history}
                                                     />
                                                 </Collapse>
                                             </TableCell>

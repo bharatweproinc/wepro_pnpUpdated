@@ -9,9 +9,18 @@ const APPLY_FILTER = {
 
 }
 
-
+const TaskSchema ={
+    task_name: Joi.string().required(),
+    description:Joi.string().required(),
+    start_date: Joi.required(),
+    priority: Joi.number().integer().required(),
+    developer: Joi.string().required(),
+    level: Joi.number().integer().required(),
+    estimated:Joi.number().integer().required().min(1),
+}
 
 const Validation_Schema = {
     APPLY_FILTER,
+    TaskSchema,
 }
 export default Validation_Schema;

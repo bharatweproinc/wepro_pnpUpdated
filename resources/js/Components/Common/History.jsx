@@ -4,6 +4,7 @@ import DateTimeFormat from "@/Util/DateTimeFormat";
 import { useState } from "react";
 
 export default function History({ history}){
+    console.log(history,'history');
     const [page, setPage] = useState(0);
     const [expandedRows, setExpandedRows] = useState([]);
     const [rowsPerPage, setRowsPerPage] = useState(10);

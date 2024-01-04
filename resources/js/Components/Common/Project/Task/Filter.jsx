@@ -7,9 +7,10 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import dayjs from 'dayjs';
 import Constant from "./Constant";
 import Create from "./Create";
+import { useEffect } from "react";
 // import Validation_Schema from "./ValidationSchema";
 
-export default function Filter({Id,auth,isFilter,ApplyFilter,developer,handleFilter}) {
+export default function Filter({Id,auth,isFilter,ApplyFilter,developer,handleFilter ,apply ,handleReset}) {
 
     const { data, setData, post, processing, errors,setError, reset } = useForm(Constant.formData);
     function convert(str) {
@@ -18,6 +19,16 @@ export default function Filter({Id,auth,isFilter,ApplyFilter,developer,handleFil
           day = ("0" + date.getDate()).slice(-2);
         return [mnth, day, date.getFullYear()].join("-");
     }
+    useEffect(()=>{
+        if(!apply){
+            setData({
+        status:'all',
+        developer_id:'all',
+        from_date:null,
+        to_date:null,
+    });
+        }
+    },[isFilter]);
     return (
         <>
 
@@ -121,13 +132,14 @@ export default function Filter({Id,auth,isFilter,ApplyFilter,developer,handleFil
 
       </Grid>
           <Box sx={{gap:'15px', display: "flex", justifyContent:"flex-end"}}>
-
             {!isFilter ?
-            <div style={{ height:"55px" }}>
-                <Button variant="contained" onClick={handleFilter} > {'Filter'}  </Button>
-            </div>:
-            <div style={{ height:'55px' }}>
-                <Button variant="contained" onClick={() => {ApplyFilter(data,errors,setError)}} > Apply  </Button>
+             <div style={{ height:"55px" }}>
+             <Button variant="contained" onClick={handleFilter} > {'Filter'} </Button>
+             </div>
+            :
+            <div style={{ height:'35px',display:'flex',marginBottom:"20px"}}>
+                <Button variant="contained" onClick={() => {ApplyFilter(data,errors,setError)}} sx={{ marginRight:"17px" }}> Apply  </Button>
+                <Button variant="contained" onClick={handleReset} color="error"> Reset  </Button>
             </div>
             }
             <Create developer={developer} Id={Id} auth={auth} />

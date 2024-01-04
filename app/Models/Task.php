@@ -37,4 +37,9 @@ class Task extends Model
         return $this->morphMany(Image::class, 'imageable');
     }
 
+    public function histories()
+    {
+        return $this->morphMany(History::class, 'historable');
+    }
+
 }

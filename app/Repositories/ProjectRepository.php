@@ -49,6 +49,7 @@ class ProjectRepository implements ProjectInterface
 
     public function save($req)
     {
+       try{
         $data = Project::create([
             'title' => $req['title'],
             'description' => $req['description'],
@@ -64,9 +65,14 @@ class ProjectRepository implements ProjectInterface
 
         return [
             'success' => true,
-            'message' => "Project Created Successfully ."
         ];
-
+       }
+       catch (\Exception $e) {
+        return [
+           'success'=>false,
+           'error'=>$e->getMessage(),
+        ];
+      }
     }
 
     public function edit($id)
@@ -80,12 +86,12 @@ class ProjectRepository implements ProjectInterface
             $manager = User::whereIn('user_role', ['project manager'])->get();
             $devUsers = User::select('id', 'name', 'user_role')->whereIn('user_role', ['junior developer', 'senior developer'])->get();
             return [ 'success' => true,$data,  $devUsers,  $manager, $developer];
-        } catch (\Throwable $th) {
+        } catch (\Exception $e) {
             return [
-                'success' => false,
-                'message' => $th->getMessage(),
+               'success'=>false,
+               'error'=>$e->getMessage(),
             ];
-        }
+          }
     }
 
     public function update($id,$item)
@@ -103,14 +109,13 @@ class ProjectRepository implements ProjectInterface
         $id = $dev->update(['developer_id' => $developer]);
         return [
             'success' => true,
-            'message' => " Project Update Successfully",
         ];
-       } catch (\Throwable $th) {
+       }catch (\Exception $e) {
         return [
-            'success' => false,
-            'message' => $th->getMessage(),
-            ];
-     }
+           'success'=>false,
+           'error'=>$e->getMessage(),
+        ];
+      }
     }
 
     public function detail($id)
@@ -124,8 +129,8 @@ class ProjectRepository implements ProjectInterface
         $dev = array_map('intval', $developer);
         $user = User::whereIn('id', $dev)->get();
 
-
         $history = History::where('historable_id',$id)->where('historable_type','App\Models\Project')->get();
+        $historyTask = History::where('historable_id',$id)->where('historable_type','App\Models\Task')->get();
         if($role === "admin" || $role === "hr manager"){
             $task = Task::where(['project_id'=>$id])->get();
             $auth = Auth::user();
@@ -133,10 +138,12 @@ class ProjectRepository implements ProjectInterface
             $status = Task::whereIn('id', $task_id)->where('status', 'started')->get();
             $debug_Id = Task::whereIn('id',$task_id)->where('is_debugging',1)->pluck('id');
             $bugs = Image::whereIn('imageable_id',$debug_Id)->where('imageable_type','App\Models\Task')->get();
+            $res_id = Task::whereIn('id',$task_id)->where('status',"complete")->pluck('id');
+            $result = Image::whereIn('imageable_id',$debug_Id)->where('imageable_type','App\Models\Task')->get();
             foreach($bugs  as $key => $bug){
                 $bugs[$key]['url'] = asset('storage/'.$bug->url);
             }
-            return [$data , $user , $task ,$status ,$history ,$bugs ];
+            return [$data , $user , $task ,$status ,$history ,$bugs,$result ,$historyTask ];
         }
         else if($role == "project manager")
         {
@@ -148,7 +155,10 @@ class ProjectRepository implements ProjectInterface
             foreach($bugs  as $key => $bug){
                 $bugs[$key]['url'] = asset('storage/'.$bug->url);
             }
-           return [ $data , $user , $task ,$status,$history ,$bugs];
+            $res_id = Task::whereIn('id',$task_id)->where('status',"complete")->pluck('id');
+            $result = Image::whereIn('imageable_id',$debug_Id)->where('imageable_type','App\Models\Task')->get();
+
+           return [ $data , $user , $task ,$status,$history ,$bugs ,$result ,$historyTask];
         }
         else if($role === "junior developer" || $role === "senior developer" ){
             $auth = Auth::user();
@@ -161,7 +171,9 @@ class ProjectRepository implements ProjectInterface
             foreach($bugs  as $key => $bug){
                 $bugs[$key]['url'] = asset('storage/'.$bug->url);
             }
-            return [ $data , $user , $task ,$status,$history ,$bugs];
+            $res_id = Task::whereIn('id',$task_id)->where('status',"complete")->pluck('id');
+            $result = Image::whereIn('imageable_id',$debug_Id)->where('imageable_type','App\Models\Task')->get();
+            return [ $data , $user , $task ,$status,$history ,$bugs ,$result ,$historyTask];
         }
     }
 

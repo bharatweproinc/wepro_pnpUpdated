@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EditProjectRequest;
-use App\Http\Requests\EditRequest;
 use App\Http\Requests\ProjectRequest;
 use App\Models\Developer;
 use App\Models\Project;
@@ -44,8 +43,14 @@ class ProjectController extends Controller
 
     public function save(ProjectRequest $request)
     {
-      $this->projectRepository->save($request->all());
-      return Redirect::route('admin.project.list');
+        $response =$this->projectRepository->save($request->all());
+        if($response['success'])
+        {
+            return Redirect::route('admin.project.list');
+        }
+        else {
+            return Redirect::back()->withErrors($response);
+        }
 
     }
 
@@ -58,8 +63,10 @@ class ProjectController extends Controller
        $status = $allData[3];
        $history = $allData[4];
        $bugs = $allData[5];
+       $result = $allData[6];
+       $historyTask = $allData[7];
        return Inertia::render('Admin/Project/Detail',
-        ['data' => $data, 'user' => $user,'task'=>$task ,'updated'=>$status ,'history'=>$history ,"bugs"=>$bugs]);
+            ['data' => $data, 'user' => $user,'task'=>$task ,'updated'=>$status ,'history'=>$history ,"bugs"=>$bugs ,'result'=>$result ,'taskHistory'=>$historyTask]);
     }
 
 
@@ -77,7 +84,6 @@ class ProjectController extends Controller
 
     public function update(EditProjectRequest $request, $id)
     {
-
         $response =$this->projectRepository->update($id, $request->all());
         if($response['success']){
             return Redirect::route('admin.project.detail' ,$id);

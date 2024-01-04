@@ -1,185 +1,257 @@
-import { useState } from "react";
+import * as React from "react";
+import {
+  Stepper,
+  Step,
+  StepLabel,
+  Button,
+  Typography,
+  Grid,
+  IconButton,
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import CloseIcon from "@mui/icons-material/Close";
+import SaveIcon from "@mui/icons-material/Save";
+import DeleteIcon from "@mui/icons-material/Delete";
+import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
-import { FormControl, FormControlLabel, Radio, RadioGroup, IconButton ,Typography, Button, Alert, Grid } from "@mui/material";
-import InputError from "@/Components/InputError";
-import {  router, useForm } from "@inertiajs/react";
-import EditIcon from "@mui/icons-material/Edit";
-import * as React from "react";
-import CloseIcon from '@mui/icons-material/Close';
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
-import { useEffect } from "react";
 import SuccessMsg from "../SuccessMsg";
-import UpdateIcon from '@mui/icons-material/Update';
-import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import PhoneValidate from "@/Util/PhoneValidate";
+import Joi from "@/Util/JoiValidator";
+import ValdidationSchema from "./Components/ValidationSchema";
+import {  router, useForm } from "@inertiajs/react";
+import { useState } from "react";
+import { useEffect } from "react";
+import EditIcon from '@mui/icons-material/Edit';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import {
+    FormControl,
+    FormControlLabel,
+    Radio,
+    RadioGroup,
+    Select,
+} from "@mui/material";
+
 const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    boxShadow: 24,
-    p: 1,
-    overflow:'scroll',
-    height:'90%',
-    display:'block',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 800,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p:2,
+  overflow:'scroll',
+  height:'90%',
+  display:'block',
+};
+export default function  Edit({ auth, user,states,address})  {
+  const [open, setOpen] = React.useState(false);
+  const [image, setImage] = useState(null);
+  const [alert, setAlert] = useState(false);
+  const [severity, setSeverity] = useState(null);
+  const [selectCity, setSelectCity] = useState([]);
+  const [activeStep, setActiveStep] = React.useState(0);
+  const steps = ["Basic Details", "Address Details"];
+  const handleOpen = () => setOpen(true);
+
+
+  const [value, setValue] = useState({
+    name: user.name,
+    email: user.email,
+    user_role: user.user_role,
+    contact_no: user.contact_no,
+    profile:user.profile,
+    dob:user.dob,
+    gender:user.gender,
+    local_address:address?.local_address,
+    residential_address:address?.residential_address,
+    alt_phone_no:user?.alt_phone_no,
+    state:address?.state,
+    city:address?.city,
+    pin_code:address?.pin_code,
+});
+
+  // ... (other functions)
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+    reset();
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+}
+const handleChange = (key,val) => {
+
+    if (key === "state") {
+        const selectedState = states.find((state) => state.id === parseInt(val));
+        const citiesArray = selectedState ? selectedState.cities : [];
+        setValue({
+            ...value,
+            state: val,
+            city: "",
+        });
+        setSelectCity(citiesArray);
+        console.log(citiesArray, 'sdgfjds');
+    } else if (key === "city") {
+        setValue({ ...value,
+            city: val,
+        });
+    } else {
+        setValue({
+            ...value,
+            [key]: val,
+        });
+    }
 };
 
-export default function Edit({ auth, user,states,address}) {
-    const [open, setOpen] = useState(false);
-    const [alert,setAlert] = useState(false);
-    const [severity ,setSeverity] = useState(null);
-    const handleOpen = () => setOpen(true);
-    const [selectCity ,setSelectCity] = useState([]);
-    const [image,setImage] = useState(user.profile);
-    const { data, setData, get, post, processing, errors, setError, reset } = useForm();
+const handleImage = () => {
+    document.getElementById('profile').click();
+};
 
-    const [value, setValue] = useState({
-        name: user.name,
-        email: user.email,
-        user_role: user.user_role,
-        contact_no: user.contact_no,
-        profile:user.profile,
-        dob:user.dob,
-        gender:user.gender,
-        local_address:address?.local_address,
-        residential_address:address?.residential_address,
-        alt_phone_no:user?.alt_phone_no,
-        state:address?.state,
-        city:address?.city,
-        pin_code:address?.pin_code,
-    });
-    const handleClose = () => {
-        setOpen(false);
+const handleProfile =(event) =>{
+    if (event.target.files && event.target.files[0]) {
+       const url= URL.createObjectURL(event.target.files[0]);
+       const urlImg =  url.replace('blob:', '');
+       setImage(url);
+       setValue((prev)=>({...prev,profile:event.target.files[0]}));
+      }
+}
+const {
+    get,
+    post,
+    processing,
+    errors,
+    reset,
+    setError,
+  } = useForm()
+useEffect(()=>{
+    setValue((prev)=>({
+        name: prev.name,
+        email: prev.email,
+        user_role: prev.user_role,
+        contact_no: prev.contact_no,
+        profile:prev.profile,
+        dob:prev.dob,
+        gender:prev.gender,
+}));
+}, [user]);
+
+const handleSubmit = (e) => {
+    e.preventDefault();
+    {
+        auth.user.user_role == "admin" ?
+        router.post(route("admin.user.update", [user.id]), value ,{
+            onSuccess: ( )=> {
+                setAlert("User Updated Successfully");
+                handleClose();
+                setOpen(false);
+                setSeverity('success');
+            },onError:(error)=>{
+                setAlert(error.error)
+                setSeverity('error');
+            }
+        })
+        :
+        router.post(route("hrManager.user.update", [user.id]), value ,{
+            onSuccess: ( )=> {
+                setAlert("User Updated Successfully");
+                handleClose();
+                setOpen(false);
+                setSeverity('success');
+            },onError:(error)=>{
+                setAlert(error.error)
+                setSeverity('error');
+            }
+        });
     }
-console.log(value.local_address);
-    const handleChange = (key,val) => {
+};
 
-        if (key === "state") {
-            const selectedState = states.find((state) => state.id === parseInt(val));
-            const citiesArray = selectedState ? selectedState.cities : [];
-            setValue({
-                ...value,
-                state: val,
-                city: "",
-            });
-            setSelectCity(citiesArray);
-            console.log(citiesArray, 'sdgfjds');
-        } else if (key === "city") {
-            setValue({ ...value,
-                city: val,
-            });
-        } else {
-            setValue({
-                ...value,
-                [key]: val,
-            });
-        }
-    };
-
-    const handleImage = () => {
-        document.getElementById('profile').click();
-    };
-
-    const handleProfile =(event) =>{
-        if (event.target.files && event.target.files[0]) {
-           const url= URL.createObjectURL(event.target.files[0]);
-           const urlImg =  url.replace('blob:', '');
-           setImage(url);
-           setValue((prev)=>({...prev,profile:event.target.files[0]}));
-          }
-    }
-
-    useEffect(()=>{
-        setValue((prev)=>({
-            name: prev.name,
-            email: prev.email,
-            user_role: prev.user_role,
-            contact_no: prev.contact_no,
-            profile:prev.profile,
-            dob:prev.dob,
-            gender:prev.gender,
-    }));
-    }, [user]);
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        {
-            auth.user.user_role == "admin" ?
-            router.post(route("admin.user.update", [user.id]), value ,{
-                onSuccess: ( )=> {
-                    setAlert("User Updated Successfully");
-                    handleClose();
-                    setOpen(false);
-                    setSeverity('success');
-                },onError:(error)=>{
-                    setAlert(error.error)
-                    setSeverity('error');
-                }
-            })
-            :
-            router.post(route("hrManager.user.update", [user.id]), value ,{
-                onSuccess: ( )=> {
-                    setAlert("User Updated Successfully");
-                    handleClose();
-                    setOpen(false);
-                    setSeverity('success');
-                },onError:(error)=>{
-                    setAlert(error.error)
-                    setSeverity('error');
-                }
-            });
-        }
-    };
-    return (
-       <>
-            {alert && <SuccessMsg severity={severity} error={alert} setError={setAlert} title={alert}/>}
-           <IconButton aria-label="edit" color={(auth.user.user_role =="hr manager" && user.user_role=='admin') ? 'error' : 'info'} onClick={handleOpen} disabled={(auth.user.user_role=="hr manager" && user.user_role =='admin') ? true :false} >
+  return (
+    <div>
+      {alert && (
+        <SuccessMsg
+          severity={severity}
+          error={alert}
+          setError={setAlert}
+          title={alert}
+        />
+      )}
+     <IconButton aria-label="edit" color={(auth.user.user_role =="hr manager" && user.user_role=='admin') ? 'error' : 'info'} onClick={handleOpen} disabled={(auth.user.user_role=="hr manager" && user.user_role =='admin') ? true :false} >
                 <EditIcon/>
-            </IconButton>
-            <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                open={open}
-                onClose={handleClose}
-                closeAfterTransition
-                slots={{ backdrop: Backdrop }}
-                slotProps={{
-                    backdrop: {
-                        timeout: 500,
-                    },
+      </IconButton>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={() => {
+          handleClose();
+          handleReset();
+        }}
+        closeAfterTransition
+        slots={{ backdrop: Backdrop }}
+        slotProps={{ backdrop: { timeout: 500 } }}
+      >
+        <Fade in={open}>
+          <Box sx={style}>
+            <div className="rounded-t-xl bg-slate-50 border-gray-100 border border-t-0 shadow-sm p-5">
+              <div
+                style={{
+                  alignItems: "center",
+                  display: "flex",
+                  justifyContent: "center",
+                  paddingBottom: "10px",
                 }}
-                style={{ width: "" }}
-           >
-                <Fade in={open}>
-                    <Box sx={style} style={{ width: "800px" }} >
-                        <div className="rounded-t-xl bg-slate-50 border-gray-100 border border-t-0 shadow-sm p-5" >
-                          <div style={{alignItems: "center",display: "flex",justifyContent: "center",paddingBottom:"10px"}}>
-                            <Typography variant="h5" style={{ fontWeight: "bold" }}> Update User </Typography>
-                          </div>
+              >
+                <form onSubmit={handleSubmit}>
+                  <Stepper activeStep={activeStep} alternativeLabel>
+                    {steps.map((label) => (
+                      <Step key={label}>
+                        <StepLabel>{label}</StepLabel>
+                      </Step>
+                    ))}
+                  </Stepper>
+                  <div>
+                    {activeStep === steps.length ? (
+                      <div>
+                        <Typography>All steps completed</Typography>
+                        <Button onClick={handleReset}>Reset</Button>
+                      </div>
+                    ) : (
+                      <div>
+                        {/* Step 1: User Details */}
+                        {activeStep === 0 && (
+                          <>
+                          <div >
+                          <div style={{ display:'flex',justifyContent:'center' }}>
+                              <InputLabel htmlFor=" profile">
+                                  <img id="image" src={image} alt="Profile" style={{ borderRadius:'50%' ,
+                                      border:"2px solid black",cover:'100%', objectFit:'contain',height:'100px'
+                                      ,width:'100px',textAlign:'center',lineHeight:'80px'}} onClick={handleImage}/>
+                                  <CameraAltIcon style={{ position:'absolute',top:'150px',right:'345px',color:'black',borderRadius:'50%',background:'aliceblue' }}/>
 
-                            <form onSubmit={handleSubmit}>
-                                <div >
-                                    <div style={{ display:'flex',justifyContent:'center' }}>
-                                        <InputLabel htmlFor=" profile">
-                                            <img id="image" src={image} alt="Profile" style={{ borderRadius:'50%' ,
-                                                border:"2px solid black",cover:'100%', objectFit:'contain',height:'100px'
-                                                ,width:'100px',textAlign:'center',lineHeight:'80px'}} onClick={handleImage}/>
-                                            <CameraAltIcon style={{ position:'absolute',top:'150px',right:'345px',color:'black',borderRadius:'50%',background:'aliceblue' }}/>
-
-                                        </InputLabel>
-                                         <input type="file" id="profile" name="profile" accept="image/png, image/jpeg ,image/jpeg , image/svg"
-                                             onChange={(event)=>handleProfile(event)} hidden/>
-                                     </div>
-                                    <InputError message={errors.profile} className="mt-2" />
-                                </div>
-                                <Grid container spacing={2}>
+                              </InputLabel>
+                               <input type="file" id="profile" name="profile" accept="image/png, image/jpeg ,image/jpeg , image/svg"
+                                   onChange={(event)=>handleProfile(event)} hidden/>
+                           </div>
+                          <InputError message={errors.profile} className="mt-2" />
+                      </div>
+                      <Grid container spacing={2}>
                                 <Grid item xs={6}>
                                     <InputLabel htmlFor="name" value="Name" />
                                     <TextInput id="name" name="name" value={value.name} className="mt-1 block w-full" autoComplete="name" isFocused={true} onChange={(e) => handleChange("name",e.target.value)} required  />
@@ -210,7 +282,7 @@ console.log(value.local_address);
                                     />
                             <InputError message={errors.alt_phone_no} className="mt-2"/>
                         </Grid>
-                                <Grid item xs={6} >
+                                <Grid item xs={12} >
                             <InputLabel htmlFor="Date of Birth" value="Date Of Birth" />
                             <TextInput
                                 id="dob"
@@ -224,7 +296,67 @@ console.log(value.local_address);
                             />
                             <InputError message={errors.dob} className="mt-2"/>
                         </Grid>
-                        <Grid item xs={6}>
+
+                        <Grid item xs={6} >
+                            <FormControl component="fieldset">
+                                <InputLabel htmlFor="gender" value="Select Gender" />
+                                <RadioGroup
+                                    value={value.gender}
+                                    onChange={(e) => handleChange("gender", e.target.value)}
+                                    row
+                               >
+                                    <FormControlLabel
+                                        value="female"
+                                        control={<Radio />}
+                                        label="Female"
+                                        aria-setsize={"small"}
+                                        style={{ paddingRight:'10px' }}
+                                    />
+                                    <FormControlLabel
+                                        value="male"
+                                        control={<Radio />}
+                                        label="Male"
+                                        aria-setsize={"small"}
+                                        style={{ paddingRight:'10px' }}
+                                    />
+                                </RadioGroup>
+                            </FormControl>
+                            <InputError message={errors.gender} className="mt-2"/>
+                        </Grid>
+
+                                <Grid item xs={12} >
+                                    <FormControl component="fieldset">
+                                        <InputLabel
+                                            htmlFor="user_role"
+                                            value="Select User Role"
+                                        />
+                                        <RadioGroup value={value.user_role} onChange={(e)=>handleChange("user_role",e.target.value)} name="user_role"row>
+                                            {
+                                            auth.user.user_role == "admin"  && <FormControlLabel value="admin" control={<Radio />} label="Admin" aria-setsize={"small"}/>
+                                            }
+                                            <FormControlLabel value="hr manager" control={<Radio />} label="HR Manager" aria-setsize={"small"} />
+                                            <FormControlLabel value="project manager" control={<Radio />} label="Project Manager" aria-setsize={"small"} />
+                                            <FormControlLabel value="senior developer" control={<Radio />} label="Senior Developer" aria-setsize={"small"} />
+                                            <FormControlLabel value="junior developer" control={<Radio />} label="Junior Developer" aria-setsize={"small"} />
+                                        </RadioGroup>
+                                    </FormControl>
+                                    <InputError message={errors.user_role} className="mt-2" />
+                                </Grid>
+
+                                {/* <Grid item xs={6} className="flex items-center justify-center mt-4">
+                                    <Button onClick={handleClose} variant="contained" color="error"
+                                    style={{ height: "33px", marginLeft:"10px" }} startIcon={<CloseIcon/>}> Cancle</Button>
+                                    <PrimaryButton className="ms-4" style={{ height: "40px", backgroundColor: "#1976d2",width: "150px", alignItems: "center",
+                                    display: "flex", justifyContent: "center",textTransform:"none"  }} > <UpdateIcon sx={{ height:'15px' }}/> Update  </PrimaryButton>
+                                </Grid> */}
+                                </Grid>
+                          </>
+                        )}
+
+                        {/* Step 2: Address Details */}
+                        {activeStep === 1 && (
+                          <Grid container spacing={2}>
+                             <Grid item xs={12}>
                             <InputLabel htmlFor="pin_code" value="Pin Code" />
                             <TextInput
                                 id="pin_code"
@@ -238,7 +370,6 @@ console.log(value.local_address);
                             />
                             <InputError message={errors.pin_code} className="mt-2"/>
                         </Grid>
-
                         <Grid item xs={6}>
                             <InputLabel htmlFor="state" value="State" />
                             <select
@@ -303,64 +434,42 @@ console.log(value.local_address);
                             />
                             <InputError message={errors.residential_address} className="mt-2"/>
                         </Grid>
-                        <Grid item xs={6} >
-                            <FormControl component="fieldset">
-                                <InputLabel htmlFor="gender" value="Select Gender" />
-                                <RadioGroup
-                                    value={value.gender}
-                                    onChange={(e) => handleChange("gender", e.target.value)}
-                                    row
-                               >
-                                    <FormControlLabel
-                                        value="female"
-                                        control={<Radio />}
-                                        label="Female"
-                                        aria-setsize={"small"}
-                                        style={{ paddingRight:'10px' }}
-                                    />
-                                    <FormControlLabel
-                                        value="male"
-                                        control={<Radio />}
-                                        label="Male"
-                                        aria-setsize={"small"}
-                                        style={{ paddingRight:'10px' }}
-                                    />
-                                </RadioGroup>
-                            </FormControl>
-                            <InputError message={errors.gender} className="mt-2"/>
-                        </Grid>
+                          </Grid>
+                        )}
 
-                                <Grid item xs={12} >
-                                    <FormControl component="fieldset">
-                                        <InputLabel
-                                            htmlFor="user_role"
-                                            value="Select User Role"
-                                        />
-                                        <RadioGroup value={value.user_role} onChange={(e)=>handleChange("user_role",e.target.value)} name="user_role"row>
-                                            {
-                                            auth.user.user_role == "admin"  && <FormControlLabel value="admin" control={<Radio />} label="Admin" aria-setsize={"small"}/>
-                                            }
-                                            <FormControlLabel value="hr manager" control={<Radio />} label="HR Manager" aria-setsize={"small"} />
-                                            <FormControlLabel value="project manager" control={<Radio />} label="Project Manager" aria-setsize={"small"} />
-                                            <FormControlLabel value="senior developer" control={<Radio />} label="Senior Developer" aria-setsize={"small"} />
-                                            <FormControlLabel value="junior developer" control={<Radio />} label="Junior Developer" aria-setsize={"small"} />
-                                        </RadioGroup>
-                                    </FormControl>
-                                    <InputError message={errors.user_role} className="mt-2" />
-                                </Grid>
-
-                                <Grid item xs={6} className="flex items-center justify-center mt-4">
-                                    <Button onClick={handleClose} variant="contained" color="error"
-                                    style={{ height: "33px", marginLeft:"10px" }} startIcon={<CloseIcon/>}> Cancle</Button>
-                                    <PrimaryButton className="ms-4" style={{ height: "40px", backgroundColor: "#1976d2",width: "150px", alignItems: "center",
-                                    display: "flex", justifyContent: "center",textTransform:"none"  }} > <UpdateIcon sx={{ height:'15px' }}/> Update  </PrimaryButton>
-                                </Grid>
-                                </Grid>
-                            </form>
+                        <div className="flex items-center justify-center m-4">
+                          <Button
+                            disabled={activeStep === 0}
+                            onClick={handleBack}
+                            variant="contained"
+                            sx={{ marginRight:'10px' }}
+                          >
+                            Back
+                          </Button>
+                          <Button
+                            variant="contained"
+                            onClick={activeStep === steps.length - 1 ? handleSubmit : handleNext}
+                          >
+                            {activeStep === steps.length - 1
+                              ? "Back"
+                              : "Next"}
+                            {activeStep === steps.length - 1 && (
+                              <SaveIcon sx={{ ml: 1 }} />
+                            )}
+                            {activeStep !== steps.length - 1 && (
+                              <NavigateNextIcon sx={{ ml: 1 }} />
+                            )}
+                          </Button>
                         </div>
-                    </Box>
-                </Fade>
-            </Modal>
-        </>
-    );
+                      </div>
+                    )}
+                  </div>
+                </form>
+              </div>
+            </div>
+          </Box>
+        </Fade>
+      </Modal>
+    </div>
+  );
 }

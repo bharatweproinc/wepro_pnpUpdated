@@ -16,6 +16,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import SaveIcon from '@mui/icons-material/Save';
 import { useState } from "react";
 import SuccessMsg from "../../SuccessMsg";
+import Joi from "@/Util/JoiValidator";
+import Validation_Schema from "./ValidationSchema";
 
 const style = {
     position: "absolute",
@@ -39,7 +41,7 @@ export default function Create({ developer, Id ,auth }) {
     const handleOpen = () => setOpen(true);
     const priority = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const level = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, processing, errors, reset ,setError } = useForm({
         task_name: "",
         description: "",
         start_date: "",
@@ -59,6 +61,16 @@ export default function Create({ developer, Id ,auth }) {
                 : [id],
         }));
     };
+    const handleChange = (key,val) => {
+        setError({
+            ...errors,
+            [key]: Joi.validateToPlainErrors(val,Validation_Schema.TaskSchema[key])
+        });
+        setData({
+            ...data,
+            [key]: val,
+        });
+    }
 
     const handleClose = () =>{
         setOpen(false);
@@ -88,7 +100,6 @@ export default function Create({ developer, Id ,auth }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("hello");
         {
             auth.user.user_role == "admin" ?
            post(route("admin.project.task.save", { id: Id }),{
@@ -172,7 +183,7 @@ export default function Create({ developer, Id ,auth }) {
                                     autoComplete="task_name"
                                     isFocused={true}
                                     onChange={(e) =>
-                                        setData("task_name", e.target.value)
+                                        handleChange("task_name", e.target.value)
                                     }
                                     required
                                 />
@@ -200,7 +211,7 @@ export default function Create({ developer, Id ,auth }) {
                                     value={data.description}
                                     className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
                                     autoComplete="description"
-                                    onChange={(e) =>setData("description", e.target.value)}
+                                    onChange={(e) =>handleChange("description", e.target.value)}
                                     required
                                 />
                                 <InputError  message={errors.description}  className="mt-2"/>
@@ -219,12 +230,12 @@ export default function Create({ developer, Id ,auth }) {
                                         />
                                         <TextInput
                                             id="start_date"
-                                            type="datetime-local"
+                                            type="date"
                                             name="start_date"
                                             value={data.start_date}
                                             className="mt-1 block w-full"
                                             autoComplete="start_date"
-                                            onChange={(e) => setData("start_date", e.target.value)}
+                                            onChange={(e) => handleChange("start_date", e.target.value)}
                                             required
                                         />
                                         <InputError
@@ -246,7 +257,7 @@ export default function Create({ developer, Id ,auth }) {
                                             className="mt-1 block w-full"
                                             autoComplete="estimated"
                                             // onChange={handleEstimatedChange}
-                                            onChange={(e)=>setData("estimated",e.target.value)}
+                                            onChange={(e)=>handleChange("estimated",e.target.value)}
                                             required
                                         />
                                         <InputError
@@ -268,12 +279,10 @@ export default function Create({ developer, Id ,auth }) {
                                         name="priority"
                                         style={{ height: "42px",background:'white' }}
                                         className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 w-full"
-                                        onChange={(e) =>
-                                            setData("priority", e.target.value)
-                                        }
+                                        onChange={(e) => handleChange("priority", e.target.value) }
                                         required
                                     >
-                                        <MenuItem selected>Choose Priority</MenuItem>
+                                        <MenuItem value="">Choose Priority</MenuItem>
                                         {priority.map((prio, index) => (
                                             <MenuItem
                                                 key={index}

@@ -22,8 +22,8 @@ class ProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'=>['required','string'],
-            'description' => ['required','string'],
+            'title'=>['required'],
+            'description' => ['required'],
             'start_date' => ['required','after_or_equal:today'],
             'project_manager' => ['required'],
             'developer' => ['required'],

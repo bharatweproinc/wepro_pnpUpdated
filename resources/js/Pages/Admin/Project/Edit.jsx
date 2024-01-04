@@ -71,7 +71,8 @@ export default function Edit({ data, auth, developer, manager, devId }) {
                 setAlert("Project Updated .");
                 setSeverity("success");
             },onError:(error)=>{
-                setAlert(error.error);
+                console.log(error);
+                setAlert(error.key);
                 setSeverity("error");
             }
         });

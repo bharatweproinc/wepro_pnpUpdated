@@ -133,6 +133,8 @@ Route::prefix('project-manager')->name('projectManager.')->middleware(['auth', '
             Route::post('/save/{id}','save')->name('save');
             Route::post('/update/{id}','update')->name('update');
             Route::post('/status/{id}','status')->name('status');
+            Route::post('/filter/{id}','filter')->name('filter');
+            Route::post('/file/{id}','image')->name('file');
         });
     });
     Route::prefix('leave')->name('leave.')->controller(ManagerLeaveController::class)->group(function (){

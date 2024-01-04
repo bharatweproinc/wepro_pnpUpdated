@@ -44,4 +44,27 @@ class ManagerTaskController extends Controller
        $response = $this->taskRepository->status($id,$request);
         return Redirect::back();
     }
+
+    public function filter(Request $request ,$id){
+        $response = $this->taskRepository->filterData($request,$id);
+         if($response['success'])
+         {
+             $data = $response['data'];
+             return response()->json($data);
+         }
+         else{
+             return Redirect::back()->withErrors(['filterError' => $response['error']]);
+         }
+     }
+
+     public function image(Request $request,$id){
+       $response = $this->taskRepository->image($id, $request->all());
+       if($response['success']){
+        return  redirect()->back();
+       }
+       else{
+        Redirect::back()->withErrors($response["error"]);
+       }
+
+    }
 }

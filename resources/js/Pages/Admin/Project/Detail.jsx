@@ -10,7 +10,7 @@ import View from "../Task/View";
 import Details from "@/Components/Common/Project/Details";
 import History from "@/Components/Common/History";
 
-export default function Detail({ data, auth, user, task ,updated ,history ,bugs}) {
+export default function Detail({ data, auth, user, task ,updated ,history ,bugs ,result ,taskHistory}) {
     const [value, setValue] = React.useState("1");
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -40,7 +40,7 @@ export default function Detail({ data, auth, user, task ,updated ,history ,bugs}
                                         <History data={data} auth={auth} history={history}/>
                                     </TabPanel>
                                     <TabPanel value="3">
-                                        <View data={task} Id={id} developer={user} auth={auth} updated={updated} bugs={bugs}/>
+                                        <View data={task} Id={id} developer={user} auth={auth} updated={updated} bugs={bugs} result={result} history={taskHistory}/>
                                     </TabPanel>
                                 </TabContext>
                             </Box>

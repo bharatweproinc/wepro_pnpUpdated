@@ -10,6 +10,11 @@ const USER_SCHEMA = {
     dob:Joi.string().required(),
     gender:Joi.required(),
     residential_address:Joi.string().required(),
+    local_address:Joi.string().required(),
+    alt_phone_no:Joi.string().required(),
+    state:Joi.string().required(),
+    city:Joi.string().required(),
+    pin_code:Joi.string().required(),
     // password_confirmation:Joi.any().valid(Joi.ref('password')).required().options({ language: { any: { allowOnly: 'must match password' } } }),
 };
 

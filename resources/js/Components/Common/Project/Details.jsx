@@ -12,7 +12,6 @@ export default function Details({ user, data, auth ,updated}) {
     const handleUpdate = (id) => {
         get(route("admin.project.edit", { id }));
     };
-
     return (
         <>
             <Box sx={{ backgroundColor: "#f7f7f7",borderRadius:"10px" }} className="pb-5">

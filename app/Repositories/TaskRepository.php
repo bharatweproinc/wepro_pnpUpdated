@@ -9,7 +9,7 @@ use App\Models\Task;
 use App\Models\Image;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
 
 class TaskRepository implements TaskInterface
 {
@@ -89,17 +89,20 @@ class TaskRepository implements TaskInterface
             'developer_id' => implode(',', $items['developer']),
             'project_id'=>$id,
             ]);
+
             $task_id = $data->id;
             $task = Task::find($task_id);
             $taskCreate = $task->developer()->create([  'project_id' => $id,
             'developer_id' => implode(',', $items['developer']),
             ]);
 
-
             return ["success"=>true];
-        } catch (\Throwable $th) {
-            return ['success'=>false,'error'=>$th->getMessage()];
-        }
+        } catch (\Exception $e) {
+            return [
+               'success'=>false,
+               'error'=>$e->getMessage(),
+            ];
+          }
 
     }
 
@@ -139,9 +142,12 @@ class TaskRepository implements TaskInterface
         $dev =  Developer::where(['assignable_id'=>$task_id , 'assignable_type'=>'App\Models\Task'])->first();
         $dev->update(['developer_id' => $developer]);
         return ['success'=>true];
-        } catch (\Throwable $th) {
-            return ['success'=>false,'error'=>$th->getMessage()];
-        }
+        } catch (\Exception $e) {
+            return [
+               'success'=>false,
+               'error'=>$e->getMessage(),
+            ];
+          }
     }
 
     public function detail($id)
@@ -239,21 +245,23 @@ class TaskRepository implements TaskInterface
         return true;
     }
 
-
     public function filterData($data ,$id){
         try {
             $filterData = null;
+
             $task_id = Developer::where(['assignable_type'=>'App\Models\Task','project_id'=>$id])->pluck('assignable_id')->toArray();
             if(($data->status !="all") && ($data->developer_id != "all") && isset($data->from_date)){
-                $filterData =Task::where('status', $data->status)->whereIn('id', $task_id)->whereBetween('started', [$data->from_date, $data->to_date])->get();
+                $filterData =Task::where('status', $data->status)->whereIn('id', $task_id)->whereDate('start_date', '>=', $data->from_date)->whereDate('start_date', '<=', $data->to_date)->get();
             }
             else if(($data->status !="all")  && ($data->developer_id != "all")){
                 $filterData =Task::where('status', $data->status)->whereIn('id', $task_id)->get();
-
+            }
+            else if(($data->status !="all") && isset($data->from_date)){
+                $filterData =Task::where('status', $data->status)->whereDate('start_date', '>=', $data->from_date)->whereDate('start_date', '<=', $data->to_date)->get();
             }
             else if(($data->developer_id != "all") && isset($data->from_date)){
                 $task = Developer::where('developer_id', 'like', '%' . $data->developer_id . '%')->where(['assignable_type'=>'App\Models\Task','project_id'=>$id])->pluck('assignable_id')->toArray();
-                $filterData =Task::where('status', $data->status)->whereIn('id', $task)->get();
+                $filterData =Task::where('status', $data->status)->whereIn('id', $task)->whereDate('start_date', '>=', $data->from_date)->whereDate('start_date', '<=', $data->to_date)->get();
             }
             else if($data->status !="all")
             {
@@ -266,16 +274,19 @@ class TaskRepository implements TaskInterface
             }
            else if(isset($data->from_date))
             {
-                $filterData = Task::whereBetween('started', [$data->from_date, $data->to_date])->whereIn('id',$task_id)->get();
+                $filterData = Task::whereDate('start_date', '>=', $data->from_date)->whereDate('start_date', '<=', $data->to_date)->whereIn('id',$task_id)->get();
             }
             else{
-                $filterData = Task::where('id',$id)->get();
+                $filterData = Task::where(['project_id'=>$id])->get();
             }
             return [ 'success' =>true ,'data'=>$filterData];
 
-        } catch (\Throwable $th) {
-            return ['success'=>false,'error'=>$th->getMessage()];
-        }
+        } catch (\Exception $e) {
+            return [
+               'success'=>false,
+               'error'=>$e->getMessage(),
+            ];
+          }
     }
 
 }

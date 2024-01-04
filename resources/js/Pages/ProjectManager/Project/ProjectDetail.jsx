@@ -1,3 +1,4 @@
+import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import * as React from "react";
@@ -8,7 +9,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import Details from "@/Components/Common/Project/Details";
 import View from "../Task/View";
 
-export default function ProjectDetail({ data, auth, user, task ,status}) {
+export default function ProjectDetail({ data, auth, user, task ,status ,bugs ,history ,result}) {
     const [value, setValue] = React.useState("1");
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -36,11 +37,10 @@ export default function ProjectDetail({ data, auth, user, task ,status}) {
                     </TabList>
                     <TabPanel value="1">
                        <Details data={data} user={user} auth={auth}/>
-
                     </TabPanel>
 
                     <TabPanel value="2">
-                        <View data={task} Id={id} developer={user} auth={auth} status={status}/>
+                        <View data={task} Id={id} developer={user} auth={auth} status={status} bugs={bugs} result={result}/>
                     </TabPanel>
 
                 </TabContext>

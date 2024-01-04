@@ -32,7 +32,10 @@ class ManagerProjectController extends Controller
         $user = $allData[1];
         $task = $allData[2];
         $status = $allData[3];
-        return Inertia::render('ProjectManager/Project/ProjectDetail', ['data' => $data, 'user' => $user,'task'=>$task ,'status'=>$status]);
+        $history = $allData[4];
+        $bugs = $allData[5];
+        $result = $allData[6];
+        return Inertia::render('ProjectManager/Project/ProjectDetail', ['data' => $data, 'user' => $user,'task'=>$task ,'status'=>$status ,'history'=>$history ,"bugs"=>$bugs ,'result'=>$result]);
     }
 
 

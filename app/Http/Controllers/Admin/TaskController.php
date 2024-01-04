@@ -37,7 +37,6 @@ class TaskController extends Controller
     public function create ($id){
             $items = $this->taskRepository->create($id);
             $user = $items[0];
-            // return Inertia::render('Admin/Task/List' ,['developer'=>$user ,'projectId'=>$id]);
             return back();
     }
 
@@ -62,7 +61,7 @@ class TaskController extends Controller
 
     public function update(Request $request,$id){
 
-        $proj_id = $this->taskRepository->update($id ,$request->all());
+        $response = $this->taskRepository->update($id ,$request->all());
         if($response['success']){
             return back();
         }

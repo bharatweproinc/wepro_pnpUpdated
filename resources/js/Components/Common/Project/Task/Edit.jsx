@@ -16,6 +16,8 @@ import { useEffect } from "react";
 import UpdateIcon from '@mui/icons-material/Update';
 import SuccessMsg from "../../SuccessMsg";
 import { format } from 'date-fns';
+import Validation_Schema from "./ValidationSchema";
+import Joi from "@/Util/JoiValidator";
 
 
 const style = {
@@ -41,7 +43,7 @@ export default function Edit({ data, developer, devId ,auth }) {
     const [severity ,setSeverity] = useState(null);
     const priority = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const level = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    const { post, get, processing, errors, reset } = useForm();
+    const { post, get, processing, errors, resets ,setError } = useForm();
 
     const result = Object.keys(developer).map((key) => developer[key]);
     const dev = developer.map((dev)=>
@@ -63,6 +65,10 @@ export default function Edit({ data, developer, devId ,auth }) {
     });
 
     const handleChange = (e) => {
+        setError({
+            ...errors,
+            [e.target.name]: Joi.validateToPlainErrors(e.target.value,Validation_Schema.TaskSchema[e.target.name])
+        });
         setItem({ ...item, [e.target.name]: e.target.value });
     };
     const handleDeveloper = (id) => {
