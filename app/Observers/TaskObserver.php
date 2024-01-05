@@ -28,6 +28,7 @@ class TaskObserver
                 'description' =>'Task task_name has been changed from ' .$oldtask_name .' to '.$task->task_name,
             ]);
         }
+
         else if ($task->isDirty('description')) {
             $oldDescription = $task->getOriginal('description');
 
@@ -82,6 +83,7 @@ class TaskObserver
 
             ]);
         }
+
     }
 
 

@@ -154,7 +154,6 @@ Route::prefix('hr-manager')->name('hrManager.')->middleware(['auth', 'role:hr ma
         Route::get('/detail/{id}','detail')->name('detail');
         Route::post('/delete/{id}','delete')->name('delete');
 
-
         Route::prefix('salary')->name('salary.')->controller(HrSalaryController::class)->group( function () {
             Route::get('create','create')->name('create');
             Route::post('/save/{id}','save')->name('save');

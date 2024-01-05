@@ -26,16 +26,16 @@ class UserEditRequest extends FormRequest
         $userId = $this->route('id');
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => [
-                'required',
-                'string',
-                'lowercase',
-                'email',
-                'max:255',
-                Rule::unique('users', 'email')->ignore($userId),
-            ],
             'user_role' => ['required', 'string'],
             'contact_no'=>['required','min:10','max:10'],
+            'dob'=>['required'],
+            'gender'=>['required'],
+            'residential_address'=>['required'],
+            'local_address'=>['required'],
+            'alt_phone_no'=>['required'],
+            'state'=>['required'],
+            'city'=>['required'],
+            'pin_code'=>['required'],
         ];
     }
 }

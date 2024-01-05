@@ -236,6 +236,7 @@ export default function Create({ developer, Id ,auth }) {
                                             className="mt-1 block w-full"
                                             autoComplete="start_date"
                                             onChange={(e) => handleChange("start_date", e.target.value)}
+                                            min={new Date().toISOString().split("T")[0]}
                                             required
                                         />
                                         <InputError
@@ -282,7 +283,7 @@ export default function Create({ developer, Id ,auth }) {
                                         onChange={(e) => handleChange("priority", e.target.value) }
                                         required
                                     >
-                                        <MenuItem value="">Choose Priority</MenuItem>
+                                        <MenuItem value={data.priority} selected>Choose Priority</MenuItem>
                                         {priority.map((prio, index) => (
                                             <MenuItem
                                                 key={index}

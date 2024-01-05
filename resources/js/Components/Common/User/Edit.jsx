@@ -58,9 +58,8 @@ export default function  Edit({ auth, user,states,address})  {
   const [severity, setSeverity] = useState(null);
   const [selectCity, setSelectCity] = useState([]);
   const [activeStep, setActiveStep] = React.useState(0);
-  const steps = ["Basic Details", "Address Details"];
+  const steps = ["Basic Details", "address Details"];
   const handleOpen = () => setOpen(true);
-
 
   const [value, setValue] = useState({
     name: user.name,
@@ -78,7 +77,7 @@ export default function  Edit({ auth, user,states,address})  {
     pin_code:address?.pin_code,
 });
 
-  // ... (other functions)
+console.log(value.state,address.state,'address');
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -92,12 +91,15 @@ export default function  Edit({ auth, user,states,address})  {
     setActiveStep(0);
     reset();
   };
-
   const handleClose = () => {
     setOpen(false);
 }
 const handleChange = (key,val) => {
 
+    setError({
+        ...errors,
+        [key]: Joi.validateToPlainErrors(val,ValdidationSchema.USER_SCHEMA[key])
+    });
     if (key === "state") {
         const selectedState = states.find((state) => state.id === parseInt(val));
         const citiesArray = selectedState ? selectedState.cities : [];
@@ -107,7 +109,6 @@ const handleChange = (key,val) => {
             city: "",
         });
         setSelectCity(citiesArray);
-        console.log(citiesArray, 'sdgfjds');
     } else if (key === "city") {
         setValue({ ...value,
             city: val,
@@ -132,15 +133,8 @@ const handleProfile =(event) =>{
        setValue((prev)=>({...prev,profile:event.target.files[0]}));
       }
 }
-const {
-    get,
-    post,
-    processing,
-    errors,
-    reset,
-    setError,
-  } = useForm()
-useEffect(()=>{
+const { get, post, processing, errors, reset,setError,} = useForm()
+    useEffect(()=>{
     setValue((prev)=>({
         name: prev.name,
         email: prev.email,
@@ -149,8 +143,18 @@ useEffect(()=>{
         profile:prev.profile,
         dob:prev.dob,
         gender:prev.gender,
+        gender:user.gender,
+        local_address:prev.local_address,
+        residential_address:prev.residential_address,
+        alt_phone_no:prev.alt_phone_no,
+        state:prev.state,
+        city:prev.city || address?.city,
+        pin_code:prev.pin_code,
 }));
-}, [user]);
+        const selectedState = states.find((state) => state.id === parseInt(value.state));
+        const citiesArray = selectedState ? selectedState.cities : [];
+        setSelectCity(citiesArray);
+}, [address, states, value.state]);
 
 const handleSubmit = (e) => {
     e.preventDefault();
@@ -162,9 +166,11 @@ const handleSubmit = (e) => {
                 handleClose();
                 setOpen(false);
                 setSeverity('success');
+                setActiveStep(0)
             },onError:(error)=>{
                 setAlert(error.error)
                 setSeverity('error');
+                setActiveStep(0)
             }
         })
         :
@@ -192,9 +198,9 @@ const handleSubmit = (e) => {
           title={alert}
         />
       )}
-     <IconButton aria-label="edit" color={(auth.user.user_role =="hr manager" && user.user_role=='admin') ? 'error' : 'info'} onClick={handleOpen} disabled={(auth.user.user_role=="hr manager" && user.user_role =='admin') ? true :false} >
+        <IconButton aria-label="edit" color={(auth.user.user_role =="hr manager" && user.user_role=='admin') ? 'error' : 'info'} onClick={handleOpen} disabled={(auth.user.user_role=="hr manager" && user.user_role =='admin') ? true :false} >
                 <EditIcon/>
-      </IconButton>
+        </IconButton>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -234,7 +240,6 @@ const handleSubmit = (e) => {
                       </div>
                     ) : (
                       <div>
-                        {/* Step 1: User Details */}
                         {activeStep === 0 && (
                           <>
                           <div >
@@ -243,7 +248,7 @@ const handleSubmit = (e) => {
                                   <img id="image" src={image} alt="Profile" style={{ borderRadius:'50%' ,
                                       border:"2px solid black",cover:'100%', objectFit:'contain',height:'100px'
                                       ,width:'100px',textAlign:'center',lineHeight:'80px'}} onClick={handleImage}/>
-                                  <CameraAltIcon style={{ position:'absolute',top:'150px',right:'345px',color:'black',borderRadius:'50%',background:'aliceblue' }}/>
+                                  <CameraAltIcon style={{ position:'absolute',top:'165px',right:'345px',color:'black',borderRadius:'50%',background:'aliceblue' }}/>
 
                               </InputLabel>
                                <input type="file" id="profile" name="profile" accept="image/png, image/jpeg ,image/jpeg , image/svg"
@@ -353,7 +358,6 @@ const handleSubmit = (e) => {
                           </>
                         )}
 
-                        {/* Step 2: Address Details */}
                         {activeStep === 1 && (
                           <Grid container spacing={2}>
                              <Grid item xs={12}>
@@ -396,7 +400,7 @@ const handleSubmit = (e) => {
                                 size="samll"
                                 value={value.city}
                                 className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
-                                autoComplete="dob"
+                                autoComplete="city"
                                 onChange={(e) =>handleChange("city",e.target.value)}
                                 required
                            >
@@ -407,7 +411,7 @@ const handleSubmit = (e) => {
                             <InputError message={errors.city} className="mt-2"/>
                         </Grid>
                         <Grid item xs={12}>
-                            <InputLabel htmlFor="local address" value="Local Address" />
+                            <InputLabel htmlFor="local address" value="Local address" />
                             <textarea
                                 id="local_address"
                                 name="local_address"
@@ -421,7 +425,7 @@ const handleSubmit = (e) => {
                             <InputError message={errors.local_address} className="mt-2"/>
                         </Grid>
                         <Grid item xs={12}>
-                            <InputLabel htmlFor="residential address" value="Residential Address" />
+                            <InputLabel htmlFor="residential address" value="Residential address" />
                             <textarea
                                 id="residential_address"
                                 name="residential_address"
@@ -451,7 +455,7 @@ const handleSubmit = (e) => {
                             onClick={activeStep === steps.length - 1 ? handleSubmit : handleNext}
                           >
                             {activeStep === steps.length - 1
-                              ? "Back"
+                              ? "Update"
                               : "Next"}
                             {activeStep === steps.length - 1 && (
                               <SaveIcon sx={{ ml: 1 }} />

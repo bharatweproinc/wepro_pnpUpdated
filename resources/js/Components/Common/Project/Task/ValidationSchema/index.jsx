@@ -4,8 +4,12 @@ let end_date = ''
 const APPLY_FILTER = {
     // status : Joi.string().label('Status'),
     // developer_id: Joi.string().label('Type'),
-    // from_date: Joi.string().label('From Date').trim(""),
-    // to_date: Joi.string().label('To Date').trim("")
+    from_date: Joi.string().label('From Date').trim(""),
+    to_date: Joi.when('from_date', {
+        is: Joi.exist(),
+        then: Joi.string().label('To Date').trim().required(),
+        otherwise: Joi.string().label('To Date').trim()}),
+
 
 }
 

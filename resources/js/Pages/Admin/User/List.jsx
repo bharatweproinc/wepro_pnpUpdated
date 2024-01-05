@@ -59,6 +59,7 @@ export default function List({data, auth ,states}) {
         setIsFilter(false);
     }
     const handleClose =() =>{
+        setItem(data.data);
         setSearch(false);
         setIsFilter(true);
     }

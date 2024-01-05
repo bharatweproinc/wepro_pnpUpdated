@@ -21,9 +21,9 @@ class HrUserController extends Controller
     {
         $this->userRepository = $userRepository;
     }
-    public function list()
+    public function list(Request $request)
     {
-        $data = $this->userRepository->getlist();
+        $data = $this->userRepository->getlist($request);
         return Inertia::render('HRManager/User/List',compact('data'));
     }
 

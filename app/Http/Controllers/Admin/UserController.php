@@ -32,23 +32,21 @@ class UserController extends Controller
         return parent::toArray($request);
     }
 
-    public function list()
+    public function list(Request $request)
     {
-        $data = $this->userRepository->getlist();
+        $data = $this->userRepository->getlist($request);
         $states = State::with('cities')->get();
         return Inertia::render('Admin/User/List',compact('data','states'));
     }
 
     public function create()
     {
-
         return Inertia::render('Admin/User/Create');
     }
 
     public function save(UserRequest $request)
     {
         $response = $this->userRepository->save($request);
-
         if($response['success']) {
             $id = $response['data']['id'];
             if($response['data']['user_role'] === 'admin'){
@@ -68,7 +66,7 @@ class UserController extends Controller
         return Inertia::render('Admin/User/Edit', ['user' => $task]);
     }
 
-    public function update(Request $request ,$id)
+    public function update(UserEditRequest $request ,$id)
     {
         $response =$this->userRepository->update($id,$request->all());
         if($response['success']) {
@@ -100,6 +98,17 @@ class UserController extends Controller
         } else {
             return Redirect::back()->withErrors($response);
         }
+    }
+
+    public function filter(Request $request){
+
+        // dd($data);
+        //  foreach($data as $key => $val){
+        //     $data[$key]['profile'] = asset('storage/'.$val->profile);
+        //  }
+        // $term = $request->term;
+        // $data = User::where('name', 'like'. $term . '%')->orWhere('email', 'like' .$term . '%')->get();
+        return redirect()->back()->with(['filter'=>$data]);
     }
 
 }

@@ -10,7 +10,7 @@ import View from "../Task/View";
 import History from "@/Components/Common/History";
 import { useState } from "react";
 
-export default function ProjectDetail({ data, auth, user, task ,history}) {
+export default function ProjectDetail({ data, auth, user, task ,history,bugs,result,taskHistory}) {
     const [value, setValue] = useState("1");
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -30,18 +30,18 @@ export default function ProjectDetail({ data, auth, user, task ,history}) {
                 <TabContext value={value}>
                     <TabList onChange={handleChange} className="px-3">
                         <Tab label="Details" value="1" style={{ fontWeight:"bold"}}/>
-                        <Tab label="Task" value="2" style={{ fontWeight:"bold"}}/>
-                        <Tab label="History" value="3" style={{ fontWeight:"bold"}}/>
+                        <Tab label="History" value="2" style={{ fontWeight:"bold"}}/>
+                        <Tab label="Task" value="3" style={{ fontWeight:"bold"}}/>
                     </TabList>
                     <TabPanel value="1">
                        <Details data={data} user={user} auth={auth}/>
                     </TabPanel>
 
                     <TabPanel value="2">
-                        <View data={task} Id={id} developer={user} auth={auth}/>
+                         <History auth={auth} history={history}/>
                     </TabPanel>
                     <TabPanel value="3">
-                         <History auth={auth} history={history}/>
+                        <View data={task} Id={data.id} developer={user} auth={auth} bugs={bugs} result={result} taskHistory={taskHistory}/>
                     </TabPanel>
 
                 </TabContext>

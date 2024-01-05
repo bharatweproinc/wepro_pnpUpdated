@@ -6,12 +6,12 @@ import React from 'react'
 import StatusStyle from '../Components/StatusStyle';
 import FormatDate from "@/Util/FormatDate";
 import DateTimeFormat from "@/Util/DateTimeFormat";
-import ActionStatus from './ActionStatus';
 import StatusPopUp from './Components/StatusPopUp';
 import { useState } from 'react';
 import SuccessMsg from '../../SuccessMsg';
 import PauseOrUpdateTime from '../Components/PauseOrUpdateTime';
 import ReviewedPopup from './Components/ReviewedPopup';
+import { useEffect } from 'react';
 
 const TaskDetail = ({auth, data, developer,updated}) => {
     const dev_id = data.developer_id.split(",");
@@ -21,6 +21,7 @@ const TaskDetail = ({auth, data, developer,updated}) => {
     const [selectedStatus ,setSelectedStatus] = useState(null);
     const [state , setState] = useState({status:null});
     const [msg ,setMsg] = useState(null);
+    const [estimated ,setEstimated] = useState(data.estimated);
     const pauseStatus = "pause";
     const [severity ,setSeverity] = useState("success");
     function handleClick (status) {
@@ -28,9 +29,25 @@ const TaskDetail = ({auth, data, developer,updated}) => {
       setState({"status":status});
     }
 
-    function handleClosePopup() {
+    const handleClosePopup =() =>{
         setSelectedStatus(null);
     }
+    useEffect(()=>{
+        if(data.estimated >59){
+            const hours = Math.floor(data.estimated / 60);
+            const minutes = data.estimated % 60;
+            const second = 0;
+           const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${second.toString().padStart(2,'0')}`;
+           setEstimated(formattedTime);
+           }
+        else{
+            const hours = Math.floor(data.estimated / 60);
+            const minutes = data.estimated ;
+            const second = 0;
+            const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${second.toString().padStart(2,'0')}`;
+           setEstimated(formattedTime);
+        }
+    },[]);
     function getAction(status){
         let btnJSX = '';
         switch(status){
@@ -155,6 +172,8 @@ const TaskDetail = ({auth, data, developer,updated}) => {
         }
         return btnJSX
     }
+
+
     const handleSubmit =(e)=>{
         { auth.user.user_role =="admin"?
         router.post(route("admin.project.task.status", {id:data.id}),state,{
@@ -252,12 +271,12 @@ const TaskDetail = ({auth, data, developer,updated}) => {
                             <Typography className="capitalize">{data.started_at && <FormatDate date={data.started_at} />}</Typography>
                         </Grid>
                         <Grid item xs={4}>
-                            <Typography sx={{ fontWeight: "bold" }}> Estimate Time</Typography>
-                            <Typography className="capitalize">{data.estimated} Minutes</Typography>
+                            <Typography sx={{ fontWeight: "bold" }}> Estimate Time(Minutes)</Typography>
+                            <Typography className="capitalize">{estimated}</Typography>
                         </Grid>
                         <Grid item xs={4}>
                             <Typography sx={{ fontWeight: "bold" }}>Working Hour</Typography>
-                            <Typography className="capitalize">{data.hour_worked} Minutes</Typography>
+                            <Typography className="capitalize">{data.development_hours} Minutes</Typography>
                         </Grid>
                         {role !== 'hr manager' &&
                             <Grid item xs={4}>

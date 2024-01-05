@@ -142,7 +142,7 @@ export default function Filter({Id,auth,isFilter,ApplyFilter,developer,handleFil
                 <Button variant="contained" onClick={handleReset} color="error"> Reset  </Button>
             </div>
             }
-            <Create developer={developer} Id={Id} auth={auth} />
+                <Create developer={developer} Id={Id} auth={auth} />
             </Box>
 
         </>

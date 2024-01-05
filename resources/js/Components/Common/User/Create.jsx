@@ -55,16 +55,7 @@ export default function Create({ auth, states }) {
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = ["Basic Details", "Address"];
 
-  const {
-    data,
-    setData,
-    get,
-    post,
-    processing,
-    errors,
-    reset,
-    setError,
-  } = useForm({
+  const { data,setData, get, post, processing, errors, reset,setError,} = useForm({
     name: "",
     email: "",
     password: "",
@@ -95,6 +86,30 @@ const handleDelete = (event) => {
     setData('profile',null);
     setImage(null);
     };
+
+const handleChange=(key,val)=> {
+        setError({
+            ...errors,
+            [key]: Joi.validateToPlainErrors(val,ValdidationSchema.USER_SCHEMA[key])
+        });
+
+        if (key === "state") {
+            const selectedState = states.find((state) => state.id === parseInt(val));
+            const citiesArray = selectedState ? selectedState.cities : [];
+            setData({...data, state: val,city: "", });
+            setSelectCity(citiesArray);
+            console.log(citiesArray, 'sdgfjds');
+        } else if (key === "city") {
+            setData({ ...data,
+                city: val,
+            });
+        } else {
+            setData({
+                ...data,
+                [key]: val,
+            });
+        }
+    }
 const submit = (e) => {
     e.preventDefault();
         {
@@ -127,34 +142,6 @@ const submit = (e) => {
     }
 
 };
-
-function handleChange(key,val) {
-    setError({
-        ...errors,
-        [key]: Joi.validateToPlainErrors(val,ValdidationSchema.USER_SCHEMA[key])
-    });
-
-    if (key === "state") {
-        const selectedState = states.find((state) => state.id === parseInt(val));
-        const citiesArray = selectedState ? selectedState.cities : [];
-        setData({
-            ...data,
-            state: val,
-            city: "",
-        });
-        setSelectCity(citiesArray);
-        console.log(citiesArray, 'sdgfjds');
-    } else if (key === "city") {
-        setData({ ...data,
-            city: val,
-        });
-    } else {
-        setData({
-            ...data,
-            [key]: val,
-        });
-    }
-}
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);

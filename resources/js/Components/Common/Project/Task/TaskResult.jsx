@@ -2,7 +2,7 @@ import { Alert, Box, Grid, Typography } from '@mui/material';
 import React from 'react'
 
 const TaskResult = ({auth ,result,data}) => {
-    console.log(result);
+    console.log(result,'result');
   return (
    <>
     {result.length > 0 ?
@@ -39,7 +39,7 @@ const TaskResult = ({auth ,result,data}) => {
                         </Grid>
                         <Grid item xs={12}>
                             <Typography sx={{ fontWeight: "bold" }}>Comments</Typography>
-                            <Typography className="capitalize">{result.text_cases} </Typography>
+                            <Typography className="capitalize">{result[0].text_cases} </Typography>
                         </Grid>
                     </Grid>
         </Box>

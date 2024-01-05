@@ -7,7 +7,7 @@ import { useForm } from "@inertiajs/react";
 import Create from "@/Components/Common/Project/Task/Create";
 import List from "@/Components/Common/Project/Task/List";
 
-export default function View({  auth,data, Id, developer,status ,bugs,result}) {
+export default function View({  auth,data, Id, developer,status ,bugs,result ,taskHistory}) {
 
     return (
        <>
@@ -36,7 +36,7 @@ export default function View({  auth,data, Id, developer,status ,bugs,result}) {
                         </div>
                     </>
                 ) : (
-                  <List auth={auth} data={data} Id={Id} developer={developer} updated={status} bugs={bugs} result={result}/>
+                  <List auth={auth} data={data} Id={Id} developer={developer} updated={status} bugs={bugs} result={result} history={taskHistory}/>
                 )}
                 </>
     );

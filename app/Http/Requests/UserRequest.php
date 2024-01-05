@@ -31,6 +31,14 @@ class UserRequest extends FormRequest
                 'contact_no'=>['required','min:10','max:10'],
                 'password' => ['required', 'confirmed', Rules\Password::defaults()],
                 'profile' => ['nullable','mimes:jpg,png,jpeg,svg','max:1024'],
+                'dob'=>['required'],
+                'gender'=>['required'],
+                'residential_address'=>['required'],
+                'local_address'=>['required'],
+                'alt_phone_no'=>['required'],
+                'state'=>['required'],
+                'city'=>['required'],
+                'pin_code'=>['required'],
         ];
     }
 }

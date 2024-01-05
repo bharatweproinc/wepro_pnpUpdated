@@ -128,11 +128,9 @@ class ProjectRepository implements ProjectInterface
         $developer = str_replace(array('[', ']', '"'),'',$developer);
         $dev = array_map('intval', $developer);
         $user = User::whereIn('id', $dev)->get();
-
-        $history = History::where('historable_id',$id)->where('historable_type','App\Models\Project')->get();
-        $historyTask = History::where('historable_id',$id)->where('historable_type','App\Models\Task')->get();
+        $history = History::where('historable_id',$id)->where('historable_type','App\Models\Project')->orderBy('created_at','desc')->get();
         if($role === "admin" || $role === "hr manager"){
-            $task = Task::where(['project_id'=>$id])->get();
+            $task = Task::where(['project_id'=>$id])->orderBy('priority','asc')->get();
             $auth = Auth::user();
             $task_id = Developer::where('assignable_type', 'App\Models\Task')->where('project_id',$id)->pluck('assignable_id');
             $status = Task::whereIn('id', $task_id)->where('status', 'started')->get();
@@ -140,6 +138,7 @@ class ProjectRepository implements ProjectInterface
             $bugs = Image::whereIn('imageable_id',$debug_Id)->where('imageable_type','App\Models\Task')->get();
             $res_id = Task::whereIn('id',$task_id)->where('status',"complete")->pluck('id');
             $result = Image::whereIn('imageable_id',$debug_Id)->where('imageable_type','App\Models\Task')->get();
+            $historyTask = History::whereIn('historable_id',$task_id)->where('historable_type','App\Models\Task')->orderBy('created_at','desc')->get();
             foreach($bugs  as $key => $bug){
                 $bugs[$key]['url'] = asset('storage/'.$bug->url);
             }
@@ -147,16 +146,17 @@ class ProjectRepository implements ProjectInterface
         }
         else if($role == "project manager")
         {
-            $task = Task::where(['project_id'=>$id])->get();
+            $task = Task::where(['project_id'=>$id])->orderBy('priority','asc')->get();
             $task_id = Developer::where('assignable_type', 'App\Models\Task')->where('project_id',$id) ->pluck('assignable_id');
             $status = Task::whereIn('id', $task_id)->where('status', 'started')->get();
             $debug_Id = Task::whereIn('id',$task_id)->where('is_debugging',1)->pluck('id');
             $bugs = Image::whereIn('imageable_id',$debug_Id)->where('imageable_type','App\Models\Task')->get();
+            $historyTask = History::whereIn('historable_id',$task_id)->where('historable_type','App\Models\Task')->orderBy('created_at','desc')->get();
             foreach($bugs  as $key => $bug){
                 $bugs[$key]['url'] = asset('storage/'.$bug->url);
             }
             $res_id = Task::whereIn('id',$task_id)->where('status',"complete")->pluck('id');
-            $result = Image::whereIn('imageable_id',$debug_Id)->where('imageable_type','App\Models\Task')->get();
+            $result = Image::whereIn('imageable_id',$debug_Id)->where('imageable_type','App\Models\Task')->orderBy('created_at','desc')->get();
 
            return [ $data , $user , $task ,$status,$history ,$bugs ,$result ,$historyTask];
         }
@@ -165,14 +165,16 @@ class ProjectRepository implements ProjectInterface
             $user_id = $auth->id;
             $task_id = Developer::where('assignable_type', 'App\Models\Task')->where('developer_id', 'like', '%' . $user_id . '%')->pluck('assignable_id');
             $status = Task::whereIn('id', $task_id)->where('status', 'started')->where('project_id',$id)->get();
-            $task = Task::whereIn('id',$task_id)->where('project_id',$id)->get();
+            $task = Task::whereIn('id',$task_id)->where('project_id',$id)->orderBy('priority','asc')->get();
             $debug_Id = Task::whereIn('id',$task_id)->where('is_debugging',1)->pluck('id');
             $bugs = Image::whereIn('imageable_id',$debug_Id)->where('imageable_type','App\Models\Task')->get();
+            $historyTask = History::whereIn('historable_id',$task_id)->where('historable_type','App\Models\Task')->get();
             foreach($bugs  as $key => $bug){
                 $bugs[$key]['url'] = asset('storage/'.$bug->url);
             }
             $res_id = Task::whereIn('id',$task_id)->where('status',"complete")->pluck('id');
             $result = Image::whereIn('imageable_id',$debug_Id)->where('imageable_type','App\Models\Task')->get();
+            $historyTask = History::whereIn('historable_id',$task_id)->where('historable_type','App\Models\Task')->orderBy('created_at','desc')->get();
             return [ $data , $user , $task ,$status,$history ,$bugs ,$result ,$historyTask];
         }
     }

@@ -27,8 +27,8 @@ const statusOption  = [
         value: 'hold',
     },
     {
-        label: "Completed",
-        value: 'completed',
+        label: "Complete",
+        value: 'complete',
     },
     {
         label: "Reviewed",

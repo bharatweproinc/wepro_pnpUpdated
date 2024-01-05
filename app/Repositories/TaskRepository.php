@@ -9,7 +9,8 @@ use App\Models\Task;
 use App\Models\Image;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use DateTime;
+
 
 class TaskRepository implements TaskInterface
 {
@@ -248,20 +249,27 @@ class TaskRepository implements TaskInterface
     public function filterData($data ,$id){
         try {
             $filterData = null;
+            if ($data->from_date && $data->to_date) {
+                $carbonData = Carbon::createFromFormat('m-d-Y', $data->from_date);
+                $fromDate = $carbonData->format('Y-m-d');
+
+                $carbonData = Carbon::createFromFormat('m-d-Y', $data->to_date);
+                $toDate = $carbonData->format('Y-m-d');
+            }
 
             $task_id = Developer::where(['assignable_type'=>'App\Models\Task','project_id'=>$id])->pluck('assignable_id')->toArray();
             if(($data->status !="all") && ($data->developer_id != "all") && isset($data->from_date)){
-                $filterData =Task::where('status', $data->status)->whereIn('id', $task_id)->whereDate('start_date', '>=', $data->from_date)->whereDate('start_date', '<=', $data->to_date)->get();
+                $filterData =Task::where('status', $data->status)->whereIn('id', $task_id)->whereDate('start_date', '>=', $fromDate)->whereDate('start_date', '<=', $toDate)->get();
             }
             else if(($data->status !="all")  && ($data->developer_id != "all")){
                 $filterData =Task::where('status', $data->status)->whereIn('id', $task_id)->get();
             }
-            else if(($data->status !="all") && isset($data->from_date)){
-                $filterData =Task::where('status', $data->status)->whereDate('start_date', '>=', $data->from_date)->whereDate('start_date', '<=', $data->to_date)->get();
+            else if(($data->status !="all") && isset($data->from_date) && isset($data->to_date)){
+                $filterData =Task::where('status', $data->status)->whereDate('start_date', '>=', $fromDate)->whereDate('start_date', '<=',$toDate)->get();
             }
             else if(($data->developer_id != "all") && isset($data->from_date)){
                 $task = Developer::where('developer_id', 'like', '%' . $data->developer_id . '%')->where(['assignable_type'=>'App\Models\Task','project_id'=>$id])->pluck('assignable_id')->toArray();
-                $filterData =Task::where('status', $data->status)->whereIn('id', $task)->whereDate('start_date', '>=', $data->from_date)->whereDate('start_date', '<=', $data->to_date)->get();
+                $filterData =Task::whereIn('id', $task)->whereDate('start_date', '>=', $fromDate)->whereDate('start_date', '<=', $toDate)->get();
             }
             else if($data->status !="all")
             {
@@ -274,7 +282,7 @@ class TaskRepository implements TaskInterface
             }
            else if(isset($data->from_date))
             {
-                $filterData = Task::whereDate('start_date', '>=', $data->from_date)->whereDate('start_date', '<=', $data->to_date)->whereIn('id',$task_id)->get();
+                $filterData = Task::whereDate('start_date', '>=', $fromDate)->whereDate('start_date', '<=', $toDate)->whereIn('id',$task_id)->get();
             }
             else{
                 $filterData = Task::where(['project_id'=>$id])->get();
@@ -288,6 +296,8 @@ class TaskRepository implements TaskInterface
             ];
           }
     }
+
+
 
 }
 

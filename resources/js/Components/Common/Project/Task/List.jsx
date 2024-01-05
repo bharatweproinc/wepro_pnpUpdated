@@ -48,7 +48,6 @@ export default function List({ auth, developer, Id, data ,updated ,bugs ,result 
    const diffTime = Math.abs(date2 - date1);
    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-
     const toggleRow = (id) => {
         if (expandedRows.includes(id)) {
             setExpandedRows(expandedRows.filter((rowId) => rowId !== id));
@@ -72,7 +71,7 @@ export default function List({ auth, developer, Id, data ,updated ,bugs ,result 
 
     useEffect(()=>{
         handleApplyFilter;
-    },[fetch]);
+    },[fetch,taskData]);
     const handleApplyFilter = async (filterData) => {
         try {
             // const err = Joi.validateToPlainErrors(filterData,Validation_Schema.APPLY_FILTER)
@@ -205,7 +204,7 @@ export default function List({ auth, developer, Id, data ,updated ,bugs ,result 
                                                         updated={updated}
                                                         bugs={bugs.filter((image)=>image.imageable_id == item.id)}
                                                         result={result.filter((res)=>res.imageable_id == item.id)}
-                                                        history={history}
+                                                        history={history.filter((his)=>his.historable_id == item.id)}
                                                     />
                                                 </Collapse>
                                             </TableCell>

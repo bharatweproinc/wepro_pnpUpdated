@@ -22,9 +22,6 @@ import {
 } from "@mui/material";
 import { useEffect } from "react";
 import SuccessMsg from "@/Components/Common/SuccessMsg";
-import dayjs from "dayjs";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const style = {
     position: "absolute",
@@ -40,7 +37,6 @@ const style = {
     display:'block',
 };
 
-const today = dayjs();
 
 export default function Create({developer, manager }) {
     const [open, setOpen] = React.useState(false);
@@ -212,8 +208,7 @@ export default function Create({developer, manager }) {
                                     htmlFor="Assign Date"
                                     value="Assign Date"
                                 />
-                                <LocalizationProvider dateAdapter={AdapterDayjs} >
-                                <DatePicker
+                                <TextInput
                                     id="start_date"
                                     type="date"
                                     name="start_date"
@@ -221,12 +216,10 @@ export default function Create({developer, manager }) {
                                     className="mt-1 block w-full"
                                     autoComplete="start_date"
                                     onChange={(e) =>setData("start_date", e.target.value) }
-                                    disablePast
                                     required
-                                    slotProps={{ textField: { size: 'small' } }}
+                                    min={new Date().toISOString().split("T")[0]}
 
                                 />
-                                </LocalizationProvider>
 
                                 <InputError
                                     message={errors.start_date}

@@ -18,12 +18,17 @@ use App\Models\State;
 class UserRepository implements UserInterface
 {
 
-    public function getlist(){
+    public function getlist($request){
+        if(empty($request->all())){
          $data = User::orderBy('created_at','desc')->paginate(10);
          foreach($data as $key => $val){
             $data[$key]['profile'] = asset('storage/'.$val->profile);
          }
-         return $data;
+        }
+        else{
+            $data = User::where('name',$request->term)->orWhere('email',$request->term)->orderBy('created_at','desc')->paginate(10);
+        }
+        return $data;
     }
 
     public function save($data){
@@ -116,7 +121,7 @@ class UserRepository implements UserInterface
         foreach($leave as $key => $val){
             $leave[$key]['file'] = asset('storage/'.$val->file);
          }
-        $history = History::where('historable_id',$id)->where('historable_type','App\Models\User')->get();
+        $history = History::where('historable_id',$id)->where('historable_type','App\Models\User')->orderBy('created_at','desc')->get();
         $states = State::with('cities')->get();
         return [ $data ,$salary ,$leave ,$history ,$states ,$address];
     }
