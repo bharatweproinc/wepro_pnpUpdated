@@ -43,7 +43,7 @@ class TaskController extends Controller
     public function save (TaskRequest $request,$id ){
            $response = $this->taskRepository->save($id,$request->all());
            if($response['success']){
-            return back();
+            return Redirect::back();
            }
            else{
             return Redirect::back()->withErrors($response);
@@ -63,7 +63,7 @@ class TaskController extends Controller
 
         $response = $this->taskRepository->update($id ,$request->all());
         if($response['success']){
-            return back();
+            return Redirect::back();
         }
         else{
          return Redirect::back()->withErrors($response);

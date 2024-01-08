@@ -131,6 +131,7 @@ class ProjectRepository implements ProjectInterface
         $history = History::where('historable_id',$id)->where('historable_type','App\Models\Project')->orderBy('created_at','desc')->get();
         if($role === "admin" || $role === "hr manager"){
             $task = Task::where(['project_id'=>$id])->orderBy('priority','asc')->get();
+            // $task = $this->filterData($request ,$id);
             $auth = Auth::user();
             $task_id = Developer::where('assignable_type', 'App\Models\Task')->where('project_id',$id)->pluck('assignable_id');
             $status = Task::whereIn('id', $task_id)->where('status', 'started')->get();
@@ -147,6 +148,7 @@ class ProjectRepository implements ProjectInterface
         else if($role == "project manager")
         {
             $task = Task::where(['project_id'=>$id])->orderBy('priority','asc')->get();
+            // $task = $this->filterData($request ,$id);
             $task_id = Developer::where('assignable_type', 'App\Models\Task')->where('project_id',$id) ->pluck('assignable_id');
             $status = Task::whereIn('id', $task_id)->where('status', 'started')->get();
             $debug_Id = Task::whereIn('id',$task_id)->where('is_debugging',1)->pluck('id');
@@ -177,6 +179,59 @@ class ProjectRepository implements ProjectInterface
             $historyTask = History::whereIn('historable_id',$task_id)->where('historable_type','App\Models\Task')->orderBy('created_at','desc')->get();
             return [ $data , $user , $task ,$status,$history ,$bugs ,$result ,$historyTask];
         }
+    }
+
+
+    public function filterData($data ,$id){
+
+        try {
+            $filterData = null;
+            if ($data->from_date && $data->to_date) {
+                $carbonData = Carbon::createFromFormat('m-d-Y', $data->from_date);
+                $fromDate = $carbonData->format('Y-m-d');
+
+                $carbonData = Carbon::createFromFormat('m-d-Y', $data->to_date);
+                $toDate = $carbonData->format('Y-m-d');
+            }
+            $task_id = Developer::where(['assignable_type'=>'App\Models\Task','project_id'=>$id])->pluck('assignable_id')->toArray();
+            if(($data->status !=null) && ($data->developer_id != null) && ($data->from_date != null)){
+                $filterData =Task::where('status', $data->status)->whereIn('id', $task_id)->whereDate('start_date', '>=', $fromDate)->whereDate('start_date', '<=', $toDate)->get();
+            }
+            else if(($data->status !=null)  && ($data->developer_id != null)){
+
+                $filterData =Task::where('status', $data->status)->whereIn('id', $task_id)->get();
+            }
+            else if(($data->status !=null) && ($data->from_date != null && ($data->to_date != null))){
+                $filterData =Task::where('status', $data->status)->whereDate('start_date', '>=', $fromDate)->whereDate('start_date', '<=',$toDate)->get();
+            }
+            else if(($data->developer_id != null) && ($data->from_date != null)){
+                $task = Developer::where('developer_id', 'like', '%' . $data->developer_id . '%')->where(['assignable_type'=>'App\Models\Task','project_id'=>$id])->pluck('assignable_id')->toArray();
+                $filterData =Task::whereIn('id', $task)->whereDate('start_date', '>=', $fromDate)->whereDate('start_date', '<=', $toDate)->get();
+            }
+            else if($data->status !=null)
+            {
+                $filterData = Task::where(['status'=>$data->status ])->whereIn('id',$task_id)->get();
+            }
+            else if($data->developer_id != null)
+            {
+                $task = Developer::where('developer_id', 'like', '%' . $data->developer_id . '%')->where(['assignable_type'=>'App\Models\Task','project_id'=>$id])->pluck('assignable_id')->toArray();
+                $filterData = Task::whereIn('id', $task)->get();
+            }
+           else if(($data->from_date != null))
+            {
+                $filterData = Task::whereDate('start_date', '>=', $fromDate)->whereDate('start_date', '<=', $toDate)->whereIn('id',$task_id)->get();
+            }
+            else if(empty($data->all())){
+                $filterData = Task::where(['project_id'=>$id])->orderBy('priority','asc')->get();
+            }
+            return [ 'success' =>true ,'data'=>$filterData];
+
+        } catch (\Exception $e) {
+            return [
+               'success'=>false,
+               'error'=>$e->getMessage(),
+            ];
+          }
     }
 
 

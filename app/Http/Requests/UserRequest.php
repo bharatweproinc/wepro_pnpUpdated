@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Models\User;
 use Illuminate\Validation\Rules;
 use Illuminate\Foundation\Http\FormRequest;
+use Carbon;
 
 class UserRequest extends FormRequest
 {
@@ -40,5 +41,20 @@ class UserRequest extends FormRequest
                 'city'=>['required'],
                 'pin_code'=>['required'],
         ];
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $dob = $this->input('dob');
+
+            if ($dob) {
+                $age = now()->diffInYears(\Carbon\Carbon::parse($dob));
+
+                if ($age < 18) {
+                    $validator->errors()->add('dob', 'The date of birth must be 18 years or older.');
+                }
+            }
+        });
     }
 }

@@ -258,17 +258,10 @@ export default function Create({ auth ,Id ,user}) {
                                                 value={data.requested_date}
                                                 className="mt-1 block w-full"
                                                 autoComplete="from_date"
-                                                onChange={(e) =>
-                                                   ( setData(
-                                                        "requested_date",
-                                                        e.target.value
-                                                    ),setEffect(true))
-                                                }
+                                                onChange={(e) => ( setData( "requested_date",e.target.value ),setEffect(true)) }
                                                 required
-                                                style={{
-                                                    height: "42px",
-                                                    width: "252px",
-                                                }}
+                                                style={{ height: "42px", width: "252px",}}
+                                                min={new Date().toISOString().split("T")[0]}
                                             />
                                             <InputError
                                                 message={errors.requested_date}
@@ -294,19 +287,14 @@ export default function Create({ auth ,Id ,user}) {
                                                 value={data.to_date}
                                                 className="mt-1 block w-full"
                                                 autoComplete="to_date"
-                                                onChange={(e) =>
-                                                   ( setData(
-                                                        "to_date",
-                                                        e.target.value
-                                                    ),
-                                                    setEffect(true))
-                                                }
+                                                onChange={(e) =>( setData("to_date",e.target.value), setEffect(true))  }
                                                 required
                                                 style={{
                                                     height: "42px",
                                                     width: "252px",
                                                     marginLeft: "10px",
                                                 }}
+                                                min={new Date().toISOString().split("T")[0]}
                                             />
                                             <InputError
                                                 message={errors.to_date}
