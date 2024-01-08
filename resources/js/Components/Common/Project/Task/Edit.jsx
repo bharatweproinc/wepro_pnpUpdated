@@ -34,7 +34,7 @@ const style = {
     display:'block',
 };
 
-export default function Edit({ data, developer, devId ,auth }) {
+export default function Edit({ data, developer, devId ,auth}) {
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -101,6 +101,7 @@ export default function Edit({ data, developer, devId ,auth }) {
                     setAlert("Task Updated .");
                     setSeverity('success');
                     setOpen(false);
+
                 },onError:()=>{
                     setAlert('Something is wrong !')
                     setSeverity('error');
@@ -204,7 +205,7 @@ export default function Edit({ data, developer, devId ,auth }) {
                             <div className="mt-4">
                                         <InputLabel
                                             htmlFor="estimated"
-                                            value="Estimated Time"
+                                            value="Estimated Time(Minutes)"
                                             style={{ fontSize: "15px", fontWeight: "bold", }}
                                         />
                                         <TextInput

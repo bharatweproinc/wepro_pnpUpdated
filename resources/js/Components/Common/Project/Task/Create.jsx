@@ -246,7 +246,7 @@ export default function Create({ developer, Id ,auth }) {
                                     <div className="mt-4" style={{ width:'50%' ,paddingLeft:'10px' }}>
                                         <InputLabel
                                             htmlFor="estimated Time"
-                                            value="Estimated time"
+                                            value="Estimated Time(Minutes)"
                                             style={{ fontSize: "15px", fontWeight: "bold", }}
                                         />
                                         <TextInput

@@ -14,6 +14,7 @@ use Inertia\Inertia;
 use App\Repositories\TaskRepository;
 use App\Interfaces\TaskInterface;
 use App\Models\Image;
+use App\Http\Requests\FilterRequest;
 
 
 class TaskController extends Controller
@@ -43,7 +44,7 @@ class TaskController extends Controller
     public function save (TaskRequest $request,$id ){
            $response = $this->taskRepository->save($id,$request->all());
            if($response['success']){
-            return Redirect::back();
+            return back();
            }
            else{
             return Redirect::back()->withErrors($response);

@@ -20,7 +20,6 @@ const TaskDetail = ({auth, data, developer,updated}) => {
     const [selectedStatus ,setSelectedStatus] = useState(null);
     const [state , setState] = useState({status:null});
     const [msg ,setMsg] = useState(null);
-    const pauseStatus = "pause";
     const [severity ,setSeverity] = useState("success");
     function handleClick (status) {
       setSelectedStatus(status);
@@ -174,8 +173,7 @@ const TaskDetail = ({auth, data, developer,updated}) => {
         return btnJSX
     }
 
-
-    const handleSubmit =(e)=>{
+    const handleSubmit =(e ,state)=>{
         { auth.user.user_role =="admin"?
         router.post(route("admin.project.task.status", {id:data.id}),state,{
             onSuccess: ()=> {
@@ -296,7 +294,7 @@ const TaskDetail = ({auth, data, developer,updated}) => {
                                 data.id === updated[0].id ? <Alert>This task is Already start </Alert> :
                             <PauseOrUpdateTime
                                 auth={auth}
-                                pauseStatus={pauseStatus}
+                                handleSubmit={handleSubmit}
                                 updated= {updated}
                                 setState = {setState}
                                 setSelectedStatus = {setSelectedStatus}

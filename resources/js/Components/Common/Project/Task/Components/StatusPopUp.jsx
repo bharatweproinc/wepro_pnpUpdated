@@ -83,7 +83,7 @@ export default function StatusPopUp({role, buttonText, status, taskId, onClose ,
                     </Box>
 
 
-                <DialogActions>
+                <DialogActions sx={{ display:'flex',justifyContent:'center',mb:'10px' }}>
                     <Button color="error" variant="contained" onClick={() => setOpen(false)}  sx={{ cursor:"pointer" }} startIcon={<CloseIcon/>}> Cancle</Button>
                     <Button variant="contained" onClick={()=>handleStatus()} sx={{ cursor:"pointer" }} startIcon={<AlarmOnIcon/>}> {initState.status}</Button>
 

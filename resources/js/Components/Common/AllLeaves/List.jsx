@@ -22,6 +22,7 @@ import LeaveStyle from "./Component/LeaveStyle";
 import TextInput from "@/Components/TextInput";
 import SearchIcon from '@mui/icons-material/Search';
 import { info } from "autoprefixer";
+import { useEffect } from "react";
 
 export default function List({ leave, auth, user ,open }) {
 
@@ -42,6 +43,9 @@ export default function List({ leave, auth, user ,open }) {
         }
     };
 
+    useEffect(()=>{
+        setData(leave);
+    },[leave]);
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };

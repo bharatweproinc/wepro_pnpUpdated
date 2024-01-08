@@ -6,9 +6,9 @@ import { useForm } from "@inertiajs/react";
 import Edit from "./Edit";
 
 export default function UserDetail({ data ,auth ,states ,address}) {
-    console.log(address,'states');
     const stateName =  states?.filter((state)=>state.id==address?.state);
     const CityName = stateName[0]?.cities.filter((city)=>city.id==address?.city);
+    console.log(CityName,'states');
     return (
         <Box sx={{ backgroundColor: "#f7f7f7",borderRadius:'10px'}} className="pb-5">
             <Grid container>
@@ -58,13 +58,13 @@ export default function UserDetail({ data ,auth ,states ,address}) {
                 <Grid item xs={4}>
                     <Typography sx={{ fontWeight: "bold" }}>State</Typography>
                     <Typography className="capitalize">
-                        {stateName[0].state_name}
+                        {stateName[0]?.state_name}
                     </Typography>
                 </Grid>
                 <Grid item xs={4}>
                     <Typography sx={{ fontWeight: "bold" }}>City</Typography>
                     <Typography className="capitalize">
-                        {CityName[0].cities}
+                        {CityName?.cities}
                     </Typography>
                 </Grid>
                 <Grid item xs={4}>

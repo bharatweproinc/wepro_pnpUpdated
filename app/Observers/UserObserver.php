@@ -69,7 +69,6 @@ class UserObserver
         }
         else if ($user->isDirty('profile')) {
             $oldProfile = $user->getOriginal('profile');
-
             History::create([
                 'historable_id' => $user->id,
                 'historable_type' => User::class,

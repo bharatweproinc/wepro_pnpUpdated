@@ -41,7 +41,6 @@ function a11yProps(index) {
 }
 
 export default function View({ data, auth, salary ,address ,states}) {
-    console.log(states,'state');
     const [value, setValue] = useState(0);
     const handleChange = (event, newValue) => { setValue(newValue) };
     const tax = (salary?.gross_salary * salary?.tax_deducted_at_source) / 100;

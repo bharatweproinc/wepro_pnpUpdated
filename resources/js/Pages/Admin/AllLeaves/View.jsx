@@ -6,8 +6,7 @@ import { usePage } from "@inertiajs/inertia-react";
 import { Alert,} from "@mui/material";
 import { useState } from "react";
 
-export default function View() {
-    const {leave ,auth ,user} = usePage();
+export default function View({leave ,auth ,user}) {
     const [open ,setOpen] = useState(true);
     return (
         <AuthenticatedLayout user={auth.user}>

@@ -36,16 +36,16 @@ export default function List({ auth, developer, Id, data ,updated ,bugs ,result 
     const [filter ,setFilter] = useState(true);
     const [isFilter, setIsFilter] = useState(false);
     const [taskData ,setTaskData] = useState(data);
-   const [fromDate,setFrom] = useState(null);
-   const [ToDate,SetToDate] = useState(null);
-   const [fetch ,setFetch] = useState(false);
-   const [apply,setApply] = useState(false);
-   const [searchItem ,setSearchItem] = useState();
-   const [search ,setSearch] = useState(false);
-   const date1 = new Date(fromDate);
-   const date2 = new Date(ToDate);
-   const diffTime = Math.abs(date2 - date1);
-   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const [fromDate,setFrom] = useState(null);
+    const [ToDate,SetToDate] = useState(null);
+    const [fetch ,setFetch] = useState(false);
+    const [apply,setApply] = useState(false);
+    const [searchItem ,setSearchItem] = useState();
+    const [search ,setSearch] = useState(false);
+    const date1 = new Date(fromDate);
+    const date2 = new Date(ToDate);
+    const diffTime = Math.abs(date2 - date1);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
     const toggleRow = (id) => {
         if (expandedRows.includes(id)) {
@@ -67,10 +67,12 @@ export default function List({ auth, developer, Id, data ,updated ,bugs ,result 
     const handleFilter = () => {
         setIsFilter(true);
       }
-
+    useEffect(()=>{
+        setTaskData(data);
+    },[data]);
     useEffect(()=>{
         handleApplyFilter;
-    },[fetch,taskData]);
+    },[fetch]);
     const handleApplyFilter = async (filterData) => {
         try {
             // const err = Joi.validateToPlainErrors(filterData,Validation_Schema.APPLY_FILTER)
@@ -171,6 +173,7 @@ export default function List({ auth, developer, Id, data ,updated ,bugs ,result 
                         </TableRow>
                     </TableHead>
                     <TableBody>
+                        {console.log(taskData,data, '::taskData')}
                         {taskData?.slice( page*rowsPerPage,page*rowsPerPage + rowsPerPage)
                           .map((item, j) => {
                                 return (
