@@ -17,11 +17,11 @@ const ChipColor ={
     },
     'reviewed':{
         title:'reviewed',
-        color:'#757575',
+        color:'#29b6f6',
     },
     'debugging':{
         title:'debugging',
-        color:"#00bcd4"
+        color:"#8c9eff"
     },
 }
 const StatusStyle = {

@@ -26,7 +26,7 @@ export default function PauseOrUpdateTime({auth,pauseStatus ,updated, setState ,
 
     const handlePauseTimer = (e) =>{
         setOpen(false);
-        pauseStatus(item);
+        // pauseStatus(item);
     }
     return (
         <React.Fragment>
