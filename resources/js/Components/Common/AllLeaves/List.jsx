@@ -23,7 +23,7 @@ import TextInput from "@/Components/TextInput";
 import SearchIcon from '@mui/icons-material/Search';
 import { info } from "autoprefixer";
 
-export default function List({ leave, auth, user}) {
+export default function List({ leave, auth, user ,open }) {
 
     const [page, setPage] = useState(0);
     const [expandedRows, setExpandedRows] = useState([]);
@@ -77,7 +77,7 @@ export default function List({ leave, auth, user}) {
     return (
         <>
             <div style={{ display: "flex", justifyContent: "end", paddingBottom:"10px"}} >
-                {isFilter &&
+                {isFilter && open &&
                          <Button variant="contained" startIcon={<SearchIcon/>} onClick={handleSearch} sx={{ marginRight:'10px' }}> Filter</Button>
                 }
                 { search &&
@@ -92,7 +92,7 @@ export default function List({ leave, auth, user}) {
                          <Button variant="contained" color="error" onClick={handleClose} style={{ position:"absolute", fontWeight:"bold" ,margin:'2px 2px 0px 0px',height:'33px'}}>x</Button>
                      </div>
                 }
-               {(auth.user.user_role == "admin" || auth.user.user_role == "hr manager") && ( <Create Id={leave} auth={auth} user={user}/> )}
+               {(auth.user.user_role == "admin" || auth.user.user_role == "hr manager") && open && ( <Create Id={leave} auth={auth} user={user}/> )}
 
             </div>
 
@@ -130,14 +130,11 @@ export default function List({ leave, auth, user}) {
                                             </TableCell>
                                             <TableCell sx={{ display:"flex", justifyContent:"end", alignItems:"center" }}>
                                                 <IconButton aria-label="detail">
-                                                    <VisibilityIcon
-                                                        onClick={() => toggleRow(item.id) }
-                                                    >
-                                                    </VisibilityIcon>
+                                                    <VisibilityIcon onClick={() => toggleRow(item.id) } > </VisibilityIcon>
                                                 </IconButton>
                                                 &emsp;
                                                 {
-                                                    (auth.user.user_role == "admin" || auth.user.user_role == "hr manager") && (item.status !== 'approved') &&
+                                                    (auth.user.user_role == "admin" || auth.user.user_role == "hr manager") && (item.status !== 'approved') && open &&
                                                     <Edit item={item} auth={auth} user={user}/>
                                                 }
                                             </TableCell>
@@ -147,18 +144,12 @@ export default function List({ leave, auth, user}) {
                                                 colSpan={6}
                                                 sx={{
                                                     py: 0,
-                                                    backgroundColor:
-                                                        "#80808024",
-                                                    px: {
-                                                        xs: "5px",
-                                                        md: "16px",
-                                                    },
+                                                    backgroundColor: "#80808024",
+                                                    px: {xs: "5px",md: "16px",},
                                                 }}
                                             >
                                                 <Collapse
-                                                    in={expandedRows.includes(
-                                                        item.id
-                                                    )}
+                                                    in={expandedRows.includes(item.id )}
                                                     unmountOnExit
                                                 >
                                                     <Details data={item} auth={auth} />
@@ -171,7 +162,6 @@ export default function List({ leave, auth, user}) {
                     </TableBody>
                 </Table>
             </TableContainer>
-
             <TablePagination
                 rowsPerPageOptions={[leave.to]}
                 component="div"

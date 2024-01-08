@@ -7,10 +7,13 @@ import { useState } from 'react';
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import LeaveStyle from '@/Components/Common/AllLeaves/Component/LeaveStyle';
 import FindInPageOutlinedIcon from '@mui/icons-material/FindInPageOutlined';
+import FormatDate from '@/Util/FormatDate';
+import List from '@/Components/Common/AllLeaves/List';
 
 export default function Dashboard({ auth ,user ,project , leave}) {
     const [page, setPage] = useState(0);
     const [expandedRows, setExpandedRows] = useState([]);
+    const [open ,setOpen] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const userRoles = ["admin", "project manager", "senior developer", "junior developer", "hr manager"];
     const TotalUser = userRoles.map((role, id) => ({
@@ -74,119 +77,7 @@ export default function Dashboard({ auth ,user ,project , leave}) {
                                         <Typography sx={{color:"#000000",paddingBottom:"5px"}}>No Leave Found yet!</Typography>
                                         <Typography sx={{color:"#000000",paddingBottom:"15px"}} variant="subtitle2">Opps! you don't have any leave.</Typography>
                                     </Box>
-                                    : <Box p={"10px 15px"}>
-                                    <TableContainer  sx={{ padding: "10px", border: "2px solid whitesmoke", background: "rgba(0,0,0,0.02)", }}>
-                                        <Table size="small" aria-label="simple table">
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell sx={{ fontWeight: "bold" }}>ID </TableCell>
-                                                    <TableCell sx={{ fontWeight: "bold" }}>User Name</TableCell>
-                                                    <TableCell sx={{ fontWeight: "bold" }}> Subject </TableCell>
-                                                    <TableCell sx={{ fontWeight: "bold" }}>From Date </TableCell>
-                                                    <TableCell sx={{ fontWeight: "bold" }}>Requested To Date </TableCell>
-                                                    <TableCell sx={{ fontWeight: "bold" }}>Created At </TableCell>
-                                                    <TableCell sx={{ fontWeight: "bold" }}> Status </TableCell>
-                                                    <TableCell sx={{ fontWeight: "bold", textAlign: 'right' }}>Action </TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                {leave.slice( page*rowsPerPage,page*rowsPerPage + rowsPerPage).map((item, j) => {
-                                                    return (
-                                                        <>
-                                                            <TableRow key={j + 1}>
-                                                                <TableCell>{item.id}</TableCell>
-                                                                <TableCell className="capitalize">{user.map((info)=>{return (  info.id === item.user_id  && info.name)})}</TableCell>
-                                                                <TableCell className="capitalize">{item.subject}</TableCell>
-                                                                <TableCell>
-                                                                    <DateTimeFormat date={item.requested_date}/>
-                                                                </TableCell>
-                                                                <TableCell>
-                                                                    <DateTimeFormat date={item.to_date}/>
-                                                                </TableCell>
-                                                                <TableCell>
-                                                                    <DateTimeFormat date={item.created_at}/>
-                                                                </TableCell>
-
-                                                                <TableCell className="capitalize">
-                                                                <Chip
-                                                                    color={LeaveStyle.LeaveReason[item.status]?.color}
-                                                                    label={item.status} size="small" onDelete={()=>{}}
-                                                                    deleteIcon={LeaveStyle.LeaveReason[item.status]?.icon}
-                                                                />
-
-                                                                </TableCell>
-                                                                <TableCell sx={{ display:"flex", justifyContent:"end", alignItems:"center" }}>
-                                                                    <IconButton aria-label="detail">
-                                                                        <VisibilityIcon onClick={() => toggleRow(item.id)}>
-                                                                        </VisibilityIcon>
-                                                                    </IconButton>
-                                                                </TableCell>
-                                                            </TableRow>
-                                                            <TableRow>
-                                                                <TableCell colSpan={8} sx={{py: 0, backgroundColor:"#80808024", px: { xs: "5px",md: "16px",}}}>
-                                                                    <Collapse in={expandedRows.includes(item.id)} unmountOnExit>
-                                                                        <Grid container spacing={2} py={3}>
-                                                                            <Grid item xs={4}>
-                                                                                <Typography variant='subtitle2' fontWeight={"bold"}>User Name</Typography>
-                                                                                <Typography sx={{ textTransform: 'capitalize' }}>{user.map((info)=>{return (  info.id === item.user_id  && info.name)})}</Typography>
-                                                                            </Grid>
-                                                                            <Grid item xs={4}>
-                                                                                <Typography variant='subtitle2' fontWeight={"bold"}>Requested Date</Typography>
-                                                                                <Typography sx={{ textTransform: 'capitalize' }}>{item.requested_date}</Typography>
-                                                                            </Grid>
-
-                                                                            <Grid item xs={4}>
-                                                                                <Typography variant='subtitle2' fontWeight={"bold"}>To Date</Typography>
-                                                                                <Typography sx={{ textTransform: 'capitalize' }}>{item.to_date}</Typography>
-                                                                            </Grid>
-
-                                                                            <Grid item xs={4}>
-                                                                                <Typography variant='subtitle2' fontWeight={"bold"}>Days</Typography>
-                                                                                <Typography sx={{ textTransform: 'capitalize' }}>{item.days}</Typography>
-                                                                            </Grid>
-                                                                            <Grid item xs={4}>
-                                                                                <Typography variant='subtitle2' fontWeight={"bold"}>Status</Typography>
-                                                                                <Typography sx={{ textTransform: 'capitalize' }}>
-                                                                                    <Chip
-                                                                                        color={LeaveStyle.LeaveReason[item.status]?.color}
-                                                                                        label={item.status}
-                                                                                        size="small"
-                                                                                        onDelete={()=>{}}
-                                                                                        deleteIcon={LeaveStyle.LeaveReason[item.status]?.icon}
-                                                                                    />
-                                                                                </Typography>
-                                                                            </Grid>
-                                                                            <Grid item xs={12}>
-                                                                                <Typography variant='subtitle2' fontWeight={"bold"}>Description</Typography>
-                                                                                <Typography sx={{ textTransform: 'capitalize' }}>{item.description}</Typography>
-                                                                            </Grid>
-                                                                            <Grid item xs={12}>
-                                                                                <Typography sx={{ fontWeight: "bold",paddingBottom:'5px' }}>Uploaded File</Typography>
-                                                                                <Typography className="capitalize">
-                                                                                    <img src={item.file} alt="leave file" style={{ width: '200px', height: '150px' }}/>
-                                                                                </Typography>
-
-                                                                            </Grid>
-                                                                        </Grid>
-                                                                    </Collapse>
-                                                                </TableCell>
-                                                            </TableRow>
-                                                        </>
-                                                        );
-                                                    })}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
-                                    <TablePagination
-                                        rowsPerPageOptions={[leave.to]}
-                                        component="div"
-                                        count={leave.length}
-                                        rowsPerPage={rowsPerPage}
-                                        page={page}
-                                        onPageChange={handleChangePage}
-                                        onRowsPerPageChange={handleChangeRowsPerPage}
-                                    />
-                                </Box>}
+                                    : <List leave={leave} auth={auth} user={user} open={open} setOpen={setOpen}/>}
                             </Paper>
                         </Grid>
                     </Grid>

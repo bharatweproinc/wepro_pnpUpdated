@@ -34,7 +34,7 @@ export default function Details({ data, auth }) {
                 </Grid>
                 <br />
 
-                <Grid container className="px-3">
+                <Grid container className="px-3" spacing={2}>
 
                     <Grid item xs={4}>
                         <Typography sx={{ fontWeight: "bold" }}>
@@ -61,10 +61,6 @@ export default function Details({ data, auth }) {
                             {data.days}
                         </Typography>
                     </Grid>
-
-                </Grid>
-                <br/>
-                <Grid container className="px-3">
                     <Grid item xs={4}>
                         <Typography sx={{ fontWeight: "bold" }}>
                            Status
@@ -81,7 +77,7 @@ export default function Details({ data, auth }) {
                     </Grid>
 
                 {data.status=='denied' &&
-                     <Grid item xs={8}>
+                     <Grid item xs={12}>
                      <Typography sx={{ fontWeight: "bold" }}>
                         Reason
                      </Typography>
@@ -90,10 +86,6 @@ export default function Details({ data, auth }) {
                      </Typography>
                     </Grid>
                 }
-                </Grid>
-                <br />
-
-                <Grid container className="px-3">
                     <Grid item xs={12}>
                         <Typography sx={{ fontWeight: "bold" }}>
                             Description

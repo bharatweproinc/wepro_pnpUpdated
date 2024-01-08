@@ -1,9 +1,14 @@
 import List from "@/Components/Common/AllLeaves/List";
 import Create from "@/Components/Common/User/Leaves/Create";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { Inertia } from "@inertiajs/inertia";
+import { usePage } from "@inertiajs/inertia-react";
 import { Alert,} from "@mui/material";
+import { useState } from "react";
 
-export default function View({ leave ,auth ,user}) {
+export default function View() {
+    const {leave ,auth ,user} = usePage();
+    const [open ,setOpen] = useState(true);
     return (
         <AuthenticatedLayout user={auth.user}>
             <div  className="py-12">
@@ -19,7 +24,7 @@ export default function View({ leave ,auth ,user}) {
                                     Leaves Not Found ! You can create a Leave ...
                                 </Alert>
                                 :
-                                <List leave={leave.data} auth={auth} user={user}/>
+                                <List leave={leave.data} auth={auth} user={user} open={open}/>
                         }
                     </div>
                 </div>
