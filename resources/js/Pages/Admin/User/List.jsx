@@ -22,6 +22,7 @@ import DeletePopup from "@/Components/Common/User/Components/DeletePopup";
 import GlobalStyle from "@/Components/Common/User/Components/GlobalStyle";
 import SearchIcon from '@mui/icons-material/Search';
 import TextInput from "@/Components/TextInput";
+import { useEffect } from "react";
 
 export default function List({data, auth ,states}) {
     const {url} = usePage();
@@ -37,6 +38,10 @@ export default function List({data, auth ,states}) {
         get(route("admin.user.detail", {id}));
     }
 
+    useEffect(()=>{
+        setItem(data.data);
+    },[data]);
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
         if (data.next_page_url) {
@@ -48,7 +53,7 @@ export default function List({data, auth ,states}) {
         }
       };
 
-      const handleChangeRowsPerPage = (event) => {
+    const handleChangeRowsPerPage = (event) => {
         const newRowsPerPage = data.to;
         setRowsPerPage(newRowsPerPage);
         setPage(0);
@@ -83,7 +88,7 @@ export default function List({data, auth ,states}) {
                             <div className="users"><PeopleIcon/> Users</div>
                             <div style={{ margin: "10px", display: "flex", justifyContent: "end",}}>
                                 {isFilter &&
-                                        <Button variant="contained" startIcon={<SearchIcon/>} onClick={handleSearch} sx={{ marginRight:'10px',width:'120px' }}> Filter</Button>
+                                    <Button variant="contained" startIcon={<SearchIcon/>} onClick={handleSearch} sx={{ marginRight:'10px',width:'120px' }}> Filter</Button>
                                 }
                                 { search &&
                                     <div style={{ display:'flex' ,justifyContent:'end' ,marginRight:"10px", height:'38px'}}>

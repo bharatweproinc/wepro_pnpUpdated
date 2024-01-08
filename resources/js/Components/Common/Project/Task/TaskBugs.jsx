@@ -56,7 +56,7 @@ const TaskBugs = ({bugs,auth, data,updated}) => {
         let btnJSX = '';
         switch(status){
             case 'new':
-                btnJSX= <Button sx={{ borderRadius:'12px',  marginLeft:'10px', }}
+                btnJSX= <Button sx={{ borderRadius:'12px',  marginLeft:'10px', backgroundColor:'#00bcd4'}}
                         size="small"
                         variant='contained'
                         onClick={()=>handleClick("started")}
@@ -79,7 +79,7 @@ const TaskBugs = ({bugs,auth, data,updated}) => {
                 break;
                 case 'started':
                     btnJSX= <>
-                    <Button sx={{ borderRadius:'12px',  marginLeft:'10px', }}
+                    <Button sx={{ borderRadius:'12px',  marginLeft:'10px',backgroundColor:'#9c27b0' }}
                         size="small"
                         variant='contained'
                         onClick={()=>handleClick("pause")}
@@ -98,7 +98,7 @@ const TaskBugs = ({bugs,auth, data,updated}) => {
                     <Typography>Task has been reviewed</Typography>
                 break;
             case 'debugging':
-                btnJSX=  <Button sx={{ borderRadius:'12px', marginLeft:'10px', }}
+                btnJSX=  <Button sx={{ borderRadius:'12px', marginLeft:'10px',backgroundColor:'#8c9eff' }}
                         size="small"
                         variant='contained'
                         onClick={()=>handleClick("started")}

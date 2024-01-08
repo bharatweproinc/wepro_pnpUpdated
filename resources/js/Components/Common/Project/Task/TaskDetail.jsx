@@ -51,7 +51,7 @@ const TaskDetail = ({auth, data, developer,updated}) => {
         switch(status){
             case 'new':
                 btnJSX = (role == 'admin' || role == 'project manager') ? <div style={{ display:'flex',gap:'5px' }}>
-                    <Button size="small" variant='contained' onClick={()=>handleClick('started')} sx={{borderRadius:'12px',}}>Start</Button>
+                    <Button size="small" variant='contained' onClick={()=>handleClick('started')} sx={{borderRadius:'12px',backgroundColor:'#00bcd4'}}>Start</Button>
                     <Button sx={{ borderRadius:'12px'}} color="secondary" size="small" variant='contained' onClick={()=>handleClick("hold")}>Hold</Button>
                 </div>:<>
                     <Button sx={{ borderRadius:'12px',backgroundColor:'#00bcd4' }}
@@ -172,6 +172,13 @@ const TaskDetail = ({auth, data, developer,updated}) => {
         }
         return btnJSX
     }
+    const pauseStatus =(item)=>{
+        const route = (role =="admin"? "admin.project.task.status" :role == "project manager"
+            ?"projectManager.project.task.status" : (auth.user.user_role == "junior developer" || auth.user.user_role == "senior developer ")
+            && "developer.project.task.status"
+        );
+    }
+
 
     const handleSubmit =(e)=>{
         { auth.user.user_role =="admin"?
@@ -294,7 +301,7 @@ const TaskDetail = ({auth, data, developer,updated}) => {
                                 data.id === updated[0].id ? <Alert>This task is Already start </Alert> :
                             <PauseOrUpdateTime
                                 auth={auth}
-                                handleSubmit={handleSubmit}
+                                pauseStatus={pauseStatus}
                                 updated= {updated}
                                 setState = {setState}
                                 setSelectedStatus = {setSelectedStatus}

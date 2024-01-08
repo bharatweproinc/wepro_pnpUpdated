@@ -173,7 +173,6 @@ export default function List({ auth, developer, Id, data ,updated ,bugs ,result 
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {console.log(taskData,data, '::taskData')}
                         {taskData?.slice( page*rowsPerPage,page*rowsPerPage + rowsPerPage)
                           .map((item, j) => {
                                 return (

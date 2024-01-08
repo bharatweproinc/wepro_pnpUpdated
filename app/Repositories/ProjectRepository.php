@@ -41,7 +41,6 @@ class ProjectRepository implements ProjectInterface
             $developer = User::whereIn('user_role',['senior developer','junior developer'])->get();
             $manager = User::where('user_role','project manager')->get();
 
-
             return [$data , $developer , $manager ];
         }
 
@@ -138,7 +137,7 @@ class ProjectRepository implements ProjectInterface
             $debug_Id = Task::whereIn('id',$task_id)->where('is_debugging',1)->pluck('id');
             $bugs = Image::whereIn('imageable_id',$debug_Id)->where('imageable_type','App\Models\Task')->get();
             $res_id = Task::whereIn('id',$task_id)->where('status',"complete")->pluck('id');
-            $result = Image::whereIn('imageable_id',$debug_Id)->where('imageable_type','App\Models\Task')->get();
+            $result = Image::whereIn('imageable_id',$debug_Id)->whereIn('imageable_id',$res_id)->where('imageable_type','App\Models\Task')->get();
             $historyTask = History::whereIn('historable_id',$task_id)->where('historable_type','App\Models\Task')->orderBy('created_at','desc')->get();
             foreach($bugs  as $key => $bug){
                 $bugs[$key]['url'] = asset('storage/'.$bug->url);
@@ -158,7 +157,7 @@ class ProjectRepository implements ProjectInterface
                 $bugs[$key]['url'] = asset('storage/'.$bug->url);
             }
             $res_id = Task::whereIn('id',$task_id)->where('status',"complete")->pluck('id');
-            $result = Image::whereIn('imageable_id',$debug_Id)->where('imageable_type','App\Models\Task')->orderBy('created_at','desc')->get();
+            $result = Image::whereIn('imageable_id',$debug_Id)->whereIn('imageable_id',$res_id)->where('imageable_type','App\Models\Task')->orderBy('created_at','desc')->get();
 
            return [ $data , $user , $task ,$status,$history ,$bugs ,$result ,$historyTask];
         }
@@ -175,12 +174,11 @@ class ProjectRepository implements ProjectInterface
                 $bugs[$key]['url'] = asset('storage/'.$bug->url);
             }
             $res_id = Task::whereIn('id',$task_id)->where('status',"complete")->pluck('id');
-            $result = Image::whereIn('imageable_id',$debug_Id)->where('imageable_type','App\Models\Task')->get();
+            $result = Image::whereIn('imageable_id',$debug_Id)->whereIn('imageable_id',$res_id)->where('imageable_type','App\Models\Task')->get();
             $historyTask = History::whereIn('historable_id',$task_id)->where('historable_type','App\Models\Task')->orderBy('created_at','desc')->get();
             return [ $data , $user , $task ,$status,$history ,$bugs ,$result ,$historyTask];
         }
     }
-
 
     public function filterData($data ,$id){
 

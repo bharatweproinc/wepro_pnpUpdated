@@ -71,7 +71,7 @@ export default function ReviewedPopup({ auth ,Id,handleSubmit ,setSelectedStatus
                 }
             }
             ) : auth.user.user_role === "project manager" &&
-            post(route("projectManager.project.file",{id:Id}),data ,{
+            post(route("projectManager.project.task.file",{id:Id}),data ,{
                 onSuccess:()=>{
                     // handleSubmit();
                     setData({});

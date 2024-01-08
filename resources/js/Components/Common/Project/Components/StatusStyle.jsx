@@ -23,6 +23,10 @@ const ChipColor ={
         title:'debugging',
         color:"#8c9eff"
     },
+    'hold':{
+        titile:'hold',
+        color:'#b2a300'
+    },
 }
 const StatusStyle = {
     ChipColor,
