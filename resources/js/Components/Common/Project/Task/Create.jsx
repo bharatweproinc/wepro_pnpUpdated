@@ -85,7 +85,6 @@ export default function Create({ developer, Id ,auth }) {
           const hours = Math.floor(enteredNumber / 60);
           const minutes = enteredNumber % 60;
           const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-          console.log(formattedTime,'formateddd');
           setData({...data,
             ["estimated"]: formattedTime,
         });

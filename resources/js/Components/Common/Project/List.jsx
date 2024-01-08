@@ -1,5 +1,4 @@
 import {
-    Box,
     IconButton,
     Table,
     TableBody,
@@ -8,17 +7,13 @@ import {
     TableHead,
     TablePagination,
     TableRow,
-    Typography,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import EditIcon from "@mui/icons-material/Edit";
 import { useForm } from "@inertiajs/react";
 import FormatDate from "@/Util/FormatDate";
 import DateTimeFormat from "@/Util/DateTimeFormat";
 import { useState } from "react";
-import AddIcon from "@mui/icons-material/Add";
 import Create from "@/Pages/Admin/Project/Create";
-import Edit from "@/Pages/Admin/Project/Edit";
 
 export default function List({ data, auth, developer, manager, status }) {
     const { setData, get, processing, errors, setError } = useForm();

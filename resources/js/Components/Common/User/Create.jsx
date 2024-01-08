@@ -9,12 +9,10 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import CloseIcon from "@mui/icons-material/Close";
 import SaveIcon from "@mui/icons-material/Save";
 import DeleteIcon from "@mui/icons-material/Delete";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
@@ -43,7 +41,7 @@ const style = {
   boxShadow: 24,
   p:2,
   overflow:'scroll',
-  height:'90%',
+//   height:'90%',
   display:'block',
 };
 export default function Create({ auth, states }) {
@@ -98,7 +96,6 @@ const handleChange=(key,val)=> {
             const citiesArray = selectedState ? selectedState.cities : [];
             setData({...data, state: val,city: "", });
             setSelectCity(citiesArray);
-            console.log(citiesArray, 'sdgfjds');
         } else if (key === "city") {
             setData({ ...data,
                 city: val,
@@ -158,29 +155,10 @@ const submit = (e) => {
 
   return (
     <div>
-      {alert && (
-        <SuccessMsg
-          severity={severity}
-          error={alert}
-          setError={setAlert}
-          title={alert}
-        />
-      )}
-      <Button variant="contained" onClick={() => setOpen(true)} startIcon={<AddIcon />}>
-        Create
-      </Button>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        onClose={() => {
-          handleClose();
-          handleReset();
-        }}
-        closeAfterTransition
-        slots={{ backdrop: Backdrop }}
-        slotProps={{ backdrop: { timeout: 500 } }}
-      >
+      {alert && (<SuccessMsg severity={severity} error={alert} setError={setAlert} title={alert}/>)}
+         <Button variant="contained" onClick={() => setOpen(true)} startIcon={<AddIcon />}> Create </Button>
+
+      <Modal aria-labelledby="transition-modal-title" aria-describedby="transition-modal-description" open={open} onClose={() => {   handleClose();   handleReset(); }} closeAfterTransition slots={{ backdrop: Backdrop }} slotProps={{ backdrop: { timeout: 500 } }} >
         <Fade in={open}>
           <Box sx={style}>
             <div className="rounded-t-xl bg-slate-50 border-gray-100 border border-t-0 shadow-sm p-5">

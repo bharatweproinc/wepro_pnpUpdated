@@ -12,17 +12,7 @@ export default function UserDetail({ data ,auth ,states ,address}) {
     return (
         <Box sx={{ backgroundColor: "#f7f7f7",borderRadius:'10px'}} className="pb-5">
             <Grid container>
-                <Grid
-                    item
-                    xs={12}
-                    style={{
-                        background: "rgb(236 236 236)",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        height: "50px",
-                    }}
-                >
+                <Grid item xs={12} style={{ background: "rgb(236 236 236)", display: "flex", justifyContent: "space-between", alignItems: "center", height: "50px", }} >
                     <Typography sx={{ fontWeight: "bold", marginLeft: "10px" }}>
                         Basic Information
                     </Typography>
