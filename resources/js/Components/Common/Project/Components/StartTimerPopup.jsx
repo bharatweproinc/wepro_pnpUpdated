@@ -43,7 +43,7 @@ export default function StartTimerPopUp({auth,Id,statusSubmit , setIsEdit ,setSt
 
                 <DialogActions sx={{ display:'flex',justifyContent:'center',alignItems:"center" }}>
                     <Button color="error" variant="contained" onClick={handleClose} sx={{ cursor:"pointer" }} startIcon={<CloseIcon/>}> Cancle</Button>
-                    <Button variant="contained" onClick={handleStartTimer} sx={{ cursor:"pointer" }} startIcon={<AlarmOnIcon/>}> Start</Button>
+                    <Button variant="contained" onClick={handleStartTimer} sx={{ cursor:"pointer",backgroundColor:'#00bcd4' }} startIcon={<AlarmOnIcon/>}> Start</Button>
                    {/* <Typography sx={{ cursor:"pointer" }} onClick={handleStartTimer} >Start <AlarmOnIcon /></Typography> */}
                 </DialogActions>
             </Dialog>

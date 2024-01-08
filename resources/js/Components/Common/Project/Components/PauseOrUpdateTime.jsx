@@ -53,7 +53,7 @@ export default function PauseOrUpdateTime({auth,handleSubmit ,updated, setState 
 
                 <DialogActions sx={{ display:'flex',justifyContent:'center',alignItems:"center" }}>
                     <Button variant="contained" color="error" startIcon={<CloseIcon/>} onClick={handleClose} sx={{ cursor:"pointer" }}>cancle </Button>
-                    <Button variant="contained" color="primary" startIcon={<PauseIcon />} onClick={handlePauseTimer} sx={{ cursor:"pointer" }}>Pause </Button>
+                    <Button variant="contained" color="primary" startIcon={<PauseIcon />} onClick={handlePauseTimer} sx={{ cursor:"pointer",backgroundColor:'rgb(117, 117, 117)' }}>Pause </Button>
                 </DialogActions>
             </Dialog>
         </React.Fragment>

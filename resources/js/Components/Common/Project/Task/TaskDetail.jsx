@@ -64,7 +64,7 @@ const TaskDetail = ({auth, data, developer,updated}) => {
             case 'in progress':
                 btnJSX = (role == 'admin' || role == 'project manager') ? <div style={{ display:'flex',gap:'5px'  }}>
                     <Button
-                        sx={{borderRadius:'12px',backgroundColor:'#9c27b0'}}
+                        sx={{borderRadius:'12px',backgroundColor:'#757575'}}
                         size="small"
                         variant='contained'
                         onClick={()=>handleClick("pause")}
@@ -76,7 +76,7 @@ const TaskDetail = ({auth, data, developer,updated}) => {
                         onClick={()=>handleClick("hold")}
                     >Hold</Button>
                 </div>:<>
-                    <Button sx={{ borderRadius:'12px',backgroundColor:'#9c27b0' }}
+                    <Button sx={{ borderRadius:'12px',backgroundColor:'#757575' }}
                         size="small"
                         variant='contained'
                         onClick={()=>handleClick("pause")}
@@ -107,10 +107,10 @@ const TaskDetail = ({auth, data, developer,updated}) => {
                 break;
                 case 'started':
                 btnJSX = (role == 'admin' || role == 'project manager') ? <div style={{ display:'flex',gap:'5px'  }}>
-                    <Button size="small" variant='contained' color="error" onClick={()=>handleClick('pause')} sx={{ borderRadius:'12px' ,}}>Pause</Button>
+                    <Button size="small" variant='contained'  onClick={()=>handleClick('pause')} sx={{ borderRadius:'12px' ,backgroundColor:'#757575'}}>Pause</Button>
                     <Button sx={{ borderRadius:'12px' ,backgroundColor:'#2e7d32'}} size="small" variant='contained' onClick={()=>handleClick("complete")}>complete</Button>
                 </div>:<div style={{ display:'flex',gap:'5px' }}>
-                    <Button sx={{ borderRadius:'12px',backgroundColor:'#9c27b0' }}
+                    <Button sx={{ borderRadius:'12px',backgroundColor:'#757575' }}
                         size="small"
                         variant='contained'
                         onClick={()=>handleClick("pause")}
@@ -148,7 +148,7 @@ const TaskDetail = ({auth, data, developer,updated}) => {
                 break;
             case 'reviewed':
                 btnJSX =  (role == 'admin' || role == 'project manager') ? <div style={{ display:'flex',gap:'5px'  }}>
-<                   Button sx={{borderRadius:'12px' ,backgroundColor:'#2e7d32' }}
+                  <Button sx={{borderRadius:'12px' ,backgroundColor:'#2e7d32' }}
                         size="small"
                         variant='contained'
                         onClick={()=>handleClick('complete')}

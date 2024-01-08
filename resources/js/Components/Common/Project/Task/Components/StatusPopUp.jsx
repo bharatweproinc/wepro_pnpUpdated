@@ -15,6 +15,7 @@ import _ from "lodash";
 import SaveIcon from '@mui/icons-material/Save';
 import AlarmOnIcon from '@mui/icons-material/AlarmOn';
 import { useState } from "react";
+import { RenderStatusColor } from "./RederStatusColor";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     "& .MuiDialogContent-root": {
@@ -85,7 +86,7 @@ export default function StatusPopUp({role, buttonText, status, taskId, onClose ,
 
                 <DialogActions sx={{ display:'flex',justifyContent:'center',mb:'10px' }}>
                     <Button color="error" variant="contained" onClick={() => setOpen(false)}  sx={{ cursor:"pointer" }} startIcon={<CloseIcon/>}> Cancle</Button>
-                    <Button variant="contained" onClick={()=>handleStatus()} sx={{ cursor:"pointer" }} startIcon={<AlarmOnIcon/>}> {initState.status}</Button>
+                    <Button variant="contained" onClick={()=>handleStatus()} sx={{ cursor:"pointer",backgroundColor:RenderStatusColor(initState.status)}} startIcon={<AlarmOnIcon/>}> {initState.status}</Button>
 
                 </DialogActions>
 
