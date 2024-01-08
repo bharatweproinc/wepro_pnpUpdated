@@ -1,6 +1,5 @@
 import  Joi  from "joi-browser";
-let start_date =''
-let end_date = ''
+
 const APPLY_FILTER = {
     // status : Joi.string().label('Status'),
     // developer_id: Joi.string().label('Type'),

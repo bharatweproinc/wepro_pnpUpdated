@@ -2,7 +2,6 @@ import { Alert, Box, Grid, Typography } from '@mui/material';
 import React from 'react'
 
 const TaskResult = ({auth ,result,data}) => {
-    console.log(result,'result');
   return (
    <>
     {result.length > 0 ?

@@ -25,7 +25,7 @@ const style = {
     bgcolor: "background.paper",
     boxShadow: 24,
     overflow:'scroll',
-    height:'90%',
+    // height:'90%',
     display:'block',
 };
 

@@ -28,7 +28,6 @@ const TaskBugs = ({bugs,auth, data,updated}) => {
       setState({"status":status});
     }
 
-    console.log(bugs,'buggg');
     function handleClosePopup() {
         setSelectedStatus(null);
     }

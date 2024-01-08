@@ -12,7 +12,6 @@ export default function Detail({ data, developer, auth, devId, updated ,bugs ,re
         setValue(newValue);
     };
     const dev_id = data.developer_id.split(",");
-    console.log(history,'history');
     return (
         <>
             <TabContext value={value}>
