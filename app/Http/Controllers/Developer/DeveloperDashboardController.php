@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Salary;
 use App\Models\Address;
-
+use App\Models\State;
 
 
 class DeveloperDashboardController extends Controller
@@ -22,6 +22,7 @@ class DeveloperDashboardController extends Controller
          $user['profile'] = asset('storage/'.$user['profile']);
          $salary = Salary::where('user_id',$id)->first();
          $address = Address::where('user_id',$id)->first();
-        return Inertia::render('Account/View',['data'=>$user ,'salary'=>$salary ,'address'=>$address]);
+         $states = State::with('cities')->get();
+        return Inertia::render('Account/View',['data'=>$user ,'salary'=>$salary ,'address'=>$address ,'states'=>$states]);
     }
 }

@@ -25,7 +25,6 @@ import { useEffect } from "react";
 import Validation_Schema from "./ValidationSchema";
 import Joi from "@/Util/JoiValidator";
 import axios from "axios";
-import { Inertia } from "@inertiajs/inertia";
 import TextInput from "@/Components/TextInput";
 
 
@@ -87,7 +86,9 @@ export default function List({ auth, developer, Id, data ,updated ,bugs ,result 
                 const filterTaskData = response.data;
                 setTaskData(filterTaskData);
                 setApply(true);
-            })
+            }).catch(error => {
+                console.error(error);
+              })
             :
             auth.user.user_role == "project manager" &&
             await axios.post(route('projectManager.project.task.filter', { id:Id }), filterData)
@@ -96,11 +97,15 @@ export default function List({ auth, developer, Id, data ,updated ,bugs ,result 
                 setTaskData(filterTaskData);
                 setApply(true);
 
+            }).catch(error => {
+                console.error(error);
             })
             setFetch(true);
         }
-    } catch (error) {
+    } catch (error){
+        console.error(error);
     }}
+
     const handleReset =()=>{
         setTaskData(data);
         setApply(false);

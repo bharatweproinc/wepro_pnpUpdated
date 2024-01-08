@@ -1,3 +1,4 @@
+import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import { Button, Grid, Typography, Paper, IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
@@ -5,8 +6,9 @@ import { useForm } from "@inertiajs/react";
 import Edit from "./Edit";
 
 export default function UserDetail({ data ,auth ,states ,address}) {
-    console.log(address);
-
+    console.log(address,'states');
+    const stateName =  states?.filter((state)=>state.id==address?.state);
+    const CityName = stateName[0]?.cities.filter((city)=>city.id==address?.city);
     return (
         <Box sx={{ backgroundColor: "#f7f7f7",borderRadius:'10px'}} className="pb-5">
             <Grid container>
@@ -66,13 +68,13 @@ export default function UserDetail({ data ,auth ,states ,address}) {
                 <Grid item xs={4}>
                     <Typography sx={{ fontWeight: "bold" }}>State</Typography>
                     <Typography className="capitalize">
-                        {address?.state}
+                        {stateName[0].state_name}
                     </Typography>
                 </Grid>
                 <Grid item xs={4}>
                     <Typography sx={{ fontWeight: "bold" }}>City</Typography>
                     <Typography className="capitalize">
-                        {address?.city}
+                        {CityName[0].cities}
                     </Typography>
                 </Grid>
                 <Grid item xs={4}>

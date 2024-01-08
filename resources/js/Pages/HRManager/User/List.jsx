@@ -20,7 +20,7 @@ import Edit from "@/Components/Common/User/Edit";
 import DeletePopup from "@/Components/Common/User/Components/DeletePopup";
 import GlobalStyle from "@/Components/Common/User/Components/GlobalStyle";
 
-export default function View({data, auth }) {
+export default function View({data, auth ,states}) {
 
     const {url} = usePage();
     const {  setData, get, processing, errors, setError } = useForm();
@@ -67,7 +67,7 @@ export default function View({data, auth }) {
                         <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} mb={2}>
                             <div><PeopleIcon/> Users</div>
                             <div style={{ margin: "10px",  display: "flex", justifyContent: "end",}}>
-                            <Create auth={auth}/>
+                            <Create auth={auth} states={states}/>
                         </div>
                         </Box>
                         <TableContainer

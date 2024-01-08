@@ -44,9 +44,10 @@ export default function History({ history}){
                             <TableHead>
                                 <TableRow>
                                     <TableCell sx={{ fontWeight: "bold" }}>Description</TableCell>
-                                    <TableCell sx={{ fontWeight: "bold" }}>Change Type</TableCell>
-                                   <TableCell sx={{ fontWeight: "bold" }}>Created At</TableCell>
-                                    <TableCell sx={{ fontWeight: "bold" }}>Updated At</TableCell>
+                                    <TableCell sx={{ fontWeight: "bold" }}>Date</TableCell>
+                                    {/* <TableCell sx={{ fontWeight: "bold" }}>Change Type</TableCell> */}
+                                    {/* <TableCell sx={{ fontWeight: "bold" }}>Created At</TableCell>
+                                    <TableCell sx={{ fontWeight: "bold" }}>Updated At</TableCell> */}
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -55,9 +56,10 @@ export default function History({ history}){
                                         <>
                                             <TableRow key={j + 1}>
                                                 <TableCell style={{width:'40%'}}>{item.description}</TableCell>
-                                                <TableCell style={{width:'20%'}}>{item.change_type}</TableCell>
+                                                <TableCell style={{width:'20%'}}><DateTimeFormat date={item.created_at}/></TableCell>
+                                                {/* <TableCell style={{width:'20%'}}>{item.change_type}</TableCell>
                                                 <TableCell style={{width:'20%'}} className="capitalize"><DateTimeFormat date={item.created_at}/></TableCell>
-                                                <TableCell style={{width:'20%'}}><DateTimeFormat date={item.updated_at}/></TableCell>
+                                                <TableCell style={{width:'20%'}}><DateTimeFormat date={item.updated_at}/></TableCell> */}
                                             </TableRow>
                                         </>
                                         );

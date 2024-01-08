@@ -53,7 +53,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::get('/dashboard', function () {
         $user = User::all();
         $project = Project::all();
-        $leave = Leave::whereDate('created_at',  Carbon::today()->toDateString())->get();
+        $leave = Leave::whereDate('created_at',  Carbon::today()->toDateString())->orderBy('created_at','desc')->get();
         return Inertia::render('Dashboard',['user'=>$user ,'project'=>$project ,'leave'=>$leave]);
     })->name('dashboard');
 

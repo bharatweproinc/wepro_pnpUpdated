@@ -5,7 +5,6 @@ import List from "@/Components/Common/Project/Task/List";
 
 export default function View({  auth,data, Id, developer ,updated ,bugs ,result,history}) {
 
-
     return (
        <>
                 {data.length === 0 ? (

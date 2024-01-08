@@ -9,23 +9,27 @@ class TaskObserver
 {
     public function created(Task $task)
     {
+        $auth = Auth::user();
+        $userName = $auth->name;
         History::create([
             'historable_id'=>$task->id,
             'historable_type'=>Task::class,
             'change_type'=>'CREATE',
-            'description'=> $task->id." Task created successfully.",
+            'description'=> $userName ." create task ".$task->task_name." successfully.",
         ]);
     }
 
     public function updating(Task $task)
     {
+        $auth = Auth::user();
+        $userName = $auth->name;
         if ($task->isDirty('task_name')) {
             $oldtask_name = $task->getOriginal('task_name');
             History::create([
                 'historable_id' => $task->id,
                 'historable_type' => Task::class,
                 'change_type' => 'UPDATE',
-                'description' =>'Task task_name has been changed from ' .$oldtask_name .' to '.$task->task_name,
+                'description' =>$userName.' update task_name from ' .$oldtask_name .' to '.$task->task_name,
             ]);
         }
 
@@ -36,7 +40,7 @@ class TaskObserver
                 'historable_id' => $task->id,
                 'historable_type' => Task::class,
                 'change_type' => 'UPDATE',
-                'description' =>'Task task_name has been changed from ' .$oldDescription .' to '.$task->description,
+                'description' =>$userName.' update description from ' .$oldDescription .' to '.$task->description,
             ]);
         }
         else if ($task->isDirty('priority')) {
@@ -46,7 +50,7 @@ class TaskObserver
                 'historable_id' => $task->id,
                 'historable_type' => Task::class,
                 'change_type' => 'UPDATE',
-                'description' =>'Task task_name has been changed from ' .$oldpriority .' to '.$task->priority,
+                'description' =>$userName.' update priority from ' .$oldpriority .' to '.$task->priority,
 
             ]);
         }
@@ -57,7 +61,7 @@ class TaskObserver
                 'historable_id' => $task->id,
                 'historable_type' => Task::class,
                 'change_type' => 'UPDATE',
-                'description' =>'Task task_name has been changed from ' .$oldDeveloper .' to '.$task->developer,
+                'description' =>$userName.' update developer from ' .$oldDeveloper .' to '.$task->developer,
 
             ]);
         }
@@ -68,7 +72,18 @@ class TaskObserver
                 'historable_id' => $task->id,
                 'historable_type' => Task::class,
                 'change_type' => 'UPDATE',
-                'description' =>'Task task_name has been changed from ' .$oldlevel .' to '.$task->level,
+                'description' =>$userName.' update level from ' .$oldlevel .' to '.$task->level,
+
+            ]);
+        }
+        else if ($task->isDirty('status')) {
+            $oldStatus = $task->getOriginal('status');
+
+            History::create([
+                'historable_id' => $task->id,
+                'historable_type' => Task::class,
+                'change_type' => 'UPDATE',
+                'description' =>$userName.' update status from ' .$oldStatus .' to '.$task->status,
 
             ]);
         }

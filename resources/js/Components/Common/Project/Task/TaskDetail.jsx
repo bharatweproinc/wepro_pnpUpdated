@@ -16,12 +16,10 @@ import { useEffect } from 'react';
 const TaskDetail = ({auth, data, developer,updated}) => {
     const dev_id = data.developer_id.split(",");
     const dev = dev_id.map((item,j) => Number(item));
-    let role = auth.user.user_role;
-
+    const role = auth.user.user_role;
     const [selectedStatus ,setSelectedStatus] = useState(null);
     const [state , setState] = useState({status:null});
     const [msg ,setMsg] = useState(null);
-    const [estimated ,setEstimated] = useState(data.estimated);
     const pauseStatus = "pause";
     const [severity ,setSeverity] = useState("success");
     function handleClick (status) {
@@ -32,35 +30,36 @@ const TaskDetail = ({auth, data, developer,updated}) => {
     const handleClosePopup =() =>{
         setSelectedStatus(null);
     }
-    useEffect(()=>{
-        if(data.estimated >59){
-            const hours = Math.floor(data.estimated / 60);
-            const minutes = data.estimated % 60;
+    const timeCalculate =(val)=>{
+        if(val >59){
+            const hours = Math.floor(val / 60);
+            const minutes = val % 60;
             const second = 0;
            const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${second.toString().padStart(2,'0')}`;
-           setEstimated(formattedTime);
+        return formattedTime;
            }
         else{
-            const hours = Math.floor(data.estimated / 60);
-            const minutes = data.estimated ;
+            const hours = Math.floor(val / 60);
+            const minutes = val ;
             const second = 0;
             const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${second.toString().padStart(2,'0')}`;
-           setEstimated(formattedTime);
+        return formattedTime;
         }
-    },[]);
+    }
+
     function getAction(status){
         let btnJSX = '';
         switch(status){
             case 'new':
                 btnJSX = (role == 'admin' || role == 'project manager') ? <>
-                    <Button size="small" variant='contained' onClick={()=>handleClick('started')} sx={{borderRadius:'12px',marginLeft:'10px',}}>Started</Button>
+                    <Button size="small" variant='contained' onClick={()=>handleClick('started')} sx={{borderRadius:'12px',marginLeft:'10px',}}>Start</Button>
                     <Button sx={{ borderRadius:'12px',marginLeft:'10px',}} size="small" variant='contained' onClick={()=>handleClick("hold")}>Hold</Button>
                 </>:<>
                     <Button sx={{ borderRadius:'12px',  marginLeft:'10px', }}
                         size="small"
                         variant='contained'
                         onClick={()=>handleClick("started")}
-                    >Started</Button>
+                    >Start</Button>
                 </>
                 break;
             case 'in progress':
@@ -91,7 +90,7 @@ const TaskDetail = ({auth, data, developer,updated}) => {
                         size="small"
                         variant='contained'
                         onClick={()=>handleClick("started")}
-                    >Started</Button>
+                    >Start</Button>
                     <Button sx={{ borderRadius:'12px', marginLeft:'10px',}}
                         size="small"
                         variant='contained'
@@ -102,12 +101,12 @@ const TaskDetail = ({auth, data, developer,updated}) => {
                         size="small"
                         variant='contained'
                         onClick={()=>handleClick("started")}
-                    >Started</Button>
+                    >Start</Button>
                 </>
                 break;
                 case 'started':
                 btnJSX = (role == 'admin' || role == 'project manager') ? <>
-                    <Button size="small" variant='contained' onClick={()=>handleClick('pause')}>Pause</Button>
+                    <Button size="small" variant='contained' onClick={()=>handleClick('pause')} sx={{ borderRadius:'12px',marginLeft:'10px',}}>Pause</Button>
                     <Button sx={{ borderRadius:'12px',marginLeft:'10px',}} size="small" variant='contained' onClick={()=>handleClick("complete")}>complete</Button>
                 </>:<>
                     <Button sx={{ borderRadius:'12px',  marginLeft:'10px', }}
@@ -125,7 +124,7 @@ const TaskDetail = ({auth, data, developer,updated}) => {
                         size="small"
                         variant='contained'
                         onClick={()=>handleClick("started")}
-                    >Started</Button>
+                    >Start</Button>
                 </>:<>
                     <Typography>Status is on Hold Now!</Typography>
                 </>
@@ -272,11 +271,11 @@ const TaskDetail = ({auth, data, developer,updated}) => {
                         </Grid>
                         <Grid item xs={4}>
                             <Typography sx={{ fontWeight: "bold" }}> Estimate Time(Minutes)</Typography>
-                            <Typography className="capitalize">{estimated}</Typography>
+                            <Typography className="capitalize">{timeCalculate(data.estimated)}</Typography>
                         </Grid>
                         <Grid item xs={4}>
                             <Typography sx={{ fontWeight: "bold" }}>Working Hour</Typography>
-                            <Typography className="capitalize">{data.development_hours} Minutes</Typography>
+                            <Typography className="capitalize">{timeCalculate(data.development_hours)} Minutes</Typography>
                         </Grid>
                         {role !== 'hr manager' &&
                             <Grid item xs={4}>
@@ -319,6 +318,7 @@ const TaskDetail = ({auth, data, developer,updated}) => {
                         </Grid>
                     </Grid>
                 </Box>
+                { (auth.user.user_role !=="junior developer" || auth.user.user_role !=="junior developer") &&
                 <Box
                     sx={{
                         flexGrow: 10,
@@ -360,6 +360,7 @@ const TaskDetail = ({auth, data, developer,updated}) => {
                         )}
                     </Box>
                 </Box>
+                }
             </>
         )
 }

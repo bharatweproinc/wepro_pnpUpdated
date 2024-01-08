@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use App\Models\User;
 use App\Models\Salary;
+use App\Models\Address;
+use App\Models\State;
+
 
 
 class DashboardController extends Controller
@@ -18,7 +21,9 @@ class DashboardController extends Controller
             $user = User::where('id',$id)->first();
             $user['profile'] = asset('storage/'.$user['profile']);
             $salary = Salary::where('user_id',$id)->first();
-           return Inertia::render('Account/View',['data'=>$user ,'salary'=>$salary]);
+            $address = Address::where('user_id',$id)->first();
+            $states = State::with('cities')->get();
+           return Inertia::render('Account/View',['data'=>$user ,'salary'=>$salary ,'states'=>$states ,'address'=>$address]);
 
     }
 }

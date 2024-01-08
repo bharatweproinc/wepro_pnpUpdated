@@ -228,9 +228,9 @@ class TaskRepository implements TaskInterface
                 $hour->save();
             }
             $task->status = $item;
-            if ($item == "pause" || $item == "in progress" ) {
+            if ( $item == "in progress" ) {
                 $task->started = Carbon::now();
-            } else if ($item == "complete") {
+            } else if ($item == "complete"||$item == "pause") {
                 $startedAt = $task->started;
                 $totalTime = now()->diffInMinutes($startedAt);
                 $task->development_hours = $totalTime;
@@ -241,7 +241,8 @@ class TaskRepository implements TaskInterface
                 $task->is_debugging = 1;
                 $task->started = null;
             }
-            $task->save();
+           $task->save();
+
         }
         return true;
     }

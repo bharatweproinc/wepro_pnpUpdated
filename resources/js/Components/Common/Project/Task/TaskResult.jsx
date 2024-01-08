@@ -44,9 +44,7 @@ const TaskResult = ({auth ,result,data}) => {
                     </Grid>
         </Box>
     :
-    <Alert>
-        This Task is Not complete ...
-    </Alert>
+    <Alert severity="info"> This Task is Not complete marked By Developer ... </Alert>
     }
    </>
   )

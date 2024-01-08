@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
+use App\Models\State;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Redirect;
@@ -24,16 +25,16 @@ class HrUserController extends Controller
     public function list(Request $request)
     {
         $data = $this->userRepository->getlist($request);
-        return Inertia::render('HRManager/User/List',compact('data'));
+        $states = State::with('cities')->get();
+        return Inertia::render('HRManager/User/List',compact('data','states'));
     }
 
     public function save(UserRequest $request){
         $response = $this->userRepository->save($request );
-        $id = $response['data']['id'];
-        if($response['success']){
-            return Redirect::route('hrManager.user.salary.create' ,['user'=>$id]);
-        }
-        else{
+        if($response['success']) {
+            $id = $response['data']['id'];
+            return redirect::route('hrManager.user.salary.create',['user'=>$id]);
+        } else {
             return Redirect::back()->withErrors($response);
         }
     }
@@ -57,7 +58,9 @@ class HrUserController extends Controller
         $salary = $items[1];
         $leave = $items[2];
         $history = $items[3];
-        return Inertia::render('HRManager/User/Detail',['data'=>$data ,'salary'=>$salary ,'leave'=>$leave ,'history'=>$history]);
+        $states = $items[4];
+        $address = $items[5];
+        return Inertia::render('HRManager/User/Detail',['data'=>$data ,'salary'=>$salary ,'leave'=>$leave ,'history'=>$history,'states'=>$states ,'address'=>$address]);
     }
 
 

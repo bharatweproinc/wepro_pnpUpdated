@@ -9,16 +9,21 @@ class ProjectObserver
 {
     public function created(Project $project)
     {
+        $auth = Auth::user();
+        $userName = $auth->name;
         History::create([
             'historable_id'=>$project->id,
             'historable_type'=>Project::class,
             'change_type'=>'CREATE',
-            'description'=> $project->id." Project created successfully.",
+            'description'=>$userName ." create project ". $project->title." successfully.",
         ]);
     }
 
     public function updating(Project $project)
     {
+        $auth = Auth::user();
+        $userName = $auth->name;
+
         if ($project->isDirty('title')) {
             $oldTitle = $project->getOriginal('title');
 
@@ -26,7 +31,7 @@ class ProjectObserver
                 'historable_id' => $project->id,
                 'historable_type' => Project::class,
                 'change_type' => 'UPDATE',
-                'description' =>'Project title has been changed from ' .$oldTitle .' to '.$project->title,
+                'description' => $userName .' update project title from ' .$oldTitle .' to '.$project->title,
             ]);
         }
         else if ($project->isDirty('description')) {
@@ -36,7 +41,7 @@ class ProjectObserver
                 'historable_id' => $project->id,
                 'historable_type' => Project::class,
                 'change_type' => 'UPDATE',
-                'description' =>'Project title has been changed from ' .$oldDescription .' to '.$project->description,
+                'description' =>$userName .' update project description from ' .$oldDescription .' to '.$project->description,
             ]);
         }
         else if ($project->isDirty('manager')) {
@@ -46,7 +51,7 @@ class ProjectObserver
                 'historable_id' => $project->id,
                 'historable_type' => Project::class,
                 'change_type' => 'UPDATE',
-                'description' =>'Project title has been changed from ' .$oldManager .' to '.$project->manager,
+                'description' =>$userName .' update project manager from ' .$oldManager .' to '.$project->manager,
 
             ]);
         }
@@ -57,7 +62,7 @@ class ProjectObserver
                 'historable_id' => $project->id,
                 'historable_type' => Project::class,
                 'change_type' => 'UPDATE',
-                'description' =>'Project title has been changed from ' .$oldDeveloper .' to '.$project->developer,
+                'description' =>$userName .' update project developer from ' .$oldDeveloper .' to '.$project->developer,
 
             ]);
         }

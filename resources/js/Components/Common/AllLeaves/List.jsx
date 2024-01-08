@@ -115,19 +115,9 @@ export default function List({ leave, auth, user}) {
                                     <>
                                         <TableRow key={j + 1}>
                                             <TableCell>{item.id}</TableCell>
-                                            <TableCell>{
-                                                user.map((info)=>{
-                                                    return (info.id == item.user_id  && info.name)
-                                                })
-                                            }
-                                            </TableCell>
-                                            <TableCell className="capitalize">
-                                                {item.subject}
-                                            </TableCell>
-                                            <TableCell>
-                                                <DateTimeFormat date={item.requested_date}/>
-                                            </TableCell>
-
+                                            <TableCell className="capitalize">{user.map((info)=>{return (info.id == item.user_id  && info.name) })}</TableCell>
+                                            <TableCell className="capitalize"> {item.subject}</TableCell>
+                                            <TableCell> <DateTimeFormat date={item.requested_date}/> </TableCell>
                                             <TableCell className="capitalize">
                                             <Chip
                                                 color={LeaveStyle.LeaveReason[item.status]?.color}

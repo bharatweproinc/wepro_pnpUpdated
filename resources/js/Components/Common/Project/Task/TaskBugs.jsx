@@ -19,7 +19,6 @@ const TaskBugs = ({bugs,auth, data,updated}) => {
     const [selectedStatus ,setSelectedStatus] = useState(null);
     const [state , setState] = useState({status:null});
     const [msg ,setMsg] = useState(null);
-    const [estimated ,setEstimated] = useState(data.estimated);
     const pauseStatus = "pause";
     const [severity ,setSeverity] = useState("success");
     let text_cases = "";
@@ -37,22 +36,22 @@ const TaskBugs = ({bugs,auth, data,updated}) => {
              text_cases= bug.text_cases,
              title = bug.title
         ))
-    useEffect(()=>{
-            if(data.estimated >59){
-                const hours = Math.floor(data.estimated / 60);
-                const minutes = data.estimated % 60;
+        const timeCalculate =(val)=>{
+            if(val >59){
+                const hours = Math.floor(val / 60);
+                const minutes = val % 60;
                 const second = 0;
                const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${second.toString().padStart(2,'0')}`;
-               setEstimated(formattedTime);
+            return formattedTime;
                }
             else{
-                const hours = Math.floor(data.estimated / 60);
-                const minutes = data.estimated ;
+                const hours = Math.floor(val / 60);
+                const minutes = val ;
                 const second = 0;
                 const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${second.toString().padStart(2,'0')}`;
-               setEstimated(formattedTime);
+            return formattedTime;
             }
-        },[]);
+        }
 
     function getAction(status){
         let btnJSX = '';
@@ -62,7 +61,7 @@ const TaskBugs = ({bugs,auth, data,updated}) => {
                         size="small"
                         variant='contained'
                         onClick={()=>handleClick("started")}
-                    >Started</Button>
+                    >Start</Button>
                 break;
             case 'in progress':
                 btnJSX= <Button sx={{ borderRadius:'12px',marginLeft:'10px', }}
@@ -77,7 +76,7 @@ const TaskBugs = ({bugs,auth, data,updated}) => {
                         size="small"
                         variant='contained'
                         onClick={()=>handleClick("started")}
-                    >Started</Button>
+                    >Start</Button>
                 break;
                 case 'started':
                     btnJSX= <>
@@ -104,7 +103,7 @@ const TaskBugs = ({bugs,auth, data,updated}) => {
                         size="small"
                         variant='contained'
                         onClick={()=>handleClick("started")}
-                    >Started</Button>
+                    >Start</Button>
                 break;
         }
         return btnJSX
@@ -140,9 +139,7 @@ const TaskBugs = ({bugs,auth, data,updated}) => {
                     }}
                 >
                     <Grid container>
-                        <Grid
-                            item
-                            xs={12}
+                        <Grid item xs={12}
                             style={{
                                 background: "rgb(236 236 236)",
                                 display: "flex",
@@ -160,10 +157,7 @@ const TaskBugs = ({bugs,auth, data,updated}) => {
                             <Typography sx={{ fontWeight: "bold" }}>Task Name </Typography>
                             <Typography className="capitalize"> {data.task_name}</Typography>
                         </Grid>
-                        <Grid item xs={4}>
-                            <Typography sx={{ fontWeight: "bold" }}>Text Cases</Typography>
-                            <Typography className="capitalize">{text_cases} </Typography>
-                        </Grid>
+
                         <Grid item xs={4}>
                             <Typography sx={{ fontWeight: "bold" }}>Title</Typography>
                             <Typography className="capitalize">{title} </Typography>
@@ -178,7 +172,7 @@ const TaskBugs = ({bugs,auth, data,updated}) => {
                         </Grid>
                         <Grid item xs={4}>
                             <Typography sx={{ fontWeight: "bold" }}> Estimate Time</Typography>
-                            <Typography className="capitalize">{estimated} Minutes</Typography>
+                            <Typography className="capitalize">{timeCalculate(data.estimated)}</Typography>
                         </Grid>
                         {auth.user.user_role !== 'hr manager' &&
                             <Grid item xs={4}>
@@ -212,8 +206,14 @@ const TaskBugs = ({bugs,auth, data,updated}) => {
                             </Grid>
                         }
 
+                        <Grid item xs={12}>
+                            <Typography sx={{ fontWeight: "bold" }}>Text Cases</Typography>
+                            <Typography className="capitalize">{text_cases} </Typography>
+                        </Grid>
+
                     </Grid>
                 </Box>
+                { (auth.user.user_role !=="junior developer" || auth.user.user_role !=="junior developer") &&
                 <Box
                     sx={{
                         flexGrow: 10,
@@ -250,8 +250,9 @@ const TaskBugs = ({bugs,auth, data,updated}) => {
                         )}
                     </Grid>
                 </Box>
+                }
             </> :
-            <Alert> No Bugs </Alert>
+            <Alert severity='info'> No Bugs Founds .</Alert>
             }
 
             </>

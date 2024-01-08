@@ -71,7 +71,7 @@ export default function List({ data, auth, developer, manager, status }) {
                         <TableRow>
                             <TableCell sx={{ fontWeight: "bold" }}>ID</TableCell>
                             <TableCell sx={{ fontWeight: "bold" }}>Title</TableCell>
-                            <TableCell sx={{ fontWeight: "bold" }}> Assign Date</TableCell>
+                            {/* <TableCell sx={{ fontWeight: "bold" }}> Assign Date</TableCell> */}
                             <TableCell sx={{ fontWeight: "bold" }}> Created Date</TableCell>
                             <TableCell sx={{ fontWeight: "bold", textAlign: 'center' }}> Action </TableCell>
                         </TableRow>
@@ -83,7 +83,7 @@ export default function List({ data, auth, developer, manager, status }) {
                                     <TableRow key={j + 1}>
                                         <TableCell>{item.id}</TableCell>
                                         <TableCell className="capitalize">{item.title}</TableCell>
-                                        <TableCell><FormatDate date={item.start_date} /></TableCell>
+                                        {/* <TableCell><FormatDate date={item.start_date} /></TableCell> */}
                                         <TableCell><DateTimeFormat date={item.created_at} /> </TableCell>
                                         <TableCell sx={{ display: "flex", justifyContent: 'center', alignItems: 'center' }}>
                                             <IconButton aria-label="detail" sx={{ color: "rgba(0, 0, 0, 0.54)", }} onClick={() => handleView(item.id)}>
