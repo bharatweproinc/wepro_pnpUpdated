@@ -173,7 +173,7 @@ const TaskDetail = ({auth, data, developer,updated}) => {
         return btnJSX
     }
 
-    const handleSubmit =(e ,state)=>{
+    const handleSubmit =(e)=>{
         { auth.user.user_role =="admin"?
         router.post(route("admin.project.task.status", {id:data.id}),state,{
             onSuccess: ()=> {
