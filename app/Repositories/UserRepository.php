@@ -19,7 +19,7 @@ class UserRepository implements UserInterface
 {
 
     public function getlist($request){
-        if(empty($request->all())){
+        if($request->term ==null){
          $data = User::orderBy('created_at','desc')->paginate(10);
          foreach($data as $key => $val){
             $data[$key]['profile'] = asset('storage/'.$val->profile);
@@ -81,7 +81,6 @@ class UserRepository implements UserInterface
     public function update($id, $data)
     {
         try {
-
             $validator = Validator::make($data, [
                 'email' => 'required|email|unique:users,email,' . $id,
                 'name' => 'required|string|max:255',
@@ -89,7 +88,8 @@ class UserRepository implements UserInterface
             ]);
             $user = User::findOrFail($id);
             $profile = asset('storage/'.$user->profile);
-            if( $data['profile']!== $profile && isset($data['profile'])){
+
+            if( $data['profile']!== $profile && $data['profile']!="http://127.0.0.1:8000/storage"){
                 $profileImage =  $data['profile'];
                 $profileName = uniqid().'_'.time().'_'.$profileImage->getClientOriginalName();
                 $profileImagePath = $profileImage->storeAs('profile', $profileName . $id . '.' . $profileImage->getClientOriginalExtension(),'public');

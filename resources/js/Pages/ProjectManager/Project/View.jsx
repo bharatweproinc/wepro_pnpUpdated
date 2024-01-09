@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 
 
-export default function View({ data, auth, developer, manager ,status }) {
+export default function View({ data, auth, developer, manager ,task}) {
     return (
         <AuthenticatedLayout user={auth.user}>
             <div className="py-12">
@@ -21,7 +21,7 @@ export default function View({ data, auth, developer, manager ,status }) {
                                     Project Not Found !
                                 </Alert>
                                 :
-                                <List data={data} developer={developer} manager={manager} auth={auth} status={status}/>
+                                <List data={data} developer={developer} manager={manager} auth={auth} task={task}/>
                             }
                     </div>
                 </div>

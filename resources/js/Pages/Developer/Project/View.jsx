@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 
 
-export default function View({ data, auth, developer, manager  }) {
+export default function View({ data, auth, developer, manager ,task }) {
 
     return (
         <AuthenticatedLayout user={auth.user}>
@@ -22,7 +22,7 @@ export default function View({ data, auth, developer, manager  }) {
                                     You Are Not Assign On Any Project !
                                 </Alert>
                                 :
-                                <List data={data} developer={developer} manager={manager} auth={auth}/>
+                                <List data={data} developer={developer} manager={manager} auth={auth} task={task}/>
                         }
                     </div>
                 </div>

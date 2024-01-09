@@ -32,7 +32,10 @@ class ProjectRepository implements ProjectInterface
             $project = Project::where('project_manager',$user->name)->paginate(10);
             $developer = User::whereIn('user_role',['senior developer','junior developer'])->get();
             $manager = User::where('user_role','project manager')->get();
-            return [$project , $developer , $manager];
+            $user_id = $user->id;
+            $task_id = Developer::where('developer_id', 'like', '%' . $user_id . '%')->where('assignable_type', 'App\Models\Task')->pluck('assignable_id');
+            $task = Task::whereIn('id',$task_id)->get();
+            return ['project'=>$project ,'developer'=>$developer ,'manager'=>$manager ,'task'=>$task];
         }
         else if($role === "junior developer" || $role === 'senior developer')
         {
@@ -41,7 +44,10 @@ class ProjectRepository implements ProjectInterface
             $data = Project::whereIn('id',$project_id)->paginate(10);
             $developer = User::whereIn('user_role',['senior developer','junior developer'])->get();
             $manager = User::where('user_role','project manager')->get();
-
+            $user_id = $user->id;
+            $task_id = Developer::where('developer_id', 'like', '%' . $user_id . '%')->where('assignable_type', 'App\Models\Task')->pluck('assignable_id');
+            $task = Task::whereIn('id',$task_id)->get();
+            // dd($task_id);
             return [$data , $developer , $manager ];
         }
 

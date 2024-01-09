@@ -19,11 +19,11 @@ class ManagerProjectController extends Controller
 
     public function list(){
         $items = $this->projectRepository->getlist();
-        $data= $items[0];
-        $developer= $items[1];
-        $manager= $items[2];
-
-        return Inertia::render('ProjectManager/Project/View',compact("data","developer" ,"manager"));
+        $data = $items['project'];
+        $developer = $items['developer'];
+        $manager = $items['manager'];
+        $task = $items['task'];
+        return Inertia::render('ProjectManager/Project/View',compact("data","developer" ,"manager","task"));
     }
 
     public function Detail($id){
