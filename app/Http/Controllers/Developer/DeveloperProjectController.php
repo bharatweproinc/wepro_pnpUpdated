@@ -20,7 +20,7 @@ class DeveloperProjectController extends Controller
     public function list()
     {
         $items = $this->projectRepository->getlist();
-        $data = $items['project'];
+        $data = $items['data'];
         $developer = $items['developer'];
         $manager = $items['manager'];
         $task = $items['task'];

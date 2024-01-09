@@ -47,8 +47,7 @@ class ProjectRepository implements ProjectInterface
             $user_id = $user->id;
             $task_id = Developer::where('developer_id', 'like', '%' . $user_id . '%')->where('assignable_type', 'App\Models\Task')->pluck('assignable_id');
             $task = Task::whereIn('id',$task_id)->get();
-            // dd($task_id);
-            return [$data , $developer , $manager ];
+            return ['data'=>$data , 'developer'=>$developer ,'manager'=>$manager ,'task'=>$task ];
         }
 
     }
