@@ -199,33 +199,14 @@ const TaskDetail = ({auth, data, developer,updated}) => {
             {
                 msg && <SuccessMsg severity={severity} error={msg} setError={setMsg} title={msg}/>
             }
-                <Box
-                    sx={{
-                        flexGrow: 10,
-                        margin: "2%",
-                        background: "#f9f9f9",
-                        boxShadow: "2px 2px 2px 2px #e3e1da",
-                        padding: "40px",
-                    }}
-                >
-                    <Grid container>
-                        <Grid
-                            item
-                            xs={12}
-                            style={{
-                                background: "rgb(236 236 236)",
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                height: "50px",
-                            }}
-                        >
-                            <Typography sx={{ fontWeight: "bold", marginLeft: "10px" }}>Task Information </Typography>
-
+                <Box sx={{ flexGrow: 10, background: "#f9f9f9", boxShadow: "2px 2px 2px 2px #e3e1da", padding: "0px 0px 40px 0px",}}>
+                    <Grid container >
+                        <Grid item xs={12} style={{  background: "rgb(236 236 236)",  display: "flex",  justifyContent: "space-between", alignItems: "center", height: "50px", }}>
+                            <Typography sx={{ fontWeight: "bold",paddingLeft:'20px' }}>Task Information </Typography>
                         </Grid>
                     </Grid>
                     <br />
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} paddingLeft={'20px'}>
                         <Grid item xs={4}>
                             <Typography sx={{ fontWeight: "bold" }}> Task Name </Typography>
                             <Typography className="capitalize"> {data.task_name}</Typography>
@@ -298,10 +279,10 @@ const TaskDetail = ({auth, data, developer,updated}) => {
                 <Box
                     sx={{
                         flexGrow: 10,
-                        margin: "2%",
+                        // margin: "2%",
                         background: "#f9f9f9",
                         boxShadow: "2px 2px 2px 2px #e3e1da",
-                        padding: "40px",
+                        padding: "0px 0px 40px 0px",
                     }}
                 >
                     <Grid container>
@@ -314,7 +295,7 @@ const TaskDetail = ({auth, data, developer,updated}) => {
                                 height: "50px",
                             }}
                         >
-                            <Typography sx={{ fontWeight: "bold", marginLeft: "10px" }}> Developers</Typography>
+                            <Typography sx={{ fontWeight: "bold", paddingLeft:'20px' }}> Developers</Typography>
                         </Grid>
                     </Grid>
                     <br />
