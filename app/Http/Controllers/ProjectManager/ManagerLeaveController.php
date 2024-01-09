@@ -10,7 +10,6 @@ use App\Interfaces\LeaveInterface;
 use App\Repository\LeaveRepository;
 use App\Http\Requests\LeaveRequest;
 
-
 class ManagerLeaveController extends Controller
 {
     private LeaveInterface $leaveRepository ;
