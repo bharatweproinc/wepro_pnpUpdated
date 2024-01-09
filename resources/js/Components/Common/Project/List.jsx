@@ -17,7 +17,7 @@ import Create from "@/Pages/Admin/Project/Create";
 import RenderStatusChip from "./Components/RenderStatusChip";
 
 export default function List({ data, auth, developer, manager, status,task }) {
-//    console.log(auth.user.user_role ,task,'auth')
+   console.log(auth.user.user_role ,task,'auth')
     const { setData, get, processing, errors, setError } = useForm();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -70,7 +70,7 @@ export default function List({ data, auth, developer, manager, status,task }) {
                             <TableCell sx={{ fontWeight: "bold" }}>Title</TableCell>
                             {/* <TableCell sx={{ fontWeight: "bold" }}> Assign Date</TableCell> */}
                             <TableCell sx={{ fontWeight: "bold" }}> Created Date</TableCell>
-                            {auth.user.user_role == "admin" && <TableCell sx={{ fontWeight: "bold" }}> Status</TableCell>}
+                            {(auth.user.user_role == "admin" || auth.user.user_role == 'hr manager' || auth.user.user_role ==  'project manager') && <TableCell sx={{ fontWeight: "bold" }}> Status</TableCell>}
                             <TableCell sx={{ fontWeight: "bold", textAlign: 'center' }}> Action </TableCell>
                         </TableRow>
                     </TableHead>
@@ -83,7 +83,7 @@ export default function List({ data, auth, developer, manager, status,task }) {
                                         <TableCell className="capitalize">{item.title}</TableCell>
                                         {/* <TableCell><FormatDate date={item.start_date} /></TableCell> */}
                                         <TableCell><DateTimeFormat date={item.created_at} /> </TableCell>
-                                        {auth.user.user_role == "admin" && <TableCell><RenderStatusChip data={task} id ={item.id}/></TableCell>}
+                                        {(auth.user.user_role == "admin" || auth.user.user_role == 'hr manager' || auth.user.user_role ==  'project manager') && <TableCell><RenderStatusChip data={task} id ={item.id}/></TableCell>}
                                         <TableCell sx={{ display: "flex", justifyContent: 'center', alignItems: 'center' }}>
                                             <IconButton aria-label="detail" sx={{ color: "rgba(0, 0, 0, 0.54)", }} onClick={() => handleView(item.id)}>
                                                 <VisibilityIcon/>
