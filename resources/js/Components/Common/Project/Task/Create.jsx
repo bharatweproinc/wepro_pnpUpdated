@@ -77,54 +77,23 @@ export default function Create({ developer, Id ,auth }) {
         setData({});
     }
 
-    const handleEstimatedChange = (event) => {
-        const enteredValue = event.target.value;
-        const enteredNumber = parseInt(enteredValue, 10);
-
-        if (!isNaN(enteredNumber) && enteredNumber > 59) {
-          const hours = Math.floor(enteredNumber / 60);
-          const minutes = enteredNumber % 60;
-          const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-          setData({...data,
-            ["estimated"]: formattedTime,
-        });
-        //   setData({"estimated":formattedTime});
-        } else {
-            setData({...data,
-                ["estimated"]: enteredValue,
-            });
-            // setData({"estimated": enteredValue});
-        }
-      };
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        {
-            auth.user.user_role == "admin" ?
-           post(route("admin.project.task.save", { id: Id }),{
+        const root = (auth.user.user_role =="admin"? "admin.project.task.save" :auth.user.user_role == "project manager"
+         && "projectManager.project.task.save");
+
+        post(route(root, { id: Id }),{
             onSuccess: ()=> {
                 setMsg('Task Created Successfully .')
                 setData({});
                 setOpen(false);
                 setSeverity('success');
-            },onError:(error) => {
-                setMsg(error.message)
-                setSeverity('error');
-            },
+        },onError:(error) => {
+            setMsg(error.message)
+            setSeverity('error');
+        },
         })
-           :auth.user.user_role == "project manager" &&
-           post(route("projectManager.project.task.save", { id: Id }),{
-            onSuccess: ( )=> {
-                setSeverity('success');
-                setMsg('Task Created Successfully .')
-                setData({});
-                setOpen(false);
-            },onError:(error) => {
-                setMsg(error.message);
-                setSeverity('error');
-            },
-        })
-        }
+
     };
 
     return (

@@ -158,34 +158,22 @@ const { get, post, processing, errors, reset,setError,} = useForm()
 
 const handleSubmit = (e) => {
     e.preventDefault();
-    {
-        auth.user.user_role == "admin" ?
-        router.post(route("admin.user.update", [user.id]), value ,{
-            onSuccess: ( )=> {
-                setAlert("User Updated Successfully");
-                handleClose();
-                setOpen(false);
-                setSeverity('success');
-                setActiveStep(0)
-            },onError:(error)=>{
-                setAlert(error.error)
-                setSeverity('error');
-                setActiveStep(0)
-            }
-        })
-        :
-        router.post(route("hrManager.user.update", [user.id]), value ,{
-            onSuccess: ( )=> {
-                setAlert("User Updated Successfully");
-                handleClose();
-                setOpen(false);
-                setSeverity('success');
-            },onError:(error)=>{
-                setAlert(error.error)
-                setSeverity('error');
-            }
-        });
-    }
+    const root = (auth.user.user_role =="admin"? "admin.user.update" :auth.user.user_role == "hr manager"&& "hrManager.user.update");
+
+    router.post(route(root, [user.id]), value ,{
+        onSuccess: ( )=> {
+            setAlert("User Updated Successfully");
+            handleClose();
+            setOpen(false);
+            setSeverity('success');
+            setActiveStep(0)
+        },onError:(error)=>{
+            setAlert(error.error)
+            setSeverity('error');
+            setActiveStep(0)
+        }
+    })
+
 };
 
   return (

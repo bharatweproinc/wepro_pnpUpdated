@@ -94,9 +94,10 @@ export default function Edit({ data, developer, devId ,auth}) {
     },[data]);
     const handleSubmit = (e) => {
         e.preventDefault();
-        {
-            auth.user.user_role == "admin" ?
-            router.post(route("admin.project.task.update", { id: data.id }), item ,{
+        const root = (auth.user.user_role =="admin"? "admin.project.task.update" :auth.user.user_role == "project manager"
+         && "projectManager.project.task.update");
+
+            router.post(route(root, { id: data.id }), item ,{
                 onSuccess: ( )=> {
                     setAlert("Task Updated .");
                     setSeverity('success');
@@ -108,18 +109,6 @@ export default function Edit({ data, developer, devId ,auth}) {
                 }
             })
 
-            :
-            router.post(route("projectManager.project.task.update", { id: data.id }), item ,{
-                onSuccess: ( )=> {
-                    setAlert("Task Updated .");
-                    setOpen(false);
-                    setSeverity('success');
-                },onError:()=>{
-                    setAlert('Something is wrong !')
-                    setSeverity('error');
-                }
-            });
-        }
     };
 
     return (

@@ -109,9 +109,9 @@ const handleChange=(key,val)=> {
     }
 const submit = (e) => {
     e.preventDefault();
-        {
-        auth.user.user_role === "admin" ?
-        post(route("admin.user.save"), {
+    const root = (auth.user.user_role =="admin"? "admin.user.save" :auth.user.user_role == "hr manager"&& "hrManager.user.save");
+
+        post(route(root), {
             onSuccess: ( )=> {
                 setAlert("User Created Successfully");
                 handleClose();
@@ -123,21 +123,6 @@ const submit = (e) => {
                 setSeverity('error');
             }
         })
-        :
-        post(route('hrManager.user.save'),{
-            onSuccess: ()=> {
-                setAlert("User Created Successfully");
-                handleClose();
-                setData({});
-                setOpen(false);
-                setSeverity('success');
-            },onError:(error)=>{
-                setAlert(error.error)
-                setSeverity('error');
-            }
-        })
-    }
-
 };
 
   const handleNext = () => {

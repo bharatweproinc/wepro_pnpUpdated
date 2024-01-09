@@ -14,7 +14,7 @@ import {
 import { useState } from "react";
 import AlarmOnIcon from '@mui/icons-material/AlarmOn';
 
-export default function PauseOrUpdateTime({auth,handleSubmit ,updated, setState ,setSelectedStatus, state}) {
+export default function PauseOrUpdateTime({auth,pauseStatus ,updated, setState ,setSelectedStatus, state}) {
     const [open, setOpen] = useState(true);
     const [item,setItem] = useState({ status : 'pause'});
     const handleClose = () =>{
@@ -25,7 +25,7 @@ export default function PauseOrUpdateTime({auth,handleSubmit ,updated, setState 
 
     const handlePauseTimer = (e) =>{
         setOpen(false);
-        // pauseStatus(item);
+        pauseStatus(item);
     }
     return (
         <React.Fragment>

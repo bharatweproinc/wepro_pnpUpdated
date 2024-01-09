@@ -172,17 +172,17 @@ const TaskDetail = ({auth, data, developer,updated}) => {
         }
         return btnJSX
     }
+    const root = (role =="admin"? "admin.project.task.status" :role == "project manager"
+    ?"projectManager.project.task.status" : (auth.user.user_role == "junior developer" || auth.user.user_role == "senior developer ")
+    && "developer.project.task.status"
+    );
     const pauseStatus =(item)=>{
-        const route = (role =="admin"? "admin.project.task.status" :role == "project manager"
-            ?"projectManager.project.task.status" : (auth.user.user_role == "junior developer" || auth.user.user_role == "senior developer ")
-            && "developer.project.task.status"
-        );
+        router.post(route(root,{id:updated[0].id}),item);
     }
 
 
     const handleSubmit =(e)=>{
-        { auth.user.user_role =="admin"?
-        router.post(route("admin.project.task.status", {id:data.id}),state,{
+        router.post(route(root, {id:data.id}),state,{
             onSuccess: ()=> {
                 handleClosePopup();
                 setState("");
@@ -192,29 +192,7 @@ const TaskDetail = ({auth, data, developer,updated}) => {
                 setMsg(error.message)
                 setSeverity('error');
             },
-        }) : auth.user.user_role == "project manager" ?
-        router.post(route("projectManager.project.task.status", {id:data.id}),state,{
-            onSuccess: ()=> {
-                setMsg('Task Status updated successfully.')
-                handleClosePopup();
-                setState("");
-                setSeverity('success');
-            },onError:(error) => {
-                setMsg(error.message)
-                setSeverity('error');
-            },}) :
-            (auth.user.user_role == "junior developer" || auth.user.user_role == "senior developer " )&&
-            router.post(route("developer.project.task.status", {id:data.id}),state,{
-                onSuccess: ()=> {
-                    setMsg('Task Status updated successfully.')
-                    setState("");
-                    handleClosePopup();
-                    setSeverity('success');
-                },onError:(error) => {
-                    setMsg(error.message)
-                    setSeverity('error');
-                },})
-    }
+        })
     }
     return (
             <>
