@@ -36,7 +36,7 @@ class UserController extends Controller
     {
         $data = $this->userRepository->getlist($request);
         $states = State::with('cities')->get();
-        return Inertia::render('Admin/User/List',compact('data','states'));
+        return Inertia::render('Admin/User/View',compact('data','states'));
     }
 
     public function create()

@@ -206,10 +206,7 @@ const TaskDetail = ({auth, data, developer,updated}) => {
                     </Grid>
                     <br />
                     <Grid container spacing={2} paddingLeft={'20px'}>
-                        <Grid item xs={4}>
-                            <Typography sx={{ fontWeight: "bold" }}> Task Name </Typography>
-                            <Typography className="capitalize"> {data.task_name}</Typography>
-                        </Grid>
+
                         <Grid item xs={4}>
                             <Typography sx={{ fontWeight: "bold" }}> Level</Typography>
                             <Typography>{data.level}</Typography>

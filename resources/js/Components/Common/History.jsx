@@ -23,7 +23,7 @@ export default function History({ history}){
         }
     };
     return (
-        <Box sx={{ backgroundColor: '#f7f7f7',borderRadius:'10px' }} className="p-5" >
+        <Box sx={{ flexGrow: 10, background: "#f9f9f9", boxShadow: "2px 2px 2px 2px #e3e1da", padding: "5px",}}>
             <Grid container >
                 <Grid item xs={12}
                     style={{
@@ -36,7 +36,7 @@ export default function History({ history}){
                 >
                     <Typography sx={{ fontWeight: "bold", marginLeft: "10px" }}>History</Typography>
                 </Grid>
-                <Grid item xs={12} p={"10px 15px"}>
+                <Grid item xs={12} p={"5px"}>
 
                     <TableContainer sx={{ padding: "10px", border: "2px solid whitesmoke", }}>
                         <Table aria-label="simple table" size="small">

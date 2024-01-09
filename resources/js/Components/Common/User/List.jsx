@@ -17,7 +17,7 @@ import {
 import PeopleIcon from '@mui/icons-material/People';
 import { useState } from "react";
 import Create from "@/Components/Common/User/Create";
-import '../style.scss'
+import './style.scss'
 import DeletePopup from "@/Components/Common/User/Components/DeletePopup";
 import GlobalStyle from "@/Components/Common/User/Components/GlobalStyle";
 import SearchIcon from '@mui/icons-material/Search';
