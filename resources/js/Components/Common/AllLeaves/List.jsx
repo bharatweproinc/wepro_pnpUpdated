@@ -21,7 +21,6 @@ import Details from "../User/Leaves/Detail";
 import LeaveStyle from "./Component/LeaveStyle";
 import TextInput from "@/Components/TextInput";
 import SearchIcon from '@mui/icons-material/Search';
-import { info } from "autoprefixer";
 import { useEffect } from "react";
 
 export default function List({ leave, auth, user ,open }) {
@@ -85,7 +84,7 @@ export default function List({ leave, auth, user ,open }) {
                          <Button variant="contained" startIcon={<SearchIcon/>} onClick={handleSearch} sx={{ marginRight:'10px' }}> Filter</Button>
                 }
                 { search &&
-                    <div style={{ display:'flex' ,justifyContent:'end' ,marginRight:"10px", height:'38px'}}>
+                    <div style={{ display:'flex' ,justifyContent:'end' ,marginRight:"10px", height:'36px'}}>
                          <TextInput
                          id="search"
                          placeholder="Search By Name"
