@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Link, useForm, usePage } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import {
     Box,
@@ -91,7 +91,7 @@ export default function List({data, auth ,states}) {
                                     <Button variant="contained" startIcon={<SearchIcon/>} onClick={handleSearch} sx={{ marginRight:'10px',width:'120px' }}> Filter</Button>
                                 }
                                 { search &&
-                                    <div style={{ display:'flex' ,justifyContent:'end' ,marginRight:"10px", height:'38px'}}>
+                                    <div style={{ display:'flex' ,justifyContent:'end' ,marginRight:"10px", height:'36px'}}>
                                         <TextInput
                                         id="search"
                                         placeholder="Type To search"

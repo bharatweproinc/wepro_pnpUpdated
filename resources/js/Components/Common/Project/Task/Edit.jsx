@@ -30,7 +30,7 @@ const style = {
     boxShadow: 24,
     p: 1,
     overflow:'scroll',
-    height:'90%',
+    // height:'90%',
     display:'block',
 };
 
@@ -119,126 +119,41 @@ export default function Edit({ data, developer, devId ,auth}) {
             <IconButton aria-label="edit" color="primary">
                 <EditIcon onClick={handleOpen} />
             </IconButton>
-            <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                open={open}
-                onClose={handleClose}
-                closeAfterTransition
-                slots={{ backdrop: Backdrop }}
-                slotProps={{
-                    backdrop: {
-                        timeout: 500,
-                    },
-                }}
-                style={{ width: "" }}
-            >
+            <Modal aria-labelledby="transition-modal-title" aria-describedby="transition-modal-description"  open={open}  onClose={handleClose}  closeAfterTransition slots={{ backdrop: Backdrop }}  slotProps={{  backdrop: { timeout: 500, },  }}  style={{ width: "" }} >
                 <Fade in={open}>
                     <Box sx={style} style={{ width: "800px" }}>
                     <div className="rounded-t-xl bg-slate-50 border-gray-100 border border-t-0 shadow-sm p-5" >
 
                         <form onSubmit={handleSubmit}>
-                            <div
-                                style={{
-                                    alignItems: "center",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    paddingBottom: "30px",
-                                }}
-                            >
-                                <Typography
-                                    variant="h5"
-                                    style={{ fontWeight: "bold" }}
-                                >
+                            <div style={{alignItems: "center",display: "flex",justifyContent: "center",paddingBottom: "30px", }} >
+                                <Typography variant="h5" style={{ fontWeight: "bold" }} >
                                     Edit Task
                                 </Typography>
                             </div>
                             <div style={{ marginTop: "10px" }}>
-                                <InputLabel
-                                    htmlFor="task-name"
-                                    value="Task Name"
-                                    style={{
-                                        fontSize: "15px",
-                                        fontWeight: "bold",
-                                    }}
-                                />
+                                <InputLabel htmlFor="task-name"  value="Task Name" style={{fontSize: "15px", fontWeight: "bold",}}/>
 
-                                <TextInput
-                                    id="task_name"
-                                    name="task_name"
-                                    value={item.task_name}
-                                    className="mt-1 block w-full"
-                                    autoComplete="task_name"
-                                    onChange={handleChange}
-                                    required
-                                />
+                                <TextInput id="task_name" name="task_name" value={item.task_name} className="mt-1 block w-full" autoComplete="task_name" onChange={handleChange} required />
 
                                 <InputError message={errors.task_name} className="mt-2" />
                             </div>
 
                             <div className="mt-4">
                                 <InputLabel htmlFor="description" value="Description" style={{ fontSize: "15px", fontWeight: "bold",}}/>
-                                <textarea
-                                    id="description"
-                                    type="text"
-                                    name="description"
-                                    rows={3}
-                                    value={item.description}
-                                    className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
-                                    autoComplete="description"
-                                    onChange={handleChange}
-                                    required
-                                />
+                                <textarea id="description" type="text"  name="description" rows={3} value={item.description} className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full" autoComplete="description" onChange={handleChange} required />
                                 <InputError message={errors.description} className="mt-2" />
                             </div>
                             <div className="mt-4">
-                                        <InputLabel
-                                            htmlFor="estimated"
-                                            value="Estimated Time(Minutes)"
-                                            style={{ fontSize: "15px", fontWeight: "bold", }}
-                                        />
-                                        <TextInput
-                                            id="estimated"
-                                            type="number"
-                                            name="estimated"
-                                            value={item.estimated}
-                                            className="mt-1 block w-full"
-                                            autoComplete="estimated"
-                                            onChange={handleChange}
-                                            required
-                                        />
-                                        <InputError
-                                            message={errors.estimated}
-                                            className="mt-2"
-                                        />
+                                        <InputLabel htmlFor="estimated" value="Estimated Time(Minutes)" style={{ fontSize: "15px", fontWeight: "bold", }}/>
+                                        <TextInput id="estimated" type="number" name="estimated" value={item.estimated} className="mt-1 block w-full" autoComplete="estimated" onChange={handleChange} required/>
+                                        <InputError message={errors.estimated}  className="mt-2"/>
                                     </div>
                             <div style={{ display: "flex", justifyContent: "", }}>
                                 <div className="mt-4">
-                                    <InputLabel
-                                        htmlFor="priority"
-                                        value="Priority"
-                                        style={{
-                                            fontSize: "15px",
-                                            fontWeight: "bold",
-                                        }}
-                                    />
-                                    <Select
-                                        value={item.priority}
-                                        name="priority"
-                                        style={{
-                                            height: "42px",
-                                            width: "355px",
-                                        }}
-                                        className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
-                                        onChange={handleChange}
-                                        required
-                                    >
+                                    <InputLabel  htmlFor="priority" value="Priority" style={{ fontSize: "15px",fontWeight: "bold", }} />
+                                    <Select value={item.priority} name="priority" style={{     height: "42px",     width: "355px", }} className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full" onChange={handleChange} required>
                                         {priority.map((prio, index) => (
-                                            <MenuItem
-                                                key={index}
-                                                value={prio}
-                                                label={prio}
-                                            >
+                                            <MenuItem key={index} value={prio} label={prio}>
                                                 {prio}
                                             </MenuItem>
                                         ))}
