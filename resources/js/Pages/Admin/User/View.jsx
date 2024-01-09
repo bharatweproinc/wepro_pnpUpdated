@@ -26,8 +26,7 @@ export default function View({data, auth ,states}) {
                                          }}
 
                                     >
-                                        No user found for this project ,you can
-                                        Create a new task!
+                                        No user found .
                                     </Alert>
                                     <Box display={'flex'} justifyContent={'center'} alignItems={'center'} flexDirection={'column'} height={'50vh'}>
                                         <FindInPageOutlinedIcon sx={{ width:128, height:128, color:"#919191"}} />

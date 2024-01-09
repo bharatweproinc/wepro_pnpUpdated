@@ -65,6 +65,7 @@ export default function List({data, auth ,states}) {
     }
     const handleClose =() =>{
         setItem(data.data);
+        setSearchItem("");
         setSearch(false);
         setIsFilter(true);
     }
@@ -78,6 +79,17 @@ export default function List({data, auth ,states}) {
         );
         setItem(filterItem);
     }
+    // const handleSubmit =async ()=>{
+    //     setSearch("true");
+    //    await axios.get(route("admin.user.filter"),searchItem)
+    //    .then((response)=>{
+    //     const filterData = response.data;
+    //     console.log(response,filterData,'filterrr');
+    //     setItem(filterData);
+    // });
+    //     isReset(true);
+    //     setIsFilter(true);
+    // }
 
     return (
         <AuthenticatedLayout user={auth.user} >
@@ -100,6 +112,7 @@ export default function List({data, auth ,states}) {
                                         style={{ height:'' }}
                                         />
                                         <Button variant="contained" color="error" onClick={handleClose} style={{ position:"absolute", fontWeight:"bold" ,margin:'2px 2px 0px 0px',height:'33px'}}>x</Button>
+
                                     </div>
                                 }
                                 <Create auth={auth} states={states}/>
