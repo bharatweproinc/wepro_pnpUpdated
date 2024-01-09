@@ -77,7 +77,6 @@ export default function  Edit({ auth, user,states,address})  {
     pin_code:address?.pin_code,
 });
 
-console.log(value.state,address.state,'address');
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
