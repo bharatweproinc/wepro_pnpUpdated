@@ -6,7 +6,7 @@ const TaskResult = ({auth ,result,data}) => {
    <>
     {result.length > 0 ?
     // (auth.user.user_role =="junior developer" || auth.user.user_role == "senior developer") &&
-        <Box sx={{ flexGrow: 10, background: "#f9f9f9", boxShadow: "2px 2px 2px 2px #e3e1da", padding: "0px 0px 40px 0px",}}>
+        <Box sx={{ flexGrow: 10, background: "#f9f9f9", boxShadow: "2px 2px 2px 2px #e3e1da", padding: "5px",}}>
                 <Grid container>
                         <Grid item xs={12} style={{background: "rgb(236 236 236)",display: "flex",justifyContent: "space-between",alignItems: "center",height: "50px", }}  >
                             <Typography sx={{ fontWeight: "bold",paddingLeft:'20px' }}>Bugs Information </Typography>

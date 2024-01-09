@@ -180,7 +180,6 @@ const TaskDetail = ({auth, data, developer,updated}) => {
         router.post(route(root,{id:updated[0].id}),item);
     }
 
-
     const handleSubmit =(e)=>{
         router.post(route(root, {id:data.id}),state,{
             onSuccess: ()=> {
@@ -199,7 +198,7 @@ const TaskDetail = ({auth, data, developer,updated}) => {
             {
                 msg && <SuccessMsg severity={severity} error={msg} setError={setMsg} title={msg}/>
             }
-                <Box sx={{ flexGrow: 10, background: "#f9f9f9", boxShadow: "2px 2px 2px 2px #e3e1da", padding: "0px 0px 40px 0px",}}>
+                <Box sx={{ flexGrow: 10, background: "#f9f9f9", boxShadow: "2px 2px 2px 2px #e3e1da", padding: "5px",}}>
                     <Grid container >
                         <Grid item xs={12} style={{  background: "rgb(236 236 236)",  display: "flex",  justifyContent: "space-between", alignItems: "center", height: "50px", }}>
                             <Typography sx={{ fontWeight: "bold",paddingLeft:'20px' }}>Task Information </Typography>
@@ -279,10 +278,10 @@ const TaskDetail = ({auth, data, developer,updated}) => {
                 <Box
                     sx={{
                         flexGrow: 10,
-                        // margin: "2%",
+                        marginTop: "2%",
                         background: "#f9f9f9",
                         boxShadow: "2px 2px 2px 2px #e3e1da",
-                        padding: "0px 0px 40px 0px",
+                        padding: "5px",
                     }}
                 >
                     <Grid container>

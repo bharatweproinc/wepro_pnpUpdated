@@ -1,13 +1,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import DateTimeFormat from '@/Util/DateTimeFormat';
 import { Head } from '@inertiajs/react';
-import { Box, Chip, Collapse, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useState } from 'react';
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import LeaveStyle from '@/Components/Common/AllLeaves/Component/LeaveStyle';
 import FindInPageOutlinedIcon from '@mui/icons-material/FindInPageOutlined';
-import FormatDate from '@/Util/FormatDate';
 import List from '@/Components/Common/AllLeaves/List';
 
 export default function Dashboard({ auth ,user ,project , leave}) {

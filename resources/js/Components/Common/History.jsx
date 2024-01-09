@@ -23,7 +23,7 @@ export default function History({ history}){
         }
     };
     return (
-        <Box sx={{ backgroundColor: '#f7f7f7',borderRadius:'10px' }} className="pb-5" >
+        <Box sx={{ backgroundColor: '#f7f7f7',borderRadius:'10px' }} className="p-5" >
             <Grid container >
                 <Grid item xs={12}
                     style={{

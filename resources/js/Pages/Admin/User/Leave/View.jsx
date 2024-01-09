@@ -1,7 +1,9 @@
 
 import Create from "@/Components/Common/User/Leaves/Create";
 import List from "@/Components/Common/User/Leaves/List";
-import {Alert} from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import {Alert, Box, Typography} from "@mui/material";
+import FindInPageOutlinedIcon from '@mui/icons-material/FindInPageOutlined';
 
 
 export default function View({auth,leave ,Id }) {
@@ -27,6 +29,11 @@ export default function View({auth,leave ,Id }) {
                                     >
                                       Don't have Leave record
                                     </Alert>
+                                    <Box display={'flex'} justifyContent={'center'} alignItems={'center'} flexDirection={'column'} height={'50vh'}>
+                                        <FindInPageOutlinedIcon sx={{ width:128, height:128, color:"#919191"}} />
+                                        <Typography sx={{color:"#000000",paddingBottom:"5px"}}>No leave Found yet!</Typography>
+                                        <Typography sx={{color:"#000000",paddingBottom:"15px"}} variant="subtitle2">Opps! you don't have any leave.</Typography>
+                                    </Box>
                                 </div>
                             </div>
                         </div>
