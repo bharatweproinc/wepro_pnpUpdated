@@ -128,30 +128,14 @@ const TaskBugs = ({bugs,auth, data,updated}) => {
             }
             {bugs.length > 0 ?
             <>
-            <Box
-                    sx={{
-                        flexGrow: 10,
-                        margin: "2%",
-                        background: "#f9f9f9",
-                        boxShadow: "2px 2px 2px 2px #e3e1da",
-                        padding: "40px",
-                    }}
-                >
+            <Box sx={{ flexGrow: 10, background: "#f9f9f9", boxShadow: "2px 2px 2px 2px #e3e1da", padding: "0px 0px 40px 0px",}} >
                     <Grid container>
-                        <Grid item xs={12}
-                            style={{
-                                background: "rgb(236 236 236)",
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                height: "50px",
-                            }}
-                        >
-                            <Typography sx={{ fontWeight: "bold", marginLeft: "10px" }}>Bugs Information </Typography>
+                        <Grid item xs={12} style={{ background: "rgb(236 236 236)", display: "flex", justifyContent: "space-between", alignItems: "center", height: "50px",  }} >
+                            <Typography sx={{ fontWeight: "bold", paddingLeft:'20px' }}>Bugs Information </Typography>
                         </Grid>
                     </Grid>
                     <br />
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} paddingLeft={'20px'}>
                         <Grid item xs={4}>
                             <Typography sx={{ fontWeight: "bold" }}>Task Name </Typography>
                             <Typography className="capitalize"> {data.task_name}</Typography>
@@ -213,30 +197,14 @@ const TaskBugs = ({bugs,auth, data,updated}) => {
                     </Grid>
                 </Box>
                 { (auth.user.user_role !=="junior developer" || auth.user.user_role !=="junior developer") &&
-                <Box
-                    sx={{
-                        flexGrow: 10,
-                        margin: "2%",
-                        background: "#f9f9f9",
-                        boxShadow: "2px 2px 2px 2px #e3e1da",
-                        padding: "40px",
-                    }}
-                >
-                    <Grid container>
-                        <Grid item xs={12}
-                            style={{
-                                background: "rgb(236 236 236)",
-                                alignItems: "center",
-                                display: "flex",
-                                justifyContent: "space-between",
-                                height: "50px",
-                            }}
-                        >
-                            <Typography sx={{ fontWeight: "bold", marginLeft: "10px" }}> Images</Typography>
+                <Box sx={{flexGrow: 10, background: "#f9f9f9",boxShadow: "2px 2px 2px 2px #e3e1da", padding: "0px 0px 40px 0px",}}  >
+                    <Grid container >
+                        <Grid item xs={12} style={{ background: "rgb(236 236 236)",  alignItems: "center",  display: "flex", justifyContent: "space-between", height: "50px", }} >
+                            <Typography sx={{ fontWeight: "bold", paddingLeft:'20px'  }}> Images</Typography>
                         </Grid>
                     </Grid>
                     <br />
-                    <Grid conatiner spacing={2} sx={{ display:'flex' ,justifyContent:'space-evenly' }}>
+                    <Grid conatiner spacing={2} sx={{ display:'flex' ,justifyContent:'space-evenly' }} paddingLeft={'20px'}>
                         {bugs.map((item, j) =>
                         (
                             <Grid item xs={5} sx={{ padding:'10px' }}>
