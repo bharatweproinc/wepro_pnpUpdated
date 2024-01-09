@@ -72,4 +72,5 @@ for Public Diretory :
 For Migration ;
  php artisan migrate
 
-git password = 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
+For seeding database :
+php artisan db:seed --class=StateCitySeeder

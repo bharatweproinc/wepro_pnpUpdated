@@ -31,7 +31,6 @@ class LeaveController extends Controller
 
     public function save(LeaveRequest $request ,$id)
     {
-
         $response = $this->leaveRepository->save($request->all(),$id);
         if($response['success']){
             return redirect()->back();

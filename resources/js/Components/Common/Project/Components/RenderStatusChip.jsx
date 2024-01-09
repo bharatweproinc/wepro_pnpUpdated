@@ -17,10 +17,10 @@ export default  function RenderStatusChip({data,id}) {
   return (
     <div>
             <Stack direction="row" spacing={1}>
-                <Chip label={newStatus} sx={{ backgroundColor:RenderStatusColor('new'),color:'white' }} />
-                <Chip label={StartStatus} sx={{ backgroundColor:RenderStatusColor('started') ,color:'white'}} />
-                <Chip label={PauseStatus} sx={{ backgroundColor:RenderStatusColor('pause') ,color:'white'}}  />
-                <Chip label={CompleteStatus} sx={{ backgroundColor:RenderStatusColor('complete'),color:'white' }}  />
+                <Chip size='small' label={newStatus} sx={{ backgroundColor:RenderStatusColor('new'),color:'white' }} />
+                <Chip size='small' label={StartStatus} sx={{ backgroundColor:RenderStatusColor('started') ,color:'white'}} />
+                <Chip size='small' label={PauseStatus} sx={{ backgroundColor:RenderStatusColor('pause') ,color:'white'}}  />
+                <Chip size='small' label={CompleteStatus} sx={{ backgroundColor:RenderStatusColor('complete'),color:'white' }}  />
             </Stack>
     </div>
   )

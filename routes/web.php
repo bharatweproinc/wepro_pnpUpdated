@@ -76,6 +76,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
         Route::post('/update/{id}','update')->name('update');
         Route::get('/detail/{id}','detail')->name('detail');
         Route::post('/delete/{id}','delete')->name('delete');
+        Route::post('filter','filter')->name('filter');
 
         Route::prefix('salary')->name('salary.')->controller(SalaryController::class)->group( function () {
             Route::get('/create' ,'create')->name('create');

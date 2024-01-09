@@ -41,17 +41,18 @@ const style = {
   boxShadow: 24,
   p:2,
   overflow:'scroll',
-//   height:'90%',
+  height:'90%',
   display:'block',
 };
 export default function Create({ auth, states }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [image, setImage] = useState(null);
   const [alert, setAlert] = useState(false);
   const [severity, setSeverity] = useState(null);
   const [selectCity, setSelectCity] = useState([]);
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState(0);
   const steps = ["Basic Details", "Address"];
+  const [next,setNext] = useState(true);
 
   const { data,setData, get, post, processing, errors, reset,setError,} = useForm({
     name: "",
@@ -110,7 +111,6 @@ const handleChange=(key,val)=> {
 const submit = (e) => {
     e.preventDefault();
     const root = (auth.user.user_role =="admin"? "admin.user.save" :auth.user.user_role == "hr manager"&& "hrManager.user.save");
-
         post(route(root), {
             onSuccess: ( )=> {
                 setAlert("User Created Successfully");
@@ -126,7 +126,12 @@ const submit = (e) => {
 };
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    const err = Joi.validateToPlainErrors(data,ValdidationSchema.USER_SCHEMA)
+    setError(err)
+    if(Object.keys(err).length === 0){
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    }
+
   };
 
   const handleBack = () => {
@@ -268,7 +273,8 @@ const submit = (e) => {
                                 autoComplete="dob"
                                 onChange={(e) =>handleChange("dob",e.target.value)}
                                 required
-                            />
+                                max={(new Date(new Date().setFullYear(new Date().getFullYear() - 18))).toISOString().split("T")[0]}
+                                />
                             <InputError message={errors.dob} className="mt-2"/>
                         </Grid>
                         <Grid item xs={6}>

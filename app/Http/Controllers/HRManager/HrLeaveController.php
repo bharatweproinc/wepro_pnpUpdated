@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use App\Interfaces\LeaveInterface;
 use App\Repository\LeaveRepository;
+use App\Http\Requests\LeaveRequest;
+
 
 class HrLeaveController extends Controller
 {
@@ -26,7 +28,7 @@ class HrLeaveController extends Controller
         return Inertia::render('HRManager/AllLeaves/View',['leave'=>$leave ,'user'=>$user]);
     }
 
-    public function save(Request $request ,$id)
+    public function save(LeaveRequest $request ,$id)
     {
         $this->leaveRepository->save($request->all(),$id);
         return redirect()->back();

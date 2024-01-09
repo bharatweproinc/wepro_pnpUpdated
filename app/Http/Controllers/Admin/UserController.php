@@ -102,7 +102,7 @@ class UserController extends Controller
 
     public function filter(Request $request){
 
-        // dd($data);
+        dd($request->all());
         //  foreach($data as $key => $val){
         //     $data[$key]['profile'] = asset('storage/'.$val->profile);
         //  }

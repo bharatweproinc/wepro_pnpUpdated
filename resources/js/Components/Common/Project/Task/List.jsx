@@ -26,6 +26,7 @@ import Validation_Schema from "./ValidationSchema";
 import Joi from "@/Util/JoiValidator";
 import axios from "axios";
 import TextInput from "@/Components/TextInput";
+import { useForm } from "@inertiajs/inertia-react";
 
 
 export default function List({ auth, developer, Id, data ,updated ,bugs ,result ,history}) {
@@ -46,6 +47,7 @@ export default function List({ auth, developer, Id, data ,updated ,bugs ,result 
     const date2 = new Date(ToDate);
     const diffTime = Math.abs(date2 - date1);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const { post, processing, errors,setError } = useForm();
 
     const toggleRow = (id) => {
         if (expandedRows.includes(id)) {
@@ -76,11 +78,13 @@ export default function List({ auth, developer, Id, data ,updated ,bugs ,result 
     const handleApplyFilter = async (filterData) => {
         try {
             // const err = Joi.validateToPlainErrors(filterData,Validation_Schema.APPLY_FILTER)
+            // console.log(err,'error');
+
             // setFrom(filterData?.from_date)
             // SetToDate(filterData?.to_date)
             // setError(err)
             //     if (Joi.hasPlainError(err)) {
-            //         return;
+            //         return err;
             //     }
             {auth.user.user_role == "admin" ?
             await axios.post(route('admin.project.task.filter', { id:Id }), filterData)

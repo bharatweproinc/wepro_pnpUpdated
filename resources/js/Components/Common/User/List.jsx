@@ -35,9 +35,10 @@ export default function List({data, auth ,states}) {
     const [item,setItem] = useState(data.data);
     const { current_page, last_page, total } = data;
     const handleView =(id) =>{
-        get(route("admin.user.detail", {id}));
-    }
+        {auth.user.user_role =="admin" ?
+        get(route("admin.user.detail", {id})): auth.user.user_role == "hr manager" && get(route("admin.user.detail", {id}));}
 
+    }
     useEffect(()=>{
         setItem(data.data);
     },[data]);

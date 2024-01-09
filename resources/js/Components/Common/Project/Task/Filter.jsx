@@ -10,7 +10,7 @@ import Create from "./Create";
 import { useEffect } from "react";
 import Joi from "@/Util/JoiValidator";
 import InputError from "@/Components/InputError";
-// import Validation_Schema from "./ValidationSchema";
+import Validation_Schema from "./ValidationSchema";
 
 export default function Filter({Id,auth,isFilter,ApplyFilter,developer,handleFilter ,apply ,handleReset}) {
 
@@ -130,7 +130,7 @@ export default function Filter({Id,auth,isFilter,ApplyFilter,developer,handleFil
                                     </DemoContainer>
                                 </LocalizationProvider>
                                 <InputError message={errors.to_date} className="mt-2"/>
-                                {/* {data?.from_date && errors?.to_date && (<div className="error" style={{ color:'red' }}>{errors?.to_date}</div>)} */}
+                                {data?.from_date && errors?.to_date && (<div className="error" style={{ color:'red' }}>{errors?.to_date}</div>)}
                         </Grid>
                      </>
                  }

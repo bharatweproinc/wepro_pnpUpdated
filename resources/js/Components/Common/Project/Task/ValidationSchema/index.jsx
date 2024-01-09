@@ -8,8 +8,6 @@ const APPLY_FILTER = {
         is: Joi.exist(),
         then: Joi.string().label('To Date').trim().required(),
         otherwise: Joi.string().label('To Date').trim()}),
-
-
 }
 
 const TaskSchema ={

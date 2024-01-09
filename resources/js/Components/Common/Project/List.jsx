@@ -83,7 +83,7 @@ export default function List({ data, auth, developer, manager, status,task }) {
                                         <TableCell className="capitalize">{item.title}</TableCell>
                                         {/* <TableCell><FormatDate date={item.start_date} /></TableCell> */}
                                         <TableCell><DateTimeFormat date={item.created_at} /> </TableCell>
-                                        <TableCell><RenderStatusChip data={task} id ={item.id}/></TableCell>
+                                        <TableCell className="capitalize"><RenderStatusChip data={task} id ={item.id}/></TableCell>
                                         <TableCell sx={{ display: "flex", justifyContent: 'center', alignItems: 'center' }}>
                                             <IconButton aria-label="detail" sx={{ color: "rgba(0, 0, 0, 0.54)", }} onClick={() => handleView(item.id)}>
                                                 <VisibilityIcon/>

@@ -20,7 +20,7 @@ class FilterRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
-    {
+    {dd("hello");
         return [
             'from_date' => [],
             'to_date' => ['required_if:from_date,!=,null'],

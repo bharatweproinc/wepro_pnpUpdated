@@ -37,6 +37,7 @@ import {
     RadioGroup,
     Select,
 } from "@mui/material";
+import { format } from "date-fns";
 
 const style = {
   position: "absolute",
@@ -53,7 +54,7 @@ const style = {
 };
 export default function  Edit({ auth, user,states,address})  {
   const [open, setOpen] = React.useState(false);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(user.profile);
   const [alert, setAlert] = useState(false);
   const [severity, setSeverity] = useState(null);
   const [selectCity, setSelectCity] = useState([]);
@@ -62,21 +63,20 @@ export default function  Edit({ auth, user,states,address})  {
   const handleOpen = () => setOpen(true);
 
   const [value, setValue] = useState({
-    name: user.name,
-    email: user.email,
-    user_role: user.user_role,
-    contact_no: user.contact_no,
-    profile:user.profile,
-    dob:user.dob,
-    gender:user.gender,
-    local_address:address?.local_address,
-    residential_address:address?.residential_address,
-    alt_phone_no:user?.alt_phone_no,
-    state:address?.state,
-    city:address?.city,
-    pin_code:address?.pin_code,
-});
-
+        name: user.name,
+        email: user.email,
+        user_role: user.user_role,
+        contact_no: user.contact_no,
+        profile:user.profile,
+        dob:user.dob,
+        gender:user.gender,
+        local_address:address?.local_address,
+        residential_address:address?.residential_address,
+        alt_phone_no:user?.alt_phone_no,
+        state:address?.state,
+        city:address?.city,
+        pin_code:address?.pin_code,
+    });
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -285,6 +285,7 @@ const handleSubmit = (e) => {
                                 autoComplete="dob"
                                 onChange={(e) =>handleChange("dob",e.target.value)}
                                 required
+                                max={(new Date(new Date().setFullYear(new Date().getFullYear() - 18))).toISOString().split("T")[0]}
                             />
                             <InputError message={errors.dob} className="mt-2"/>
                         </Grid>
@@ -334,14 +335,7 @@ const handleSubmit = (e) => {
                                     </FormControl>
                                     <InputError message={errors.user_role} className="mt-2" />
                                 </Grid>
-
-                                {/* <Grid item xs={6} className="flex items-center justify-center mt-4">
-                                    <Button onClick={handleClose} variant="contained" color="error"
-                                    style={{ height: "33px", marginLeft:"10px" }} startIcon={<CloseIcon/>}> Cancle</Button>
-                                    <PrimaryButton className="ms-4" style={{ height: "40px", backgroundColor: "#1976d2",width: "150px", alignItems: "center",
-                                    display: "flex", justifyContent: "center",textTransform:"none"  }} > <UpdateIcon sx={{ height:'15px' }}/> Update  </PrimaryButton>
-                                </Grid> */}
-                                </Grid>
+                            </Grid>
                           </>
                         )}
 

@@ -84,7 +84,9 @@ class TaskController extends Controller
     }
 
     public function filter(Request $request ,$id){
-
+        // $request->validate([
+        //     'to_date' => 'required_if:from_date,null',
+        // ]);
         $response = $this->taskRepository->filterData($request,$id);
          if($response['success'])
          {
