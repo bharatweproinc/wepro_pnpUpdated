@@ -135,7 +135,7 @@ const TaskBugs = ({bugs,auth, data,updated}) => {
                         </Grid>
                     </Grid>
                     <br />
-                    <Grid container spacing={2} paddingLeft={'20px'}>
+                    <Grid container spacing={2} paddingLeft={'20px'} paddingBottom={'16px'}>
                         <Grid item xs={4}>
                             <Typography sx={{ fontWeight: "bold" }}>Task Name </Typography>
                             <Typography className="capitalize"> {data.task_name}</Typography>

@@ -23,7 +23,7 @@ export default function History({ history}){
         }
     };
     return (
-        <Box sx={{ flexGrow: 10, background: "#f9f9f9", boxShadow: "2px 2px 2px 2px #e3e1da", padding: "5px",}}>
+        <Box sx={{ flexGrow: 10, background: "#f9f9f9", boxShadow: "2px 2px 2px 2px #e3e1da",}}>
             <Grid container >
                 <Grid item xs={12}
                     style={{
